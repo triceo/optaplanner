@@ -69,6 +69,10 @@
       <artifactId>commons-math3</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <scope>test</scope>
@@ -82,11 +86,6 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <scope>test</scope>
-    </dependency>
-    <!-- Scan for annotated classes (can be excluded if scanAnnotatedClasses isn't used) -->
-    <dependency>
-      <groupId>org.reflections</groupId>
-      <artifactId>reflections</artifactId>
     </dependency>
     <!-- XML -->
     <dependency>
@@ -129,10 +128,11 @@
           </instructions>
         </configuration>
       </plugin>
-      <plugin>
+      <!-- Temporarily disabled; comparing API at this stage of 8.x development needlessly slows down progress. -->
+      <!--<plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
-      </plugin>
+      </plugin>-->
     </plugins>
   </build>
 

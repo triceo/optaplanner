@@ -138,10 +138,11 @@
           </instructions>
         </configuration>
       </plugin>
-      <plugin>
+      <!-- Temporarily disabled; comparing API at this stage of 8.x development needlessly slows down progress. -->
+      <!--<plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
