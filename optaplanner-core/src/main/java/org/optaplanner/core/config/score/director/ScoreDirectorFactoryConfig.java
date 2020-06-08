@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
@@ -97,11 +96,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
     protected List<File> scoreDrlFileList = null;
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> kieBaseConfigurationProperties = null;
-    /**
-     * @deprecated for removal.
-     */
-    @Deprecated(/* forRemoval = true */)
-    protected Boolean generateDroolsTestOnError = null;
 
     protected String initializingScoreTrend = null;
 
@@ -237,22 +231,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
 
     public void setAssertionScoreDirectorFactory(ScoreDirectorFactoryConfig assertionScoreDirectorFactory) {
         this.assertionScoreDirectorFactory = assertionScoreDirectorFactory;
-    }
-
-    /**
-     * @deprecated for removal.
-     */
-    @Deprecated(/* forRemoval = true */)
-    public Boolean isGenerateDroolsTestOnError() {
-        return generateDroolsTestOnError;
-    }
-
-    /**
-     * @deprecated for removal.
-     */
-    @Deprecated(/* forRemoval = true */)
-    public void setGenerateDroolsTestOnError(Boolean generateDroolsTestOnError) {
-        this.generateDroolsTestOnError = generateDroolsTestOnError;
     }
 
     // ************************************************************************
@@ -473,8 +451,8 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
     protected <Solution_> DroolsScoreDirectorFactory<Solution_> buildDroolsScoreDirectorFactory(
             SolverConfigContext configContext, ClassLoader classLoader, SolutionDescriptor<Solution_> solutionDescriptor) {
         // TODO Remove the field in 8.0, keep the property.
-        boolean generateDroolsTestOnError = BooleanUtils.isTrue(this.generateDroolsTestOnError)
-                || Boolean.parseBoolean(System.getProperty(GENERATE_DROOLS_TEST_ON_ERROR_PROPERTY_NAME, "false"));
+        boolean generateDroolsTestOnError =
+                Boolean.parseBoolean(System.getProperty(GENERATE_DROOLS_TEST_ON_ERROR_PROPERTY_NAME, "false"));
         KieContainer kieContainer = configContext.getKieContainer();
         if (kieContainer != null || ksessionName != null) {
             if (kieContainer == null) {
@@ -589,10 +567,10 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
                                 + ") is not null, the scoreDrlList (" + scoreDrlList
                                 + ") or the scoreDrlFileList (" + scoreDrlFileList + ") must not be empty.");
             }
-            if (this.generateDroolsTestOnError != null) {
+            if (generateDroolsTestOnError) {
                 throw new IllegalArgumentException(
-                        "If generateDroolsTestOnError (" + generateDroolsTestOnError
-                                + ") is not null, the scoreDrlList (" + scoreDrlList
+                        "If " + GENERATE_DROOLS_TEST_ON_ERROR_PROPERTY_NAME + " system property (" +
+                                generateDroolsTestOnError + ") is set, the scoreDrlList (" + scoreDrlList
                                 + ") or the scoreDrlFileList (" + scoreDrlFileList + ") must not be empty.");
             }
             return null;
@@ -630,8 +608,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
 
         assertionScoreDirectorFactory = ConfigUtils.inheritOverwritableProperty(
                 assertionScoreDirectorFactory, inheritedConfig.getAssertionScoreDirectorFactory());
-        generateDroolsTestOnError = ConfigUtils.inheritOverwritableProperty(
-                generateDroolsTestOnError, inheritedConfig.isGenerateDroolsTestOnError());
         return this;
     }
 

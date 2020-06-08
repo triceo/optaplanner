@@ -17,9 +17,6 @@
 package org.optaplanner.core.config.score.director;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 
@@ -155,18 +152,6 @@ public class ScoreDirectorFactoryConfigTest {
             return SimpleScore.ZERO;
         }
 
-    }
-
-    @Test
-    public void testGenerateDroolsTestOption() {
-        ScoreDirectorFactoryConfig config = new ScoreDirectorFactoryConfig();
-        assertNull(config.isGenerateDroolsTestOnError());
-        config.setGenerateDroolsTestOnError(true);
-        assertTrue(config.isGenerateDroolsTestOnError());
-        config.setGenerateDroolsTestOnError(Boolean.FALSE);
-        assertFalse(config.isGenerateDroolsTestOnError());
-        config.setGenerateDroolsTestOnError(null);
-        assertNull(config.isGenerateDroolsTestOnError());
     }
 
 }
