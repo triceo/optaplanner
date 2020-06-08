@@ -5,10 +5,10 @@ name: OptaPlanner CI
 on:
   push:
     branches:
-      - master
+      - future-8.x
   pull_request:
     branches:
-      - master
+      - future-8.x
 
 jobs:
   os-java:
