@@ -46,10 +46,6 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias("acceptor")
 public class AcceptorConfig extends AbstractConfig<AcceptorConfig> {
 
-    @Deprecated // TODO remove in 8.0
-    @XStreamImplicit(itemFieldName = "acceptorClass")
-    private List<Class<? extends Acceptor>> acceptorClassList = null;
-
     @XStreamImplicit(itemFieldName = "acceptorType")
     private List<AcceptorType> acceptorTypeList = null;
 
@@ -76,16 +72,6 @@ public class AcceptorConfig extends AbstractConfig<AcceptorConfig> {
 
     protected Integer stepCountingHillClimbingSize = null;
     protected StepCountingHillClimbingType stepCountingHillClimbingType = null;
-
-    @Deprecated
-    public List<Class<? extends Acceptor>> getAcceptorClassList() {
-        return acceptorClassList;
-    }
-
-    @Deprecated
-    public void setAcceptorClassList(List<Class<? extends Acceptor>> acceptorClassList) {
-        this.acceptorClassList = acceptorClassList;
-    }
 
     public List<AcceptorType> getAcceptorTypeList() {
         return acceptorTypeList;
@@ -251,12 +237,6 @@ public class AcceptorConfig extends AbstractConfig<AcceptorConfig> {
     // With methods
     // ************************************************************************
 
-    @Deprecated
-    public AcceptorConfig withAcceptorClassList(List<Class<? extends Acceptor>> acceptorClassList) {
-        this.acceptorClassList = acceptorClassList;
-        return this;
-    }
-
     public AcceptorConfig withAcceptorTypeList(List<AcceptorType> acceptorTypeList) {
         this.acceptorTypeList = acceptorTypeList;
         return this;
@@ -349,12 +329,6 @@ public class AcceptorConfig extends AbstractConfig<AcceptorConfig> {
     public Acceptor buildAcceptor(HeuristicConfigPolicy configPolicy) {
         EnvironmentMode environmentMode = configPolicy.getEnvironmentMode();
         List<Acceptor> acceptorList = new ArrayList<>();
-        if (acceptorClassList != null) {
-            for (Class<? extends Acceptor> acceptorClass : acceptorClassList) {
-                Acceptor acceptor = ConfigUtils.newInstance(this, "acceptorClass", acceptorClass);
-                acceptorList.add(acceptor);
-            }
-        }
         if (acceptorTypeList != null && acceptorTypeList.contains(AcceptorType.HILL_CLIMBING)) {
             HillClimbingAcceptor acceptor = new HillClimbingAcceptor();
             acceptorList.add(acceptor);
@@ -527,8 +501,6 @@ public class AcceptorConfig extends AbstractConfig<AcceptorConfig> {
 
     @Override
     public AcceptorConfig inherit(AcceptorConfig inheritedConfig) {
-        acceptorClassList = ConfigUtils.inheritMergeableListProperty(acceptorClassList,
-                inheritedConfig.getAcceptorClassList());
         if (acceptorTypeList == null) {
             acceptorTypeList = inheritedConfig.getAcceptorTypeList();
         } else {
