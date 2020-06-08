@@ -413,7 +413,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
 
     protected <Solution_> DroolsScoreDirectorFactory<Solution_> buildDroolsScoreDirectorFactory(
             SolverConfigContext configContext, ClassLoader classLoader, SolutionDescriptor<Solution_> solutionDescriptor) {
-        // TODO Remove the field in 8.0, keep the property.
         boolean generateDroolsTestOnError =
                 Boolean.parseBoolean(System.getProperty(GENERATE_DROOLS_TEST_ON_ERROR_PROPERTY_NAME, "false"));
         KieContainer kieContainer = configContext.getKieContainer();
