@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.optaplanner.core.impl.testdata.util.PlannerAssert.assertInstanceOf;
 
 import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
 import org.optaplanner.core.config.SolverConfigContext;
-import org.optaplanner.core.config.score.definition.ScoreDefinitionType;
 import org.optaplanner.core.config.solver.EnvironmentMode;
-import org.optaplanner.core.impl.score.buildin.bendable.BendableScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.simple.SimpleScoreDefinition;
-import org.optaplanner.core.impl.score.definition.ScoreDefinition;
 import org.optaplanner.core.impl.score.director.easy.EasyScoreCalculator;
 import org.optaplanner.core.impl.score.director.easy.EasyScoreDirector;
 import org.optaplanner.core.impl.score.director.incremental.IncrementalScoreCalculator;
@@ -39,25 +34,6 @@ import org.optaplanner.core.impl.score.director.incremental.IncrementalScoreDire
 import org.optaplanner.core.impl.testdata.domain.TestdataSolution;
 
 public class ScoreDirectorFactoryConfigTest {
-
-    @Test
-    public void buildSimpleScoreDefinition() {
-        ScoreDirectorFactoryConfig config = new ScoreDirectorFactoryConfig();
-        config.setScoreDefinitionType(ScoreDefinitionType.SIMPLE);
-        ScoreDefinition scoreDefinition = config.buildDeprecatedScoreDefinition();
-        assertInstanceOf(SimpleScoreDefinition.class, scoreDefinition);
-    }
-
-    @Test
-    public void buildBendableScoreDefinition() {
-        ScoreDirectorFactoryConfig config = new ScoreDirectorFactoryConfig();
-        config.setScoreDefinitionType(ScoreDefinitionType.BENDABLE);
-        config.setBendableHardLevelsSize(2);
-        config.setBendableSoftLevelsSize(3);
-        BendableScoreDefinition scoreDefinition = (BendableScoreDefinition) config.buildDeprecatedScoreDefinition();
-        assertEquals(2, scoreDefinition.getHardLevelsSize());
-        assertEquals(3, scoreDefinition.getSoftLevelsSize());
-    }
 
     @Test
     public void easyScoreCalculatorWithCustomProperties() {

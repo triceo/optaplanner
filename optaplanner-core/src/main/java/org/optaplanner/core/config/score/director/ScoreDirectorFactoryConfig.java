@@ -39,32 +39,16 @@ import org.kie.api.builder.model.KieModuleModel;
 import org.kie.api.io.KieResources;
 import org.kie.api.runtime.KieContainer;
 import org.kie.internal.builder.conf.PropertySpecificOption;
-import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.score.stream.ConstraintProvider;
 import org.optaplanner.core.api.score.stream.ConstraintStreamImplType;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.AbstractConfig;
 import org.optaplanner.core.config.SolverConfigContext;
-import org.optaplanner.core.config.score.definition.ScoreDefinitionType;
 import org.optaplanner.core.config.score.trend.InitializingScoreTrendLevel;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.util.ConfigUtils;
 import org.optaplanner.core.config.util.KeyAsElementMapConverter;
 import org.optaplanner.core.impl.domain.solution.descriptor.SolutionDescriptor;
-import org.optaplanner.core.impl.score.buildin.bendable.BendableScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.bendablebigdecimal.BendableBigDecimalScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.bendablelong.BendableLongScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.hardmediumsoft.HardMediumSoftScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.hardmediumsoftlong.HardMediumSoftLongScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.hardsoft.HardSoftScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.hardsoftbigdecimal.HardSoftBigDecimalScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.hardsoftdouble.HardSoftDoubleScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.hardsoftlong.HardSoftLongScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.simple.SimpleScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.simplebigdecimal.SimpleBigDecimalScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.simpledouble.SimpleDoubleScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.simplelong.SimpleLongScoreDefinition;
-import org.optaplanner.core.impl.score.definition.ScoreDefinition;
 import org.optaplanner.core.impl.score.director.AbstractScoreDirectorFactory;
 import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
 import org.optaplanner.core.impl.score.director.drools.DroolsScoreDirectorFactory;
@@ -88,15 +72,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
 
     private static final Logger logger = LoggerFactory.getLogger(ScoreDirectorFactoryConfig.class);
     private static final String GENERATE_DROOLS_TEST_ON_ERROR_PROPERTY_NAME = "optaplanner.drools.generateTestOnError";
-
-    @Deprecated
-    protected Class<? extends ScoreDefinition> scoreDefinitionClass = null;
-    @Deprecated
-    protected ScoreDefinitionType scoreDefinitionType = null;
-    @Deprecated
-    protected Integer bendableHardLevelsSize = null;
-    @Deprecated
-    protected Integer bendableSoftLevelsSize = null;
 
     protected Class<? extends EasyScoreCalculator> easyScoreCalculatorClass = null;
     @XStreamConverter(KeyAsElementMapConverter.class)
@@ -136,78 +111,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
     // ************************************************************************
     // Constructors and simple getters/setters
     // ************************************************************************
-
-    /**
-     * @return sometimes null
-     * @deprecated Use {@link PlanningScore#scoreDefinitionClass()} instead. Will be removed in 8.0.
-     */
-    @Deprecated
-    public Class<? extends ScoreDefinition> getScoreDefinitionClass() {
-        return scoreDefinitionClass;
-    }
-
-    /**
-     * @param scoreDefinitionClass sometimes null
-     * @deprecated Use {@link PlanningScore#scoreDefinitionClass()} instead. Will be removed in 8.0.
-     */
-    @Deprecated
-    public void setScoreDefinitionClass(Class<? extends ScoreDefinition> scoreDefinitionClass) {
-        this.scoreDefinitionClass = scoreDefinitionClass;
-    }
-
-    /**
-     * @return sometimes null
-     * @deprecated Use {@link PlanningScore} instead. Will be removed in 8.0.
-     */
-    @Deprecated
-    public ScoreDefinitionType getScoreDefinitionType() {
-        return scoreDefinitionType;
-    }
-
-    /**
-     * @param scoreDefinitionType sometimes null
-     * @deprecated Use {@link PlanningScore} instead. Will be removed in 8.0.
-     */
-    @Deprecated
-    public void setScoreDefinitionType(ScoreDefinitionType scoreDefinitionType) {
-        this.scoreDefinitionType = scoreDefinitionType;
-    }
-
-    /**
-     * @return sometimes null
-     * @deprecated Use {@link PlanningScore#bendableHardLevelsSize()} instead. Will be removed in 8.0.
-     */
-    @Deprecated
-    public Integer getBendableHardLevelsSize() {
-        return bendableHardLevelsSize;
-    }
-
-    /**
-     * @param bendableHardLevelsSize sometimes null
-     * @deprecated Use {@link PlanningScore#bendableHardLevelsSize()} instead. Will be removed in 8.0.
-     */
-    @Deprecated
-    public void setBendableHardLevelsSize(Integer bendableHardLevelsSize) {
-        this.bendableHardLevelsSize = bendableHardLevelsSize;
-    }
-
-    /**
-     * @return sometimes null
-     * @deprecated Use {@link PlanningScore#bendableSoftLevelsSize()} instead. Will be removed in 8.0.
-     */
-    @Deprecated
-    public Integer getBendableSoftLevelsSize() {
-        return bendableSoftLevelsSize;
-    }
-
-    /**
-     * @param bendableSoftLevelsSize sometimes null
-     * @deprecated Use {@link PlanningScore#bendableSoftLevelsSize()} instead. Will be removed in 8.0.
-     */
-    @Deprecated
-    public void setBendableSoftLevelsSize(Integer bendableSoftLevelsSize) {
-        this.bendableSoftLevelsSize = bendableSoftLevelsSize;
-    }
 
     public Class<? extends EasyScoreCalculator> getEasyScoreCalculatorClass() {
         return easyScoreCalculatorClass;
@@ -431,67 +334,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
     // Builder methods
     // ************************************************************************
 
-    public ScoreDefinition buildDeprecatedScoreDefinition() {
-        if (scoreDefinitionType != ScoreDefinitionType.BENDABLE
-                && scoreDefinitionType != ScoreDefinitionType.BENDABLE_LONG
-                && scoreDefinitionType != ScoreDefinitionType.BENDABLE_BIG_DECIMAL
-                && (bendableHardLevelsSize != null || bendableSoftLevelsSize != null)) {
-            throw new IllegalArgumentException("A bendableHardLevelsSize (" + bendableHardLevelsSize
-                    + ") or bendableSoftLevelsSize (" + bendableSoftLevelsSize
-                    + ") needs a scoreDefinitionType (" + scoreDefinitionType + ") that is bendable.");
-        }
-        if ((scoreDefinitionType == ScoreDefinitionType.BENDABLE
-                || scoreDefinitionType == ScoreDefinitionType.BENDABLE_LONG
-                || scoreDefinitionType == ScoreDefinitionType.BENDABLE_BIG_DECIMAL)
-                && (bendableHardLevelsSize == null || bendableSoftLevelsSize == null)) {
-            throw new IllegalArgumentException("With scoreDefinitionType (" + scoreDefinitionType
-                    + ") there must be a bendableHardLevelsSize (" + bendableHardLevelsSize
-                    + ") and a bendableSoftLevelsSize (" + bendableSoftLevelsSize + ").");
-        }
-        if (scoreDefinitionClass != null) {
-            if (scoreDefinitionType != null) {
-                throw new IllegalArgumentException("With scoreDefinitionClass (" + scoreDefinitionClass
-                        + ") there must be no scoreDefinitionType (" + scoreDefinitionType + ").");
-            }
-            return ConfigUtils.newInstance(this, "scoreDefinitionClass", scoreDefinitionClass);
-        }
-        if (scoreDefinitionType != null) {
-            switch (scoreDefinitionType) {
-                case SIMPLE:
-                    return new SimpleScoreDefinition();
-                case SIMPLE_LONG:
-                    return new SimpleLongScoreDefinition();
-                case SIMPLE_DOUBLE:
-                    return new SimpleDoubleScoreDefinition();
-                case SIMPLE_BIG_DECIMAL:
-                    return new SimpleBigDecimalScoreDefinition();
-                case HARD_SOFT:
-                    return new HardSoftScoreDefinition();
-                case HARD_SOFT_LONG:
-                    return new HardSoftLongScoreDefinition();
-                case HARD_SOFT_DOUBLE:
-                    return new HardSoftDoubleScoreDefinition();
-                case HARD_SOFT_BIG_DECIMAL:
-                    return new HardSoftBigDecimalScoreDefinition();
-                case HARD_MEDIUM_SOFT:
-                    return new HardMediumSoftScoreDefinition();
-                case HARD_MEDIUM_SOFT_LONG:
-                    return new HardMediumSoftLongScoreDefinition();
-                case BENDABLE:
-                    return new BendableScoreDefinition(bendableHardLevelsSize, bendableSoftLevelsSize);
-                case BENDABLE_LONG:
-                    return new BendableLongScoreDefinition(bendableHardLevelsSize, bendableSoftLevelsSize);
-                case BENDABLE_BIG_DECIMAL:
-                    return new BendableBigDecimalScoreDefinition(bendableHardLevelsSize, bendableSoftLevelsSize);
-                default:
-                    throw new IllegalStateException("The scoreDefinitionType (" + scoreDefinitionType
-                            + ") is not implemented.");
-            }
-        } else {
-            return null;
-        }
-    }
-
     public <Solution_> InnerScoreDirectorFactory<Solution_> buildScoreDirectorFactory(
             SolverConfigContext configContext, ClassLoader classLoader, EnvironmentMode environmentMode,
             SolutionDescriptor<Solution_> solutionDescriptor) {
@@ -539,12 +381,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
                 throw new IllegalArgumentException("A assertionScoreDirectorFactory ("
                         + assertionScoreDirectorFactory + ") cannot have a non-null assertionScoreDirectorFactory ("
                         + assertionScoreDirectorFactory.getAssertionScoreDirectorFactory() + ").");
-            }
-            if (assertionScoreDirectorFactory.getScoreDefinitionClass() != null
-                    || assertionScoreDirectorFactory.getScoreDefinitionType() != null) {
-                throw new IllegalArgumentException("A assertionScoreDirectorFactory ("
-                        + assertionScoreDirectorFactory + ") must reuse the scoreDefinition of its parent." +
-                        " It cannot have a non-null scoreDefinition* property.");
             }
             if (environmentMode.compareTo(EnvironmentMode.FAST_ASSERT) > 0) {
                 throw new IllegalArgumentException("A non-null assertionScoreDirectorFactory ("
@@ -765,13 +601,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
 
     @Override
     public ScoreDirectorFactoryConfig inherit(ScoreDirectorFactoryConfig inheritedConfig) {
-        if (scoreDefinitionClass == null && scoreDefinitionType == null
-                && bendableHardLevelsSize == null && bendableSoftLevelsSize == null) {
-            scoreDefinitionClass = inheritedConfig.getScoreDefinitionClass();
-            scoreDefinitionType = inheritedConfig.getScoreDefinitionType();
-            bendableHardLevelsSize = inheritedConfig.getBendableHardLevelsSize();
-            bendableSoftLevelsSize = inheritedConfig.getBendableSoftLevelsSize();
-        }
         easyScoreCalculatorClass = ConfigUtils.inheritOverwritableProperty(
                 easyScoreCalculatorClass, inheritedConfig.getEasyScoreCalculatorClass());
         easyScoreCalculatorCustomProperties = ConfigUtils.inheritMergeableMapProperty(
