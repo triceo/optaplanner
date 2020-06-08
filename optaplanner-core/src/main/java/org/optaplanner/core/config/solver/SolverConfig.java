@@ -39,7 +39,6 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.AbstractConfig;
 import org.optaplanner.core.config.SolverConfigContext;
 import org.optaplanner.core.config.constructionheuristic.ConstructionHeuristicPhaseConfig;
-import org.optaplanner.core.config.domain.ScanAnnotatedClassesConfig;
 import org.optaplanner.core.config.heuristic.policy.HeuristicConfigPolicy;
 import org.optaplanner.core.config.localsearch.LocalSearchPhaseConfig;
 import org.optaplanner.core.config.phase.PhaseConfig;
@@ -235,13 +234,6 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
     protected Integer moveThreadBufferSize = null;
     protected Class<? extends ThreadFactory> threadFactoryClass = null;
 
-    /**
-     * @deprecated in favor of the Quarkus extension or Spring Boot starter which handle annotation scanning more
-     *             efficiently.
-     */
-    @XStreamAlias("scanAnnotatedClasses")
-    @Deprecated(/* forRemoval = true */)
-    protected ScanAnnotatedClassesConfig scanAnnotatedClassesConfig = null;
     protected Class<?> solutionClass = null;
     @XStreamImplicit(itemFieldName = "entityClass")
     protected List<Class<?>> entityClassList = null;
@@ -357,24 +349,6 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
 
     public void setThreadFactoryClass(Class<? extends ThreadFactory> threadFactoryClass) {
         this.threadFactoryClass = threadFactoryClass;
-    }
-
-    /**
-     * @deprecated in favor of the Quarkus extension or Spring Boot starter which handle annotation scanning more
-     *             efficiently.
-     */
-    @Deprecated(/* forRemoval = true */)
-    public ScanAnnotatedClassesConfig getScanAnnotatedClassesConfig() {
-        return scanAnnotatedClassesConfig;
-    }
-
-    /**
-     * @deprecated in favor of the Quarkus extension or Spring Boot starter which handle annotation scanning more
-     *             efficiently.
-     */
-    @Deprecated(/* forRemoval = true */)
-    public void setScanAnnotatedClassesConfig(ScanAnnotatedClassesConfig scanAnnotatedClassesConfig) {
-        this.scanAnnotatedClassesConfig = scanAnnotatedClassesConfig;
     }
 
     public Class<?> getSolutionClass() {
@@ -646,27 +620,16 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
     public <Solution_> SolutionDescriptor<Solution_> buildSolutionDescriptor(SolverConfigContext configContext) {
         ScoreDefinition deprecatedScoreDefinition = scoreDirectorFactoryConfig == null ? null
                 : scoreDirectorFactoryConfig.buildDeprecatedScoreDefinition();
-        if (scanAnnotatedClassesConfig != null) {
-            if (solutionClass != null || entityClassList != null) {
-                throw new IllegalArgumentException("The solver configuration with scanAnnotatedClasses ("
-                        + scanAnnotatedClassesConfig + ") cannot also have a solutionClass (" + solutionClass
-                        + ") or an entityClass (" + entityClassList + ").\n"
-                        + "Maybe delete the scanAnnotatedClasses element in the solver config.");
-            }
-            return scanAnnotatedClassesConfig.buildSolutionDescriptor(configContext, classLoader, deprecatedScoreDefinition);
-        } else {
-            if (solutionClass == null) {
-                throw new IllegalArgumentException("The solver configuration must have a solutionClass (" + solutionClass
-                        + "), if it has no scanAnnotatedClasses (" + scanAnnotatedClassesConfig + ").");
-            }
-            if (ConfigUtils.isEmptyCollection(entityClassList)) {
-                throw new IllegalArgumentException(
-                        "The solver configuration must have at least 1 entityClass (" + entityClassList
-                                + "), if it has no scanAnnotatedClasses (" + scanAnnotatedClassesConfig + ").");
-            }
-            return SolutionDescriptor.buildSolutionDescriptor((Class<Solution_>) solutionClass, entityClassList,
-                    deprecatedScoreDefinition);
+        if (solutionClass == null) {
+            throw new IllegalArgumentException("The solver configuration must have a solutionClass (" + solutionClass
+                    + ").");
         }
+        if (ConfigUtils.isEmptyCollection(entityClassList)) {
+            throw new IllegalArgumentException(
+                    "The solver configuration must have at least 1 entityClass (" + entityClassList + ").");
+        }
+        return SolutionDescriptor.buildSolutionDescriptor((Class<Solution_>) solutionClass, entityClassList,
+                deprecatedScoreDefinition);
     }
 
     protected <Solution_> List<Phase<Solution_>> buildPhaseList(HeuristicConfigPolicy configPolicy,
@@ -709,8 +672,6 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
                 inheritedConfig.getMoveThreadBufferSize());
         threadFactoryClass = ConfigUtils.inheritOverwritableProperty(threadFactoryClass,
                 inheritedConfig.getThreadFactoryClass());
-        scanAnnotatedClassesConfig = ConfigUtils.inheritConfig(scanAnnotatedClassesConfig,
-                inheritedConfig.getScanAnnotatedClassesConfig());
         solutionClass = ConfigUtils.inheritOverwritableProperty(solutionClass, inheritedConfig.getSolutionClass());
         entityClassList = ConfigUtils.inheritMergeableListProperty(
                 entityClassList, inheritedConfig.getEntityClassList());

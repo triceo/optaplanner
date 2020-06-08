@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,19 +59,6 @@ public class KieContainerSolverFactoryTest extends CommonTestMethodBase {
         KieContainer kieContainer = KieServices.Factory.get().newKieContainer(releaseId);
         SolverFactory<TestdataSolution> solverFactory = SolverFactory.createFromKieContainerXmlResource(
                 kieContainer, "testdata/kjar/solverConfig.solver");
-        Solver<TestdataSolution> solver = solverFactory.buildSolver();
-        assertNotNull(solver);
-        assertNewKieSessionSucceeds(solver);
-    }
-
-    @Test
-    public void buildScanAnnotatedClassesSolver() throws IOException {
-        ReleaseId releaseId = kieContainerHelper.deployTestdataSolverKjar(
-                "buildScanAnnotatedClassesSolver",
-                "org/optaplanner/core/api/solver/kieContainerNamedKsessionKmodule.xml",
-                "org/optaplanner/core/api/solver/scanAnnotatedKieContainerTestdataSolverConfig.xml");
-        SolverFactory<TestdataSolution> solverFactory = SolverFactory.createFromKieContainerXmlResource(
-                releaseId, "testdata/kjar/solverConfig.solver");
         Solver<TestdataSolution> solver = solverFactory.buildSolver();
         assertNotNull(solver);
         assertNewKieSessionSucceeds(solver);
