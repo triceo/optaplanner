@@ -97,7 +97,7 @@ public class PillarSelectorConfig extends SelectorConfig<PillarSelectorConfig> {
                     + ") must not be higher than " + SelectionCacheType.STEP
                     + " because the pillars change every step.");
         }
-        boolean subPillarActuallyEnabled = subPillarType != SubPillarType.NONE;
+        boolean subPillarEnabled = subPillarType != SubPillarType.NONE;
         // EntitySelector uses SelectionOrder.ORIGINAL because a DefaultPillarSelector STEP caches the values
         EntitySelectorConfig entitySelectorConfig_ = entitySelectorConfig == null ? new EntitySelectorConfig()
                 : entitySelectorConfig;
@@ -105,14 +105,14 @@ public class PillarSelectorConfig extends SelectorConfig<PillarSelectorConfig> {
                 minimumCacheType, SelectionOrder.ORIGINAL);
         List<GenuineVariableDescriptor> variableDescriptors = deduceVariableDescriptorList(
                 entitySelector.getEntityDescriptor(), variableNameIncludeList);
-        if (!subPillarActuallyEnabled
+        if (!subPillarEnabled
                 && (minimumSubPillarSize != null || maximumSubPillarSize != null)) {
             throw new IllegalArgumentException("The pillarSelectorConfig (" + this
                     + ") must not disable subpillars while providing minimumSubPillarSize (" + minimumSubPillarSize
                     + ") or maximumSubPillarSize (" + maximumSubPillarSize + ").");
         }
 
-        SubPillarConfigPolicy subPillarPolicy = subPillarActuallyEnabled
+        SubPillarConfigPolicy subPillarPolicy = subPillarEnabled
                 ? configureSubPillars(subPillarType, subPillarSequenceComparatorClass, entitySelector, minimumSubPillarSize,
                         maximumSubPillarSize)
                 : SubPillarConfigPolicy.withoutSubpillars();
