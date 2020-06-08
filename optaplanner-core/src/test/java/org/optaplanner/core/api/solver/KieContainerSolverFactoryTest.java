@@ -104,7 +104,6 @@ public class KieContainerSolverFactoryTest extends CommonTestMethodBase {
         solverConfig.setEntityClassList(Collections.singletonList(
                 kieContainer.getClassLoader().loadClass("testdata.kjar.ClassloadedTestdataEntity")));
         ScoreDirectorFactoryConfig scoreDirectorFactoryConfig = new ScoreDirectorFactoryConfig();
-        scoreDirectorFactoryConfig.setKsessionName("testdataKsession");
         solverConfig.setScoreDirectorFactoryConfig(scoreDirectorFactoryConfig);
         Solver<?> solver = solverFactory.buildSolver();
         assertNotNull(solver);

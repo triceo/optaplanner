@@ -40,7 +40,6 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.internal.builder.conf.PropertySpecificOption;
 import org.optaplanner.core.api.score.stream.ConstraintProvider;
 import org.optaplanner.core.api.score.stream.ConstraintStreamImplType;
-import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.AbstractConfig;
 import org.optaplanner.core.config.SolverConfigContext;
 import org.optaplanner.core.config.score.trend.InitializingScoreTrendLevel;
@@ -64,7 +63,6 @@ import org.slf4j.LoggerFactory;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @XStreamAlias("scoreDirectorFactory")
 public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFactoryConfig> {
@@ -85,11 +83,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> incrementalScoreCalculatorCustomProperties = null;
 
-    // TODO remove in 8.0
-    protected String ksessionName = null;
-    @XStreamOmitField
-    @Deprecated // TODO remove in 8.0
-    protected KieBase kieBase = null;
     @XStreamImplicit(itemFieldName = "scoreDrl")
     protected List<String> scoreDrlList = null;
     @XStreamImplicit(itemFieldName = "scoreDrlFile")
@@ -161,36 +154,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
 
     public void setIncrementalScoreCalculatorCustomProperties(Map<String, String> incrementalScoreCalculatorCustomProperties) {
         this.incrementalScoreCalculatorCustomProperties = incrementalScoreCalculatorCustomProperties;
-    }
-
-    public String getKsessionName() {
-        return ksessionName;
-    }
-
-    public void setKsessionName(String ksessionName) {
-        this.ksessionName = ksessionName;
-    }
-
-    /**
-     * @return sometimes null
-     * @deprecated Use {@link #setKsessionName(String)} and
-     *             {@link SolverFactory#createFromKieContainerXmlResource(KieContainer, String)} instead. Might be removed in
-     *             8.0.
-     */
-    @Deprecated
-    public KieBase getKieBase() {
-        return kieBase;
-    }
-
-    /**
-     * @param kieBase sometimes null
-     * @deprecated Use {@link #setKsessionName(String)} and
-     *             {@link SolverFactory#createFromKieContainerXmlResource(KieContainer, String)} instead. Might be removed in
-     *             8.0.
-     */
-    @Deprecated
-    public void setKieBase(KieBase kieBase) {
-        this.kieBase = kieBase;
     }
 
     public List<String> getScoreDrlList() {
@@ -454,46 +417,23 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
         boolean generateDroolsTestOnError =
                 Boolean.parseBoolean(System.getProperty(GENERATE_DROOLS_TEST_ON_ERROR_PROPERTY_NAME, "false"));
         KieContainer kieContainer = configContext.getKieContainer();
-        if (kieContainer != null || ksessionName != null) {
-            if (kieContainer == null) {
-                throw new IllegalArgumentException("If ksessionName (" + ksessionName
-                        + ") is not null, then the kieContainer (" + kieContainer
-                        + ") must not be null."); // TODO improve error message with "maybe fix it like this"
-            }
+        if (kieContainer != null) {
             if (!ConfigUtils.isEmptyCollection(scoreDrlList) || !ConfigUtils.isEmptyCollection(scoreDrlFileList)) {
-                throw new IllegalArgumentException("If kieContainer or ksessionName (" + ksessionName
-                        + ") is not null, then the scoreDrlList (" + scoreDrlList
-                        + ") and the scoreDrlFileList (" + scoreDrlFileList + ") must be empty.\n"
+                throw new IllegalArgumentException("If kieContainer (" + kieContainer + ") is not null, "
+                        + "then the scoreDrlList (" + scoreDrlList + ") and the scoreDrlFileList (" + scoreDrlFileList
+                        + ") must be empty.\n"
                         + "Maybe this is running in a kjar in kie-server, in which case the DRL's are located"
                         + " by the META-INF/kmodule.xml, so only ksessionName is allowed.");
             }
-            if (kieBase != null) {
-                throw new IllegalArgumentException("If kieContainer or ksessionName (" + ksessionName
-                        + ") is not null, then the kieBase must be null.");
-            }
             if (kieBaseConfigurationProperties != null) {
-                throw new IllegalArgumentException("If kieContainer or ksessionName (" + ksessionName
-                        + ") is not null, then the kieBaseConfigurationProperties ("
-                        + kieBaseConfigurationProperties + ") must be null.");
+                throw new IllegalArgumentException("If kieContainer (" + kieContainer + ") is not null, "
+                        + "then the kieBaseConfigurationProperties (" + kieBaseConfigurationProperties
+                        + ") must be null.");
             }
             if (generateDroolsTestOnError) {
-                return new TestGenDroolsScoreDirectorFactory<>(solutionDescriptor, kieContainer, ksessionName);
+                return new TestGenDroolsScoreDirectorFactory<>(solutionDescriptor, kieContainer);
             } else {
-                return new DroolsScoreDirectorFactory<>(solutionDescriptor, kieContainer, ksessionName);
-            }
-        } else if (kieBase != null) {
-            if (!ConfigUtils.isEmptyCollection(scoreDrlList) || !ConfigUtils.isEmptyCollection(scoreDrlFileList)) {
-                throw new IllegalArgumentException("If kieBase is not null, then the scoreDrlList (" + scoreDrlList
-                        + ") and the scoreDrlFileList (" + scoreDrlFileList + ") must be empty.");
-            }
-            if (kieBaseConfigurationProperties != null) {
-                throw new IllegalArgumentException("If kieBase is not null, then the kieBaseConfigurationProperties ("
-                        + kieBaseConfigurationProperties + ") must be null.");
-            }
-            if (generateDroolsTestOnError) {
-                return new TestGenDroolsScoreDirectorFactory<>(solutionDescriptor, kieBase, null, null);
-            } else {
-                return new DroolsScoreDirectorFactory<>(solutionDescriptor, kieBase);
+                return new DroolsScoreDirectorFactory<>(solutionDescriptor, kieContainer);
             }
         } else if (!ConfigUtils.isEmptyCollection(scoreDrlList) || !ConfigUtils.isEmptyCollection(scoreDrlFileList)) {
             KieServices kieServices = KieServices.Factory.get();
@@ -593,10 +533,6 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
                 incrementalScoreCalculatorClass, inheritedConfig.getIncrementalScoreCalculatorClass());
         incrementalScoreCalculatorCustomProperties = ConfigUtils.inheritMergeableMapProperty(
                 incrementalScoreCalculatorCustomProperties, inheritedConfig.getIncrementalScoreCalculatorCustomProperties());
-        ksessionName = ConfigUtils.inheritOverwritableProperty(
-                ksessionName, inheritedConfig.getKsessionName());
-        kieBase = ConfigUtils.inheritOverwritableProperty(
-                kieBase, inheritedConfig.getKieBase());
         scoreDrlList = ConfigUtils.inheritMergeableListProperty(
                 scoreDrlList, inheritedConfig.getScoreDrlList());
         scoreDrlFileList = ConfigUtils.inheritMergeableListProperty(
