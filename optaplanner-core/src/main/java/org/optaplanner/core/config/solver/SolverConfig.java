@@ -274,9 +274,6 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
      */
     public SolverConfig(SolverConfig inheritedConfig) {
         inherit(inheritedConfig);
-        if (environmentMode == EnvironmentMode.PRODUCTION) {
-            environmentMode = EnvironmentMode.NON_REPRODUCIBLE;
-        }
     }
 
     public ClassLoader getClassLoader() {
@@ -475,9 +472,6 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
     // ************************************************************************
 
     public EnvironmentMode determineEnvironmentMode() {
-        if (environmentMode == EnvironmentMode.PRODUCTION) {
-            environmentMode = EnvironmentMode.NON_REPRODUCIBLE;
-        }
         return defaultIfNull(environmentMode, EnvironmentMode.REPRODUCIBLE);
     }
 
