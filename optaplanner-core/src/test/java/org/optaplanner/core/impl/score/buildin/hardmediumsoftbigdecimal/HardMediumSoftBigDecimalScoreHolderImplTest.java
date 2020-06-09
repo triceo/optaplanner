@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.optaplanner.core.api.score.buildin.hardmediumsoftbigdecimal;
+package org.optaplanner.core.impl.score.buildin.hardmediumsoftbigdecimal;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -23,9 +23,10 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.rule.RuleContext;
-import org.optaplanner.core.api.score.holder.AbstractScoreHolderTest;
+import org.optaplanner.core.api.score.buildin.hardmediumsoftbigdecimal.HardMediumSoftBigDecimalScore;
+import org.optaplanner.core.impl.score.buildin.AbstractScoreHolderTest;
 
-public class HardMediumSoftBigDecimalScoreHolderTest extends AbstractScoreHolderTest {
+public class HardMediumSoftBigDecimalScoreHolderImplTest extends AbstractScoreHolderTest {
 
     @Test
     public void addConstraintMatchWithConstraintMatch() {
@@ -38,7 +39,8 @@ public class HardMediumSoftBigDecimalScoreHolderTest extends AbstractScoreHolder
     }
 
     public void addConstraintMatch(boolean constraintMatchEnabled) {
-        HardMediumSoftBigDecimalScoreHolder scoreHolder = new HardMediumSoftBigDecimalScoreHolder(constraintMatchEnabled);
+        HardMediumSoftBigDecimalScoreHolderImpl scoreHolder =
+                new HardMediumSoftBigDecimalScoreHolderImpl(constraintMatchEnabled);
 
         RuleContext hard1 = mockRuleContext("hard1");
         scoreHolder.addHardConstraintMatch(hard1, new BigDecimal("-0.01"));
@@ -114,7 +116,8 @@ public class HardMediumSoftBigDecimalScoreHolderTest extends AbstractScoreHolder
     }
 
     public void rewardPenalize(boolean constraintMatchEnabled) {
-        HardMediumSoftBigDecimalScoreHolder scoreHolder = new HardMediumSoftBigDecimalScoreHolder(constraintMatchEnabled);
+        HardMediumSoftBigDecimalScoreHolderImpl scoreHolder =
+                new HardMediumSoftBigDecimalScoreHolderImpl(constraintMatchEnabled);
         Rule hard1 = mockRule("hard1");
         scoreHolder.configureConstraintWeight(hard1, HardMediumSoftBigDecimalScore.ofHard(new BigDecimal("10.0")));
         Rule hard2 = mockRule("hard2");

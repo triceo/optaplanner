@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaplanner.core.api.score.buildin.hardsoftlong;
+package org.optaplanner.core.impl.score.buildin.hardsoftlong;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -22,9 +22,10 @@ import static org.junit.Assert.assertNull;
 import org.junit.jupiter.api.Test;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.rule.RuleContext;
-import org.optaplanner.core.api.score.holder.AbstractScoreHolderTest;
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
+import org.optaplanner.core.impl.score.buildin.AbstractScoreHolderTest;
 
-public class HardSoftLongScoreHolderTest extends AbstractScoreHolderTest {
+public class HardSoftLongScoreHolderImplTest extends AbstractScoreHolderTest {
 
     @Test
     public void addConstraintMatchWithConstraintMatch() {
@@ -37,7 +38,7 @@ public class HardSoftLongScoreHolderTest extends AbstractScoreHolderTest {
     }
 
     public void addConstraintMatch(boolean constraintMatchEnabled) {
-        HardSoftLongScoreHolder scoreHolder = new HardSoftLongScoreHolder(constraintMatchEnabled);
+        HardSoftLongScoreHolderImpl scoreHolder = new HardSoftLongScoreHolderImpl(constraintMatchEnabled);
 
         RuleContext hard1 = mockRuleContext("hard1");
         scoreHolder.addHardConstraintMatch(hard1, -1L);
@@ -92,7 +93,7 @@ public class HardSoftLongScoreHolderTest extends AbstractScoreHolderTest {
     }
 
     public void rewardPenalize(boolean constraintMatchEnabled) {
-        HardSoftLongScoreHolder scoreHolder = new HardSoftLongScoreHolder(constraintMatchEnabled);
+        HardSoftLongScoreHolderImpl scoreHolder = new HardSoftLongScoreHolderImpl(constraintMatchEnabled);
         Rule hard1 = mockRule("hard1");
         scoreHolder.configureConstraintWeight(hard1, HardSoftLongScore.ofHard(10L));
         Rule hard2 = mockRule("hard2");

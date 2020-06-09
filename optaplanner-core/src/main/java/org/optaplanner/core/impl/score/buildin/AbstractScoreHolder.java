@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaplanner.core.api.score.holder;
+package org.optaplanner.core.impl.score.buildin;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -35,6 +35,7 @@ import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
+import org.optaplanner.core.api.score.holder.ScoreHolder;
 import org.optaplanner.core.impl.score.director.drools.DroolsScoreDirector;
 import org.optaplanner.core.impl.score.director.drools.OptaPlannerRuleEventListener;
 
@@ -42,9 +43,7 @@ import org.optaplanner.core.impl.score.director.drools.OptaPlannerRuleEventListe
  * Abstract superclass for {@link ScoreHolder}.
  *
  * @param <Score_> the {@link Score} type
- * @deprecated for removal from public API
  */
-@Deprecated(/* forRemoval = true */)
 public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
         implements ScoreHolder<Score_>, Serializable {
 
@@ -63,12 +62,10 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
         this.zeroScore = zeroScore;
     }
 
-    @Override
     public boolean isConstraintMatchEnabled() {
         return constraintMatchEnabled;
     }
 
-    @Override
     public Collection<ConstraintMatchTotal> getConstraintMatchTotals() {
         if (!isConstraintMatchEnabled()) {
             throw new IllegalStateException("When constraintMatchEnabled (" + isConstraintMatchEnabled()
@@ -77,7 +74,6 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
         return constraintMatchTotalMap.values();
     }
 
-    @Override
     public Map<String, ConstraintMatchTotal> getConstraintMatchTotalMap() {
         if (!isConstraintMatchEnabled()) {
             throw new IllegalStateException("When constraintMatchEnabled (" + isConstraintMatchEnabled()
@@ -86,7 +82,6 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
         return constraintMatchTotalMap;
     }
 
-    @Override
     public Map<Object, Indictment> getIndictmentMap() {
         if (!isConstraintMatchEnabled()) {
             throw new IllegalStateException("When constraintMatchEnabled (" + isConstraintMatchEnabled()
@@ -99,7 +94,6 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
     // Worker methods
     // ************************************************************************
 
-    @Override
     public void configureConstraintWeight(Rule rule, Score_ constraintWeight) {
         if (constraintWeight.getInitScore() != 0) {
             throw new IllegalStateException("The initScore (" + constraintWeight.getInitScore() + ") must be 0.");
@@ -161,6 +155,7 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
      *
      * @param kcontext never null
      */
+    @Override
     public void impactScore(RuleContext kcontext) {
         throw new UnsupportedOperationException("In the rule (" + kcontext.getRule().getName()
                 + "), the scoreHolder class (" + getClass()
@@ -203,6 +198,8 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
                 + ") does not support an int weightMultiplier (" + weightMultiplier + ").");
     }
 
+    public abstract Score_ extractScore(int initScore);
+
     protected List<Object> extractJustificationList(RuleContext kcontext) {
         // Unlike kcontext.getMatch().getObjects(), this includes the matches of accumulate and exists
         Activation activation = (Activation) kcontext.getMatch();
@@ -214,10 +211,6 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
         }
     }
 
-    /**
-     * @deprecated for removal from public API
-     */
-    @Deprecated(/* forRemoval = true */)
     public class ConstraintActivationUnMatchListener implements Runnable {
 
         private final Runnable constraintUndoListener;
@@ -246,10 +239,6 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
         }
     }
 
-    /**
-     * @deprecated for removal from public API
-     */
-    @Deprecated(/* forRemoval = true */)
     public void setJustificationListConverter(BiFunction<List<Object>, Rule, List<Object>> converter) {
         this.justificationListConverter = converter;
     }

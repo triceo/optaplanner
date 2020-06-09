@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package org.optaplanner.core.api.score.holder;
+package org.optaplanner.core.impl.score.buildin;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -27,8 +29,10 @@ import java.util.Optional;
 import org.drools.core.beliefsystem.ModedAssertion;
 import org.drools.core.common.AgendaItem;
 import org.drools.core.common.AgendaItemImpl;
+import org.junit.jupiter.api.Test;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.rule.RuleContext;
+import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 
 public abstract class AbstractScoreHolderTest {
@@ -86,11 +90,48 @@ public abstract class AbstractScoreHolderTest {
         agendaItem.getCallback().run();
     }
 
-    protected ConstraintMatchTotal findConstraintMatchTotal(ScoreHolder<?> scoreHolder, String ruleName) {
+    protected ConstraintMatchTotal findConstraintMatchTotal(AbstractScoreHolder<?> scoreHolder, String ruleName) {
         Collection<ConstraintMatchTotal> constraintMatchTotals = scoreHolder.getConstraintMatchTotals();
         Optional<ConstraintMatchTotal> first = constraintMatchTotals.stream()
                 .filter(constraintMatchTotal -> constraintMatchTotal.getConstraintName().equals(ruleName)).findFirst();
         return first.orElse(null);
+    }
+
+    @Test
+    public void illegalStateExceptionThrownWhenConstraintMatchNotEnabled() {
+        AbstractScoreHolder scoreHolder = buildScoreHolder(false);
+        assertThatIllegalStateException()
+                .isThrownBy(scoreHolder::getConstraintMatchTotals)
+                .withMessageContaining("constraintMatchEnabled");
+    }
+
+    @Test
+    public void constraintMatchTotalsNeverNull() {
+        assertNotNull(buildScoreHolder(true).getConstraintMatchTotals());
+    }
+
+    private AbstractScoreHolder<SimpleScore> buildScoreHolder(boolean constraintMatchEnabled) {
+        return new AbstractScoreHolder<SimpleScore>(constraintMatchEnabled, SimpleScore.ZERO) {
+            @Override
+            public void penalize(RuleContext kcontext) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void reward(RuleContext kcontext) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public SimpleScore extractScore(int initScore) {
+                return SimpleScore.of(0);
+            }
+
+            @Override
+            public void configureConstraintWeight(org.kie.api.definition.rule.Rule rule, SimpleScore constraintWeight) {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 
 }

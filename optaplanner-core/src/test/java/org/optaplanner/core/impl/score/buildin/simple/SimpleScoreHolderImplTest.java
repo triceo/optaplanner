@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.optaplanner.core.api.score.buildin.simple;
+package org.optaplanner.core.impl.score.buildin.simple;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.rule.RuleContext;
-import org.optaplanner.core.api.score.holder.AbstractScoreHolderTest;
+import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
+import org.optaplanner.core.impl.score.buildin.AbstractScoreHolderTest;
 
-public class SimpleScoreHolderTest extends AbstractScoreHolderTest {
+public class SimpleScoreHolderImplTest extends AbstractScoreHolderTest {
 
     @Test
     public void addConstraintMatchWithConstraintMatch() {
@@ -36,7 +37,7 @@ public class SimpleScoreHolderTest extends AbstractScoreHolderTest {
     }
 
     public void addConstraintMatch(boolean constraintMatchEnabled) {
-        SimpleScoreHolder scoreHolder = new SimpleScoreHolder(constraintMatchEnabled);
+        SimpleScoreHolderImpl scoreHolder = new SimpleScoreHolderImpl(constraintMatchEnabled);
 
         RuleContext scoreRule1 = mockRuleContext("scoreRule1");
         scoreHolder.addConstraintMatch(scoreRule1, -1000);
@@ -68,7 +69,7 @@ public class SimpleScoreHolderTest extends AbstractScoreHolderTest {
     }
 
     public void rewardPenalize(boolean constraintMatchEnabled) {
-        SimpleScoreHolder scoreHolder = new SimpleScoreHolder(constraintMatchEnabled);
+        SimpleScoreHolderImpl scoreHolder = new SimpleScoreHolderImpl(constraintMatchEnabled);
         Rule constraint1 = mockRule("constraint1");
         scoreHolder.configureConstraintWeight(constraint1, SimpleScore.of(10));
         Rule constraint2 = mockRule("constraint2");
@@ -80,7 +81,7 @@ public class SimpleScoreHolderTest extends AbstractScoreHolderTest {
         scoreHolder.penalize(mockRuleContext(constraint2), 2);
         assertEquals(SimpleScore.of(-210), scoreHolder.extractScore(0));
 
-        scoreHolder = new SimpleScoreHolder(constraintMatchEnabled);
+        scoreHolder = new SimpleScoreHolderImpl(constraintMatchEnabled);
         Rule constraint3 = mockRule("constraint3");
         scoreHolder.configureConstraintWeight(constraint3, SimpleScore.of(10));
         Rule constraint4 = mockRule("constraint4");

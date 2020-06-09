@@ -1,11 +1,11 @@
 /*
- * Copyright 2014 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaplanner.core.api.score.buildin.bendablelong;
+package org.optaplanner.core.impl.score.buildin.bendablelong;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
@@ -23,9 +23,11 @@ import static org.junit.Assert.assertNull;
 import org.junit.jupiter.api.Test;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.rule.RuleContext;
-import org.optaplanner.core.api.score.holder.AbstractScoreHolderTest;
+import org.optaplanner.core.api.score.buildin.bendablelong.BendableLongScore;
+import org.optaplanner.core.api.score.buildin.bendablelong.BendableLongScoreHolder;
+import org.optaplanner.core.impl.score.buildin.AbstractScoreHolderTest;
 
-public class BendableLongScoreHolderTest extends AbstractScoreHolderTest {
+public class BendableLongScoreHolderImplTest extends AbstractScoreHolderTest {
 
     @Test
     public void addConstraintMatchWithConstraintMatch() {
@@ -38,7 +40,7 @@ public class BendableLongScoreHolderTest extends AbstractScoreHolderTest {
     }
 
     public void addConstraintMatch(boolean constraintMatchEnabled) {
-        BendableLongScoreHolder scoreHolder = new BendableLongScoreHolder(constraintMatchEnabled, 1, 2);
+        BendableLongScoreHolderImpl scoreHolder = new BendableLongScoreHolderImpl(constraintMatchEnabled, 1, 2);
 
         RuleContext hard1 = mockRuleContext("hard1");
         scoreHolder.addHardConstraintMatch(hard1, 0, -1L);
@@ -106,7 +108,7 @@ public class BendableLongScoreHolderTest extends AbstractScoreHolderTest {
     }
 
     public void rewardPenalize(boolean constraintMatchEnabled) {
-        BendableLongScoreHolder scoreHolder = new BendableLongScoreHolder(constraintMatchEnabled, 1, 2);
+        BendableLongScoreHolderImpl scoreHolder = new BendableLongScoreHolderImpl(constraintMatchEnabled, 1, 2);
         Rule hard1 = mockRule("hard1");
         scoreHolder.configureConstraintWeight(hard1, BendableLongScore.ofHard(1, 2, 0, 10L));
         Rule hard2 = mockRule("hard2");
@@ -136,14 +138,14 @@ public class BendableLongScoreHolderTest extends AbstractScoreHolderTest {
 
     @Test
     public void failFastHardLevel() {
-        BendableLongScoreHolder scoreHolder = new BendableLongScoreHolder(false, 2, 5);
+        BendableLongScoreHolder scoreHolder = new BendableLongScoreHolderImpl(false, 2, 5);
         RuleContext rule = mockRuleContext("rule");
         assertThatIllegalArgumentException().isThrownBy(() -> scoreHolder.addHardConstraintMatch(rule, 3, -1L));
     }
 
     @Test
     public void failFastSoftLevel() {
-        BendableLongScoreHolder scoreHolder = new BendableLongScoreHolder(false, 5, 2);
+        BendableLongScoreHolder scoreHolder = new BendableLongScoreHolderImpl(false, 5, 2);
         RuleContext rule = mockRuleContext("rule");
         assertThatIllegalArgumentException().isThrownBy(() -> scoreHolder.addSoftConstraintMatch(rule, 3, -1L));
     }

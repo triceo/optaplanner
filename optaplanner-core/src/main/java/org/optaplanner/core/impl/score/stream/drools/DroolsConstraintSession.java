@@ -23,15 +23,15 @@ import org.kie.api.runtime.rule.FactHandle;
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
-import org.optaplanner.core.api.score.holder.ScoreHolder;
+import org.optaplanner.core.impl.score.buildin.AbstractScoreHolder;
 import org.optaplanner.core.impl.score.stream.ConstraintSession;
 
 public class DroolsConstraintSession<Solution_> implements ConstraintSession<Solution_> {
 
     private final KieSession kieSession;
-    private final ScoreHolder scoreHolder;
+    private final AbstractScoreHolder scoreHolder;
 
-    public DroolsConstraintSession(KieSession kieSession, ScoreHolder scoreHolder) {
+    public DroolsConstraintSession(KieSession kieSession, AbstractScoreHolder scoreHolder) {
         this.kieSession = kieSession;
         this.scoreHolder = scoreHolder;
     }
