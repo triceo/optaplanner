@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ public class SubSingleBenchmarkRunner<Solution_> implements Callable<SubSingleBe
     // ************************************************************************
 
     @Override
-    public SubSingleBenchmarkRunner<Solution_> call() {
+    public SubSingleBenchmarkRunner<Solution_> call() throws InterruptedException {
         MDC.put(NAME_MDC, subSingleBenchmarkResult.getName());
         Runtime runtime = Runtime.getRuntime();
         ProblemBenchmarkResult<Solution_> problemBenchmarkResult = subSingleBenchmarkResult.getSingleBenchmarkResult()
@@ -102,24 +102,23 @@ public class SubSingleBenchmarkRunner<Solution_> implements Callable<SubSingleBe
         DefaultSolverFactory<Solution_> solverFactory = new DefaultSolverFactory<>(
                 new SolverConfig(solverConfig), solverConfigContext);
         Solver<Solution_> solver = solverFactory.buildSolver();
+        solver.addEventListener(event -> subSingleBenchmarkResult.setTimeMillisSpent(event.getTimeMillisSpent()));
 
         for (SubSingleStatistic subSingleStatistic : subSingleBenchmarkResult.getEffectiveSubSingleStatisticMap().values()) {
-            subSingleStatistic.open(solver);
+            subSingleStatistic.open(solver, solverFactory.getScoreDirectorFactory());
             subSingleStatistic.initPointList();
         }
 
         Solution_ solution = solver.solve(problem);
-        long timeMillisSpent = solver.getTimeMillisSpent();
 
         DefaultSolverScope<Solution_> solverScope = ((DefaultSolver<Solution_>) solver).getSolverScope();
         SolutionDescriptor<Solution_> solutionDescriptor = solverScope.getSolutionDescriptor();
+        subSingleBenchmarkResult.setScore(solutionDescriptor.getScore(solution));
+        subSingleBenchmarkResult.setScoreCalculationCount(solverScope.getScoreCalculationCount());
         problemBenchmarkResult.registerScale(solutionDescriptor.getEntityCount(solution),
                 solutionDescriptor.getGenuineVariableCount(solution),
                 solutionDescriptor.getMaximumValueCount(solution),
                 solutionDescriptor.getProblemScale(solution));
-        subSingleBenchmarkResult.setScore(solutionDescriptor.getScore(solution));
-        subSingleBenchmarkResult.setTimeMillisSpent(timeMillisSpent);
-        subSingleBenchmarkResult.setScoreCalculationCount(solverScope.getScoreCalculationCount());
 
         for (SubSingleStatistic subSingleStatistic : subSingleBenchmarkResult.getEffectiveSubSingleStatisticMap().values()) {
             subSingleStatistic.close(solver);

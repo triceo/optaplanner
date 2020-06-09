@@ -26,7 +26,7 @@ import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
 import org.optaplanner.core.impl.score.director.drools.DroolsScoreDirectorFactory;
-import org.optaplanner.core.impl.solver.DefaultSolver;
+import org.optaplanner.core.impl.solver.DefaultSolverFactory;
 import org.optaplanner.core.impl.testdata.domain.TestdataSolution;
 import org.optaplanner.core.impl.testdata.util.KieContainerHelper;
 
@@ -44,7 +44,7 @@ public class KieContainerSolverFactoryTest extends CommonTestMethodBase {
                 releaseId, "testdata/kjar/solverConfig.solver");
         Solver<TestdataSolution> solver = solverFactory.buildSolver();
         assertNotNull(solver);
-        assertNewKieSessionSucceeds(solver);
+        assertNewKieSessionSucceeds(solverFactory);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class KieContainerSolverFactoryTest extends CommonTestMethodBase {
                 kieContainer, "testdata/kjar/solverConfig.solver");
         Solver<TestdataSolution> solver = solverFactory.buildSolver();
         assertNotNull(solver);
-        assertNewKieSessionSucceeds(solver);
+        assertNewKieSessionSucceeds(solverFactory);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class KieContainerSolverFactoryTest extends CommonTestMethodBase {
                 releaseId, "testdata/kjar/solverConfig.solver");
         Solver<?> solver = solverFactory.buildSolver();
         assertNotNull(solver);
-        assertNewKieSessionSucceeds(solver);
+        assertNewKieSessionSucceeds(solverFactory);
     }
 
     @Test
@@ -84,13 +84,13 @@ public class KieContainerSolverFactoryTest extends CommonTestMethodBase {
                 releaseId, "testdata/kjar/solverConfig.solver");
         Solver<?> solver = solverFactory.buildSolver();
         assertNotNull(solver);
-        assertNewKieSessionSucceeds(solver);
+        assertNewKieSessionSucceeds(solverFactory);
     }
 
-    private void assertNewKieSessionSucceeds(Solver<?> solver) {
-        DefaultSolver<?> defaultSolver = (DefaultSolver<?>) solver;
-        DroolsScoreDirectorFactory scoreDirectorFactory = (DroolsScoreDirectorFactory<?>) defaultSolver
-                .getScoreDirectorFactory();
+    private void assertNewKieSessionSucceeds(SolverFactory<?> solverFactory) {
+        DefaultSolverFactory<?> defaultSolverFactory = (DefaultSolverFactory<?>) solverFactory;
+        DroolsScoreDirectorFactory<?> scoreDirectorFactory =
+                (DroolsScoreDirectorFactory<?>) defaultSolverFactory.getScoreDirectorFactory();
         scoreDirectorFactory.newKieSession();
     }
 

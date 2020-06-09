@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import org.optaplanner.benchmark.impl.result.SingleBenchmarkResult;
 import org.optaplanner.benchmark.impl.result.SubSingleBenchmarkResult;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.impl.score.definition.ScoreDefinition;
+import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,7 +105,16 @@ public abstract class SubSingleStatistic<Solution_, StatisticPoint_ extends Stat
     // Lifecycle methods
     // ************************************************************************
 
-    public abstract void open(Solver<Solution_> solver);
+    public void open(Solver<Solution_> solver) {
+        open(solver, null);
+    }
+
+    /**
+     *
+     * @param solver never null
+     * @param scoreDirectorFactory maybe null, some implementations may not require it
+     */
+    public abstract void open(Solver<Solution_> solver, ScoreDirectorFactory<Solution_> scoreDirectorFactory);
 
     public abstract void close(Solver<Solution_> solver);
 
