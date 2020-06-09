@@ -612,12 +612,14 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
      */
     public <Solution_> SolutionDescriptor<Solution_> buildSolutionDescriptor(SolverConfigContext configContext) {
         if (solutionClass == null) {
-            throw new IllegalArgumentException("The solver configuration must have a solutionClass (" + solutionClass
-                    + ").");
+            throw new IllegalArgumentException("The solver configuration must have a solutionClass (" + solutionClass +
+                    "). If you're using the Quarkus extension or Spring Boot starter, it should have been filled in " +
+                    "already.");
         }
         if (ConfigUtils.isEmptyCollection(entityClassList)) {
-            throw new IllegalArgumentException(
-                    "The solver configuration must have at least 1 entityClass (" + entityClassList + ").");
+            throw new IllegalArgumentException("The solver configuration must have at least 1 entityClass (" +
+                    entityClassList + "). If you're using the Quarkus extension or Spring Boot starter, " +
+                    "it should have been filled in already.");
         }
         return SolutionDescriptor.buildSolutionDescriptor((Class<Solution_>) solutionClass, entityClassList,
                 null);
