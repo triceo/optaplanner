@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.optaplanner.spring.boot.autoconfigure;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -114,14 +113,6 @@ public class OptaPlannerAutoConfigurationTest {
                     assertNotNull(solverFactory);
                     assertNotNull(solverFactory.buildSolver());
                 });
-    }
-
-    @Test
-    public void scanAnnotatedClasses() {
-        assertThatIllegalStateException().isThrownBy(() -> contextRunner
-                .withPropertyValues(
-                        "optaplanner.solver-config-xml=org/optaplanner/spring/boot/autoconfigure/illegalScanAnnotatedSpringBootSolverConfig.xml")
-                .run(context -> context.getBean(SolverConfig.class)));
     }
 
     @Test

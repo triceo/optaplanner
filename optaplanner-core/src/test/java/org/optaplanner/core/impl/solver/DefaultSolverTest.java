@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.constructionheuristic.ConstructionHeuristicPhaseConfig;
 import org.optaplanner.core.config.phase.custom.CustomPhaseConfig;
-import org.optaplanner.core.config.score.definition.ScoreDefinitionType;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaplanner.core.impl.phase.custom.NoChangeCustomPhaseCommand;
@@ -40,7 +39,6 @@ import org.optaplanner.core.impl.testdata.domain.TestdataValue;
 import org.optaplanner.core.impl.testdata.domain.chained.TestdataChainedAnchor;
 import org.optaplanner.core.impl.testdata.domain.chained.TestdataChainedEntity;
 import org.optaplanner.core.impl.testdata.domain.chained.TestdataChainedSolution;
-import org.optaplanner.core.impl.testdata.domain.extended.legacysolution.TestdataLegacySolution;
 import org.optaplanner.core.impl.testdata.domain.pinned.TestdataPinnedEntity;
 import org.optaplanner.core.impl.testdata.domain.pinned.TestdataPinnedSolution;
 import org.optaplanner.core.impl.testdata.util.PlannerTestUtils;
@@ -61,24 +59,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(true, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
-    }
-
-    @Test
-    public void solveLegacy() {
-        SolverConfig solverConfig = PlannerTestUtils.buildSolverConfig(
-                TestdataLegacySolution.class, TestdataEntity.class);
-        solverConfig.getScoreDirectorFactoryConfig()
-                .setScoreDefinitionType(ScoreDefinitionType.SIMPLE);
-        SolverFactory<TestdataLegacySolution> solverFactory = SolverFactory.create(solverConfig);
-        Solver<TestdataLegacySolution> solver = solverFactory.buildSolver();
-
-        TestdataLegacySolution solution = new TestdataLegacySolution();
-        solution.setValueList(Arrays.asList(new TestdataValue("v1"), new TestdataValue("v2")));
-        solution.setEntityList(Arrays.asList(new TestdataEntity("e1"), new TestdataEntity("e2")));
-
-        solution = solver.solve(solution);
-        assertNotNull(solution);
         assertSame(solution, solver.getBestSolution());
     }
 
