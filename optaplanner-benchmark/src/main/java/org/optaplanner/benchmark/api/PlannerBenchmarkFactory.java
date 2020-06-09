@@ -19,14 +19,9 @@ package org.optaplanner.benchmark.api;
 import java.io.File;
 import java.util.List;
 
-import org.kie.api.KieServices;
-import org.kie.api.builder.KieModule;
-import org.kie.api.builder.ReleaseId;
-import org.kie.api.runtime.KieContainer;
 import org.optaplanner.benchmark.config.PlannerBenchmarkConfig;
 import org.optaplanner.benchmark.impl.DefaultPlannerBenchmarkFactory;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
-import org.optaplanner.core.config.SolverConfigContext;
 import org.optaplanner.core.config.solver.SolverConfig;
 
 /**
@@ -299,53 +294,6 @@ public abstract class PlannerBenchmarkFactory {
      */
     public static PlannerBenchmarkFactory create(PlannerBenchmarkConfig benchmarkConfig) {
         return new DefaultPlannerBenchmarkFactory(benchmarkConfig);
-    }
-
-    // ************************************************************************
-    // Static creation methods: KieContainer
-    // ************************************************************************
-
-    // TODO Deprecate KieContainer methods in favor of Quarkus, Kogito and Spring Boot
-
-    /**
-     * Creates a new {@link PlannerBenchmarkFactory} that uses {@link KieServices#getKieClasspathContainer()}.
-     *
-     * @param benchmarkConfigResource never null, a classpath resource in the {@link KieContainer}
-     *        as defined by {@link ClassLoader#getResource(String)}
-     * @return never null
-     */
-    public static PlannerBenchmarkFactory createFromKieContainerXmlResource(String benchmarkConfigResource) {
-        KieContainer kieContainer = KieServices.Factory.get().getKieClasspathContainer();
-        return createFromKieContainerXmlResource(kieContainer, benchmarkConfigResource);
-    }
-
-    /**
-     * Creates a new {@link PlannerBenchmarkFactory} that uses a {@link KieModule} represented by its releaseId.
-     *
-     * @param releaseId never null
-     * @param benchmarkConfigResource never null, a classpath resource in the {@link KieContainer}
-     *        as defined by {@link ClassLoader#getResource(String)}
-     * @return never null
-     */
-    public static PlannerBenchmarkFactory createFromKieContainerXmlResource(ReleaseId releaseId,
-            String benchmarkConfigResource) {
-        KieContainer kieContainer = KieServices.Factory.get().newKieContainer(releaseId);
-        return createFromKieContainerXmlResource(kieContainer, benchmarkConfigResource);
-    }
-
-    /**
-     * Creates a new {@link PlannerBenchmarkFactory} that uses a {@link KieModule} wrapped by a {@link KieContainer}.
-     *
-     * @param kieContainer never null
-     * @param benchmarkConfigResource never null, a classpath resource in the {@link KieContainer}
-     *        as defined by {@link ClassLoader#getResource(String)}
-     * @return never null
-     */
-    public static PlannerBenchmarkFactory createFromKieContainerXmlResource(KieContainer kieContainer,
-            String benchmarkConfigResource) {
-        PlannerBenchmarkConfig benchmarkConfig = PlannerBenchmarkConfig.createFromXmlResource(benchmarkConfigResource,
-                kieContainer.getClassLoader());
-        return new DefaultPlannerBenchmarkFactory(benchmarkConfig, new SolverConfigContext(kieContainer));
     }
 
     // ************************************************************************

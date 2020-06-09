@@ -22,7 +22,6 @@ import org.optaplanner.benchmark.impl.result.ProblemBenchmarkResult;
 import org.optaplanner.benchmark.impl.result.SubSingleBenchmarkResult;
 import org.optaplanner.benchmark.impl.statistic.SubSingleStatistic;
 import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.core.config.SolverConfigContext;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.impl.domain.solution.descriptor.SolutionDescriptor;
 import org.optaplanner.core.impl.solver.DefaultSolver;
@@ -39,7 +38,6 @@ public class SubSingleBenchmarkRunner<Solution_> implements Callable<SubSingleBe
     protected final transient Logger logger = LoggerFactory.getLogger(getClass());
 
     private final SubSingleBenchmarkResult subSingleBenchmarkResult;
-    private final SolverConfigContext solverConfigContext;
     private final boolean warmUp;
 
     private Throwable failureThrowable = null;
@@ -48,18 +46,8 @@ public class SubSingleBenchmarkRunner<Solution_> implements Callable<SubSingleBe
      * @param subSingleBenchmarkResult never null
      */
     public SubSingleBenchmarkRunner(SubSingleBenchmarkResult subSingleBenchmarkResult, boolean warmUp) {
-        this(subSingleBenchmarkResult, warmUp, new SolverConfigContext());
-    }
-
-    /**
-     * @param subSingleBenchmarkResult never null
-     * @param solverConfigContext never null
-     */
-    public SubSingleBenchmarkRunner(SubSingleBenchmarkResult subSingleBenchmarkResult, boolean warmUp,
-            SolverConfigContext solverConfigContext) {
         this.subSingleBenchmarkResult = subSingleBenchmarkResult;
         this.warmUp = warmUp;
-        this.solverConfigContext = solverConfigContext;
     }
 
     public SubSingleBenchmarkResult getSubSingleBenchmarkResult() {
@@ -99,8 +87,7 @@ public class SubSingleBenchmarkRunner<Solution_> implements Callable<SubSingleBe
             solverConfig.offerRandomSeedFromSubSingleIndex((long) subSingleBenchmarkResult.getSubSingleBenchmarkIndex());
         }
         // Defensive copy of solverConfig for every SingleBenchmarkResult to reset Random, tabu lists, ...
-        DefaultSolverFactory<Solution_> solverFactory = new DefaultSolverFactory<>(
-                new SolverConfig(solverConfig), solverConfigContext);
+        DefaultSolverFactory<Solution_> solverFactory = new DefaultSolverFactory<>(new SolverConfig(solverConfig));
         Solver<Solution_> solver = solverFactory.buildSolver();
         solver.addEventListener(event -> subSingleBenchmarkResult.setTimeMillisSpent(event.getTimeMillisSpent()));
 

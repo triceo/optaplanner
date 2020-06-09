@@ -29,9 +29,6 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.kie.api.KieServices;
-import org.kie.api.builder.ReleaseId;
-import org.kie.api.runtime.KieContainer;
 import org.optaplanner.benchmark.config.PlannerBenchmarkConfig;
 import org.optaplanner.benchmark.config.SolverBenchmarkConfig;
 import org.optaplanner.core.api.solver.DivertingClassLoader;
@@ -41,7 +38,6 @@ import org.optaplanner.core.impl.phase.custom.NoChangeCustomPhaseCommand;
 import org.optaplanner.core.impl.testdata.domain.TestdataEntity;
 import org.optaplanner.core.impl.testdata.domain.TestdataSolution;
 import org.optaplanner.core.impl.testdata.domain.TestdataValue;
-import org.optaplanner.core.impl.testdata.util.KieContainerHelper;
 import org.optaplanner.core.impl.testdata.util.PlannerTestUtils;
 
 public class PlannerBenchmarkFactoryTest {
@@ -255,45 +251,6 @@ public class PlannerBenchmarkFactoryTest {
         PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
         assertNotNull(plannerBenchmark);
         plannerBenchmark.benchmark();
-    }
-
-    // ************************************************************************
-    // Static creation methods: PlannerBenchmarkConfig
-    // ************************************************************************
-
-    // ************************************************************************
-    // Static creation methods: KieContainer
-    // ************************************************************************
-
-    @Test
-    public void createFromReleaseId() throws IOException {
-        ReleaseId releaseId = deployTestingKjar();
-        PlannerBenchmarkFactory plannerBenchmarkFactory = PlannerBenchmarkFactory.createFromKieContainerXmlResource(
-                releaseId, "testdata/kjar/benchmarkConfig.solver");
-        PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
-        assertNotNull(plannerBenchmark);
-        plannerBenchmark.benchmark();
-    }
-
-    @Test
-    public void createFromKieContainer() throws IOException {
-        ReleaseId releaseId = deployTestingKjar();
-        KieContainer kieContainer = KieServices.Factory.get().newKieContainer(releaseId);
-        PlannerBenchmarkFactory plannerBenchmarkFactory = PlannerBenchmarkFactory.createFromKieContainerXmlResource(
-                kieContainer, "testdata/kjar/benchmarkConfig.solver");
-        PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
-        assertNotNull(plannerBenchmark);
-        plannerBenchmark.benchmark();
-    }
-
-    private ReleaseId deployTestingKjar() throws IOException {
-        KieContainerHelper kieContainerHelper = new KieContainerHelper();
-
-        ReleaseId releaseId = kieContainerHelper.deployTestdataBenchmarkKjar(
-                "buildSolverWithReleaseId",
-                "org/optaplanner/benchmark/api/kieContainerNamedKsessionKmodule.xml",
-                "org/optaplanner/benchmark/api/testdataKieContainerBenchmarkConfig.xml");
-        return releaseId;
     }
 
 }

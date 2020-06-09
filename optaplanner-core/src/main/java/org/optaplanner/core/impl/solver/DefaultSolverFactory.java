@@ -19,7 +19,6 @@ package org.optaplanner.core.impl.solver;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
-import org.optaplanner.core.config.SolverConfigContext;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
 
@@ -30,32 +29,22 @@ import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
 public final class DefaultSolverFactory<Solution_> extends SolverFactory<Solution_> {
 
     private final SolverConfig solverConfig;
-    private final SolverConfigContext solverConfigContext;
 
     public DefaultSolverFactory(SolverConfig solverConfig) {
-        this(solverConfig, new SolverConfigContext());
-    }
-
-    public DefaultSolverFactory(SolverConfig solverConfig, SolverConfigContext solverConfigContext) {
         if (solverConfig == null) {
             throw new IllegalStateException("The solverConfig (" + solverConfig + ") cannot be null.");
         }
         this.solverConfig = solverConfig;
-        this.solverConfigContext = solverConfigContext;
     }
 
     @Override
     public Solver<Solution_> buildSolver() {
-        return solverConfig.buildSolver(solverConfigContext);
+        return solverConfig.buildSolver();
     }
 
     @Override
     public ScoreDirectorFactory<Solution_> getScoreDirectorFactory() {
-        return solverConfig.buildScoreDirectorFactory(solverConfigContext, solverConfig.determineEnvironmentMode());
-    }
-
-    public SolverConfigContext getSolverConfigContext() {
-        return solverConfigContext;
+        return solverConfig.buildScoreDirectorFactory(solverConfig.determineEnvironmentMode());
     }
 
 }

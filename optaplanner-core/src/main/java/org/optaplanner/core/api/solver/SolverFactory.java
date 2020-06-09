@@ -19,14 +19,10 @@ package org.optaplanner.core.api.solver;
 import java.io.File;
 import java.util.Objects;
 
-import org.kie.api.KieServices;
-import org.kie.api.builder.ReleaseId;
-import org.kie.api.runtime.KieContainer;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
-import org.optaplanner.core.config.SolverConfigContext;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
 import org.optaplanner.core.impl.solver.DefaultSolverFactory;
@@ -128,73 +124,6 @@ public abstract class SolverFactory<Solution_> {
         // Defensive copy of solverConfig, because the DefaultSolverFactory doesn't internalize it yet
         solverConfig = new SolverConfig(solverConfig);
         return new DefaultSolverFactory<>(solverConfig);
-    }
-
-    // ************************************************************************
-    // Static creation methods: KieContainer
-    // ************************************************************************
-
-    // TODO Deprecate KieContainer methods in favor of Quarkus, Kogito and Spring Boot
-
-    /**
-     * Uses {@link KieServices#getKieClasspathContainer()}.
-     *
-     * @param solverConfigResource never null, a classpath resource in the {@link KieContainer}
-     *        as defined by {@link ClassLoader#getResource(String)}
-     * @return never null
-     * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
-     */
-    public static <Solution_> SolverFactory<Solution_> createFromKieContainerXmlResource(
-            String solverConfigResource) {
-        KieContainer kieContainer = KieServices.Factory.get().getKieClasspathContainer();
-        return createFromKieContainerXmlResource(kieContainer, solverConfigResource);
-    }
-
-    /**
-     * @param releaseId never null
-     * @param solverConfigResource never null, a classpath resource in the {@link KieContainer}
-     *        as defined by {@link ClassLoader#getResource(String)}
-     * @return never null
-     * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
-     */
-    public static <Solution_> SolverFactory<Solution_> createFromKieContainerXmlResource(
-            ReleaseId releaseId, String solverConfigResource) {
-        KieContainer kieContainer = KieServices.Factory.get().newKieContainer(releaseId);
-        return createFromKieContainerXmlResource(kieContainer, solverConfigResource);
-    }
-
-    /**
-     * @param kieContainer never null
-     * @param solverConfigResource never null, a classpath resource in the {@link KieContainer}
-     *        as defined by {@link ClassLoader#getResource(String)}
-     * @return never null
-     * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
-     */
-    public static <Solution_> SolverFactory<Solution_> createFromKieContainerXmlResource(
-            KieContainer kieContainer, String solverConfigResource) {
-        SolverConfig solverConfig = SolverConfig.createFromXmlResource(solverConfigResource,
-                kieContainer.getClassLoader());
-        return new DefaultSolverFactory<>(solverConfig, new SolverConfigContext(kieContainer));
-    }
-
-    /**
-     * @param releaseId never null
-     * @return never null
-     * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
-     */
-    public static <Solution_> SolverFactory<Solution_> createEmptyFromKieContainer(ReleaseId releaseId) {
-        KieContainer kieContainer = KieServices.Factory.get().newKieContainer(releaseId);
-        return createEmptyFromKieContainer(kieContainer);
-    }
-
-    /**
-     * @param kieContainer never null
-     * @return never null
-     * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
-     */
-    public static <Solution_> SolverFactory<Solution_> createEmptyFromKieContainer(KieContainer kieContainer) {
-        SolverConfig solverConfig = new SolverConfig(kieContainer.getClassLoader());
-        return new DefaultSolverFactory<>(solverConfig, new SolverConfigContext(kieContainer));
     }
 
     // ************************************************************************
