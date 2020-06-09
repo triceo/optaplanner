@@ -616,8 +616,7 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
                     entityClassList + "). If you're using the Quarkus extension or Spring Boot starter, " +
                     "it should have been filled in already.");
         }
-        return SolutionDescriptor.buildSolutionDescriptor((Class<Solution_>) solutionClass, entityClassList,
-                null);
+        return SolutionDescriptor.buildSolutionDescriptor((Class<Solution_>) solutionClass, entityClassList);
     }
 
     protected <Solution_> List<Phase<Solution_>> buildPhaseList(HeuristicConfigPolicy configPolicy,

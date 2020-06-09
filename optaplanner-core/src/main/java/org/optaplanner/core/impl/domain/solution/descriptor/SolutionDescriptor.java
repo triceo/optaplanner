@@ -106,14 +106,14 @@ public class SolutionDescriptor<Solution_> {
 
     public static <Solution_> SolutionDescriptor<Solution_> buildSolutionDescriptor(Class<Solution_> solutionClass,
             Class<?>... entityClasses) {
-        return buildSolutionDescriptor(solutionClass, Arrays.asList(entityClasses), null);
+        return buildSolutionDescriptor(solutionClass, Arrays.asList(entityClasses));
     }
 
     public static <Solution_> SolutionDescriptor<Solution_> buildSolutionDescriptor(Class<Solution_> solutionClass,
-            List<Class<?>> entityClassList, ScoreDefinition deprecatedScoreDefinition) {
+            List<Class<?>> entityClassList) {
         DescriptorPolicy descriptorPolicy = new DescriptorPolicy();
         SolutionDescriptor<Solution_> solutionDescriptor = new SolutionDescriptor<>(solutionClass);
-        solutionDescriptor.processAnnotations(descriptorPolicy, deprecatedScoreDefinition, entityClassList);
+        solutionDescriptor.processAnnotations(descriptorPolicy, entityClassList);
         for (Class<?> entityClass : sortEntityClassList(entityClassList)) {
             EntityDescriptor<Solution_> entityDescriptor = new EntityDescriptor<>(solutionDescriptor, entityClass);
             solutionDescriptor.addEntityDescriptor(entityDescriptor);
@@ -199,8 +199,7 @@ public class SolutionDescriptor<Solution_> {
         lowestEntityDescriptorMemoization.put(entityClass, entityDescriptor);
     }
 
-    public void processAnnotations(DescriptorPolicy descriptorPolicy, ScoreDefinition deprecatedScoreDefinition,
-            List<Class<?>> entityClassList) {
+    public void processAnnotations(DescriptorPolicy descriptorPolicy, List<Class<?>> entityClassList) {
         processSolutionAnnotations(descriptorPolicy);
         ArrayList<Method> potentiallyOverwritingMethodList = new ArrayList<>();
         // Iterate inherited members too (unlike for EntityDescriptor where each one is declared)
@@ -215,7 +214,7 @@ public class SolutionDescriptor<Solution_> {
                     continue;
                 }
                 processValueRangeProviderAnnotation(descriptorPolicy, member);
-                processFactEntityOrScoreAnnotation(descriptorPolicy, member, deprecatedScoreDefinition, entityClassList);
+                processFactEntityOrScoreAnnotation(descriptorPolicy, member, entityClassList);
             }
             potentiallyOverwritingMethodList.ensureCapacity(potentiallyOverwritingMethodList.size() + memberList.size());
             memberList.stream().filter(member -> member instanceof Method)
@@ -284,7 +283,7 @@ public class SolutionDescriptor<Solution_> {
     }
 
     private void processFactEntityOrScoreAnnotation(DescriptorPolicy descriptorPolicy, Member member,
-            ScoreDefinition deprecatedScoreDefinition, List<Class<?>> entityClassList) {
+            List<Class<?>> entityClassList) {
         Class<? extends Annotation> annotationClass = extractFactEntityOrScoreAnnotationClassOrAutoDiscover(
                 member, entityClassList);
         if (annotationClass == null) {
@@ -298,7 +297,7 @@ public class SolutionDescriptor<Solution_> {
                 || annotationClass.equals(PlanningEntityCollectionProperty.class)) {
             processPlanningEntityPropertyAnnotation(descriptorPolicy, member, annotationClass);
         } else if (annotationClass.equals(PlanningScore.class)) {
-            processScoreAnnotation(descriptorPolicy, member, annotationClass, deprecatedScoreDefinition);
+            processScoreAnnotation(descriptorPolicy, member, annotationClass);
         }
     }
 
@@ -477,17 +476,9 @@ public class SolutionDescriptor<Solution_> {
     }
 
     private void processScoreAnnotation(DescriptorPolicy descriptorPolicy, Member member,
-            Class<? extends Annotation> annotationClass, ScoreDefinition deprecatedScoreDefinition) {
+            Class<? extends Annotation> annotationClass) {
         MemberAccessor memberAccessor = MemberAccessorFactory.buildMemberAccessor(
                 member, FIELD_OR_GETTER_METHOD_WITH_SETTER, PlanningScore.class);
-        if (deprecatedScoreDefinition != null) {
-            throw new IllegalStateException("The solutionClass (" + solutionClass
-                    + ") has a " + PlanningScore.class.getSimpleName()
-                    + " annotated member (" + memberAccessor
-                    + ") but the solver configuration still has a deprecated scoreDefinitionType"
-                    + " or scoreDefinitionClass element.\n"
-                    + "Maybe remove the <scoreDefinitionType>, <bendableHardLevelsSize>, <bendableSoftLevelsSize> and <scoreDefinitionClass> elements from the solver configuration.");
-        }
         if (!Score.class.isAssignableFrom(memberAccessor.getType())) {
             throw new IllegalStateException("The solutionClass (" + solutionClass
                     + ") has a " + PlanningScore.class.getSimpleName()
