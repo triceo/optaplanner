@@ -138,11 +138,10 @@
           </instructions>
         </configuration>
       </plugin>
-      <!-- TODO Re-enable once the 8.x API is stabilized. -->
-      <!--<plugin>
+      <plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
-      </plugin>-->
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
