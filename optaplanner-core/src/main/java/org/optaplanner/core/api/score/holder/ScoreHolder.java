@@ -19,12 +19,9 @@ package org.optaplanner.core.api.score.holder;
 import org.kie.api.runtime.rule.RuleContext;
 import org.optaplanner.core.api.domain.constraintweight.ConstraintWeight;
 import org.optaplanner.core.api.score.Score;
-import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaplanner.core.impl.score.director.drools.DroolsScoreDirector;
 
 /**
- * This class is injected as a global by {@link DroolsScoreDirector} into the Drools DRL.
- * Other {@link ScoreDirector} implementations do not use this class.
+ * This is the base interface for all score holder implementations.
  *
  * @param <Score_> the {@link Score} type
  */
