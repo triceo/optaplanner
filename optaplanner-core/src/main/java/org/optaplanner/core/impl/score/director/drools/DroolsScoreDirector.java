@@ -82,10 +82,6 @@ public class DroolsScoreDirector<Solution_>
         }
     }
 
-    // TODO remove in 8.0
-    // The scoreHolder method is not actually deprecated for removal.
-    // It will only be moved to a different type at a time when we can make that change in public API.
-    @SuppressWarnings("deprecation")
     private void resetScoreHolder() {
         scoreHolder = (AbstractScoreHolder) getScoreDefinition().buildScoreHolder(constraintMatchEnabledPreference);
         scoreDirectorFactory.getRuleToConstraintWeightExtractorMap().forEach(
@@ -101,10 +97,6 @@ public class DroolsScoreDirector<Solution_>
         return getSolutionDescriptor().getAllFacts(workingSolution);
     }
 
-    // TODO remove in 8.0
-    // The scoreHolder method is not actually deprecated for removal.
-    // It will only be moved to a different type at a time when we can make that change in public API.
-    @SuppressWarnings("deprecation")
     @Override
     public Score calculateScore() {
         variableListenerSupport.assertNotificationQueuesAreEmpty();
@@ -114,19 +106,11 @@ public class DroolsScoreDirector<Solution_>
         return score;
     }
 
-    // TODO remove in 8.0
-    // The scoreHolder method is not actually deprecated for removal.
-    // It will only be moved to a different type at a time when we can make that change in public API.
-    @SuppressWarnings("deprecation")
     @Override
     public boolean isConstraintMatchEnabled() {
         return scoreHolder.isConstraintMatchEnabled();
     }
 
-    // TODO remove in 8.0
-    // The scoreHolder method is not actually deprecated for removal.
-    // It will only be moved to a different type at a time when we can make that change in public API.
-    @SuppressWarnings("deprecation")
     @Override
     public Collection<ConstraintMatchTotal> getConstraintMatchTotals() {
         if (workingSolution == null) {
@@ -138,10 +122,6 @@ public class DroolsScoreDirector<Solution_>
         return scoreHolder.getConstraintMatchTotals();
     }
 
-    // TODO remove in 8.0
-    // The scoreHolder method is not actually deprecated for removal.
-    // It will only be moved to a different type at a time when we can make that change in public API.
-    @SuppressWarnings("deprecation")
     @Override
     public Map<String, ConstraintMatchTotal> getConstraintMatchTotalMap() {
         if (workingSolution == null) {
@@ -153,10 +133,6 @@ public class DroolsScoreDirector<Solution_>
         return scoreHolder.getConstraintMatchTotalMap();
     }
 
-    // TODO remove in 8.0
-    // The scoreHolder method is not actually deprecated for removal.
-    // It will only be moved to a different type at a time when we can make that change in public API.
-    @SuppressWarnings("deprecation")
     @Override
     public Map<Object, Indictment> getIndictmentMap() {
         if (workingSolution == null) {
