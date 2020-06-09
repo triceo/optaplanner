@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,12 +55,6 @@ public class DefaultPlannerBenchmarkFactory extends PlannerBenchmarkFactory {
     @SafeVarargs
     public final <Solution_> PlannerBenchmark buildPlannerBenchmark(Solution_... problems) {
         return plannerBenchmarkConfig.buildPlannerBenchmark(solverConfigContext, problems);
-    }
-
-    @Override
-    @Deprecated
-    public PlannerBenchmarkConfig getPlannerBenchmarkConfig() {
-        return plannerBenchmarkConfig;
     }
 
     public SolverConfigContext getSolverConfigContext() {

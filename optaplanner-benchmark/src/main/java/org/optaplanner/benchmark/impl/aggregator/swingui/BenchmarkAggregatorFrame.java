@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,16 +127,6 @@ public class BenchmarkAggregatorFrame extends JFrame {
         BenchmarkAggregatorFrame benchmarkAggregatorFrame = new BenchmarkAggregatorFrame(benchmarkAggregator);
         benchmarkAggregatorFrame.init();
         benchmarkAggregatorFrame.setVisible(true);
-    }
-
-    /**
-     * @param benchmarkFactory never null
-     * @deprecated in favor of {@link #createAndDisplayFromXmlResource(String)}
-     *             or {@link #createAndDisplay(PlannerBenchmarkConfig)}.
-     */
-    @Deprecated
-    public static void createAndDisplay(PlannerBenchmarkFactory benchmarkFactory) {
-        createAndDisplay(benchmarkFactory.getPlannerBenchmarkConfig());
     }
 
     protected final transient Logger logger = LoggerFactory.getLogger(getClass());

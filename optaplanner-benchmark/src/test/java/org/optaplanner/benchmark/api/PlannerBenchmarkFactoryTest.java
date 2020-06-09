@@ -1,11 +1,11 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,6 @@ import org.kie.api.runtime.KieContainer;
 import org.optaplanner.benchmark.config.PlannerBenchmarkConfig;
 import org.optaplanner.benchmark.config.SolverBenchmarkConfig;
 import org.optaplanner.core.api.solver.DivertingClassLoader;
-import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.phase.custom.CustomPhaseConfig;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.impl.phase.custom.NoChangeCustomPhaseCommand;
@@ -114,21 +113,6 @@ public class PlannerBenchmarkFactoryTest {
         solution.setEntityList(Arrays.asList(new TestdataEntity("e1"), new TestdataEntity("e2"), new TestdataEntity("e3")));
         solution.setValueList(Arrays.asList(new TestdataValue("v1"), new TestdataValue("v2")));
         assertThatIllegalArgumentException().isThrownBy(() -> benchmarkFactory.buildPlannerBenchmark(solution, null));
-    }
-
-    @Test
-    @Deprecated
-    public void createFromSolverFactory() {
-        SolverConfig solverConfig = PlannerTestUtils.buildSolverConfig(
-                TestdataSolution.class, TestdataEntity.class);
-        SolverFactory<TestdataSolution> solverFactory = SolverFactory.create(solverConfig);
-        PlannerBenchmarkFactory benchmarkFactory = PlannerBenchmarkFactory.createFromSolverFactory(
-                solverFactory);
-        TestdataSolution solution = new TestdataSolution("s1");
-        solution.setEntityList(Arrays.asList(new TestdataEntity("e1"), new TestdataEntity("e2"), new TestdataEntity("e3")));
-        solution.setValueList(Arrays.asList(new TestdataValue("v1"), new TestdataValue("v2")));
-        PlannerBenchmark benchmark = benchmarkFactory.buildPlannerBenchmark(solution);
-        benchmark.benchmark();
     }
 
     // ************************************************************************

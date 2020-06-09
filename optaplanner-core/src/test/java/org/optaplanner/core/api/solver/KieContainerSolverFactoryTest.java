@@ -19,15 +19,12 @@ package org.optaplanner.core.api.solver;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import org.drools.compiler.CommonTestMethodBase;
 import org.junit.jupiter.api.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
-import org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig;
-import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.impl.score.director.drools.DroolsScoreDirectorFactory;
 import org.optaplanner.core.impl.solver.DefaultSolver;
 import org.optaplanner.core.impl.testdata.domain.TestdataSolution;
@@ -78,33 +75,13 @@ public class KieContainerSolverFactoryTest extends CommonTestMethodBase {
     }
 
     @Test
-    public void buildSolverWithEmptyKmodule()
-            throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public void buildSolverWithEmptyKmodule() throws IOException {
         ReleaseId releaseId = kieContainerHelper.deployTestdataSolverKjar(
                 "buildSolverWithEmptyKmodule",
                 "org/optaplanner/core/api/solver/kieContainerEmptyKmodule.xml",
                 "org/optaplanner/core/api/solver/kieContainerDefaultKsessionTestdataSolverConfig.xml");
         SolverFactory<?> solverFactory = SolverFactory.createFromKieContainerXmlResource(
                 releaseId, "testdata/kjar/solverConfig.solver");
-        Solver<?> solver = solverFactory.buildSolver();
-        assertNotNull(solver);
-        assertNewKieSessionSucceeds(solver);
-    }
-
-    @Test
-    public void buildSolverEmptyWithKieContainer() throws IOException, ReflectiveOperationException {
-        ReleaseId releaseId = kieContainerHelper.deployTestdataSolverKjar(
-                "buildSolverWithReleaseId",
-                "org/optaplanner/core/api/solver/kieContainerNamedKsessionKmodule.xml", null);
-        KieContainer kieContainer = KieServices.Factory.get().newKieContainer(releaseId);
-        SolverFactory<?> solverFactory = SolverFactory.createEmptyFromKieContainer(kieContainer);
-        SolverConfig solverConfig = solverFactory.getSolverConfig();
-        solverConfig.setSolutionClass(
-                kieContainer.getClassLoader().loadClass("testdata.kjar.ClassloadedTestdataSolution"));
-        solverConfig.setEntityClassList(Collections.singletonList(
-                kieContainer.getClassLoader().loadClass("testdata.kjar.ClassloadedTestdataEntity")));
-        ScoreDirectorFactoryConfig scoreDirectorFactoryConfig = new ScoreDirectorFactoryConfig();
-        solverConfig.setScoreDirectorFactoryConfig(scoreDirectorFactoryConfig);
         Solver<?> solver = solverFactory.buildSolver();
         assertNotNull(solver);
         assertNewKieSessionSucceeds(solver);

@@ -17,9 +17,7 @@
 package org.optaplanner.core.api.solver;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +31,6 @@ import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig;
 import org.optaplanner.core.config.solver.SolverConfig;
-import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
 import org.optaplanner.core.impl.testdata.domain.TestdataEntity;
@@ -146,24 +143,6 @@ public class SolverFactoryTest {
             Score score = scoreDirector.calculateScore();
             assertNotNull(score);
         }
-    }
-
-    @Test
-    @Deprecated
-    public void cloneSolverFactory() {
-        SolverFactory<TestdataSolution> solverFactoryTemplate = SolverFactory.createFromXmlResource(
-                "org/optaplanner/core/api/solver/testdataSolverConfig.xml");
-        solverFactoryTemplate.getSolverConfig().setTerminationConfig(new TerminationConfig());
-        SolverFactory<TestdataSolution> solverFactory1 = solverFactoryTemplate.cloneSolverFactory();
-        SolverFactory<TestdataSolution> solverFactory2 = solverFactoryTemplate.cloneSolverFactory();
-        assertNotSame(solverFactory1, solverFactory2);
-        solverFactory1.getSolverConfig().getTerminationConfig().setMinutesSpentLimit(1L);
-        solverFactory2.getSolverConfig().getTerminationConfig().setMinutesSpentLimit(2L);
-        assertEquals((Long) 1L, solverFactory1.getSolverConfig().getTerminationConfig().getMinutesSpentLimit());
-        assertEquals((Long) 2L, solverFactory2.getSolverConfig().getTerminationConfig().getMinutesSpentLimit());
-        Solver<TestdataSolution> solver1 = solverFactory1.buildSolver();
-        Solver<TestdataSolution> solver2 = solverFactory2.buildSolver();
-        assertNotSame(solver1, solver2);
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,19 +52,6 @@ public final class DefaultSolverFactory<Solution_> extends SolverFactory<Solutio
     @Override
     public ScoreDirectorFactory<Solution_> getScoreDirectorFactory() {
         return solverConfig.buildScoreDirectorFactory(solverConfigContext, solverConfig.determineEnvironmentMode());
-    }
-
-    @Override
-    @Deprecated
-    public SolverConfig getSolverConfig() {
-        return solverConfig;
-    }
-
-    @Override
-    @Deprecated
-    public SolverFactory<Solution_> cloneSolverFactory() {
-        SolverConfig solverConfigClone = new SolverConfig(solverConfig);
-        return new DefaultSolverFactory<>(solverConfigClone, solverConfigContext);
     }
 
     public SolverConfigContext getSolverConfigContext() {
