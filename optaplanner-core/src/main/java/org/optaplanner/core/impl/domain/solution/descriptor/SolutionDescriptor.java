@@ -52,7 +52,6 @@ import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.solution.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.solution.ProblemFactProperty;
-import org.optaplanner.core.api.domain.solution.Solution;
 import org.optaplanner.core.api.domain.solution.cloner.SolutionCloner;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.AbstractBendableScore;
@@ -73,7 +72,6 @@ import org.optaplanner.core.impl.domain.common.ConcurrentMemoization;
 import org.optaplanner.core.impl.domain.common.ReflectionHelper;
 import org.optaplanner.core.impl.domain.common.accessor.MemberAccessor;
 import org.optaplanner.core.impl.domain.common.accessor.MemberAccessorFactory;
-import org.optaplanner.core.impl.domain.common.accessor.ReflectionBeanPropertyMemberAccessor;
 import org.optaplanner.core.impl.domain.common.accessor.ReflectionFieldMemberAccessor;
 import org.optaplanner.core.impl.domain.constraintweight.descriptor.ConstraintConfigurationDescriptor;
 import org.optaplanner.core.impl.domain.entity.descriptor.EntityDescriptor;
@@ -231,12 +229,6 @@ public class SolutionDescriptor<Solution_> {
                     + PlanningEntityCollectionProperty.class.getSimpleName() + " annotation or a "
                     + PlanningEntityProperty.class.getSimpleName() + " annotation.");
         }
-        if (Solution.class.isAssignableFrom(solutionClass)) {
-            processLegacySolution(descriptorPolicy, deprecatedScoreDefinition);
-            return;
-        }
-        // Do not check if problemFactCollectionMemberAccessorMap and problemFactMemberAccessorMap are empty
-        // because they are only required for Drools score calculation.
         if (scoreMemberAccessor == null) {
             throw new IllegalStateException("The solutionClass (" + solutionClass
                     + ") must have 1 member with a " + PlanningScore.class.getSimpleName() + " annotation.\n"
@@ -245,61 +237,6 @@ public class SolutionDescriptor<Solution_> {
         if (constraintConfigurationMemberAccessor != null) {
             // The scoreDefinition is definitely initialized at this point.
             constraintConfigurationDescriptor.processAnnotations(descriptorPolicy, scoreDefinition);
-        }
-    }
-
-    private void processLegacySolution(DescriptorPolicy descriptorPolicy, ScoreDefinition deprecatedScoreDefinition) {
-        if (!problemFactMemberAccessorMap.isEmpty()) {
-            MemberAccessor memberAccessor = problemFactMemberAccessorMap.values().iterator().next();
-            throw new IllegalStateException("The solutionClass (" + solutionClass
-                    + ") which implements the legacy interface " + Solution.class.getSimpleName()
-                    + ") must not have a member (" + memberAccessor.getName()
-                    + ") with a " + ProblemFactProperty.class.getSimpleName() + " annotation.\n"
-                    + "Maybe remove the use of the legacy interface.");
-        }
-        if (!problemFactCollectionMemberAccessorMap.isEmpty()) {
-            MemberAccessor memberAccessor = problemFactCollectionMemberAccessorMap.values().iterator().next();
-            throw new IllegalStateException("The solutionClass (" + solutionClass
-                    + ") which implements the legacy interface " + Solution.class.getSimpleName()
-                    + ") must not have a member (" + memberAccessor.getName()
-                    + ") with a " + ProblemFactCollectionProperty.class.getSimpleName() + " annotation.\n"
-                    + "Maybe remove the use of the legacy interface.");
-        }
-        try {
-            Method getProblemFactsMethod = solutionClass.getMethod("getProblemFacts");
-            MemberAccessor problemFactsMemberAccessor = new ReflectionBeanPropertyMemberAccessor(getProblemFactsMethod);
-            problemFactCollectionMemberAccessorMap.put(
-                    problemFactsMemberAccessor.getName(), problemFactsMemberAccessor);
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("Impossible situation: the solutionClass (" + solutionClass
-                    + ") which implements the legacy interface " + Solution.class.getSimpleName()
-                    + ", lacks its getProblemFacts() method.", e);
-        }
-        if (scoreMemberAccessor != null) {
-            throw new IllegalStateException("The solutionClass (" + solutionClass
-                    + ") which implements the legacy interface " + Solution.class.getSimpleName()
-                    + ") must not have a member (" + scoreMemberAccessor.getName()
-                    + ") with a " + PlanningScore.class.getSimpleName() + " annotation.\n"
-                    + "Maybe remove the use of the legacy interface.");
-        }
-        try {
-            Method getScoreMethod = solutionClass.getMethod("getScore");
-            scoreMemberAccessor = new ReflectionBeanPropertyMemberAccessor(getScoreMethod);
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("Impossible situation: the solutionClass (" + solutionClass
-                    + ") which implements the legacy interface " + Solution.class.getSimpleName()
-                    + ", lacks its getScore() method.", e);
-        }
-        if (deprecatedScoreDefinition == null) {
-            deprecatedScoreDefinition = new SimpleScoreDefinition();
-        }
-        scoreDefinition = deprecatedScoreDefinition;
-        Class<? extends Score> scoreClass = extractScoreClass();
-        if (!scoreClass.isAssignableFrom(scoreDefinition.getScoreClass())) {
-            throw new IllegalArgumentException("The scoreClass (" + scoreClass
-                    + ") of solutionClass (" + solutionClass
-                    + ") is not the same or a superclass as the scoreDefinition's scoreClass ("
-                    + scoreDefinition.getScoreClass() + ").");
         }
     }
 
@@ -357,10 +294,7 @@ public class SolutionDescriptor<Solution_> {
         } else if (annotationClass.equals(ConstraintConfigurationProvider.class)) {
             processConstraintConfigurationProviderAnnotation(descriptorPolicy, member, annotationClass);
         } else if (annotationClass.equals(ProblemFactProperty.class)
-                || annotationClass.equals(org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty.class)
-                || annotationClass.equals(ProblemFactCollectionProperty.class)
-                || annotationClass
-                        .equals(org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty.class)) {
+                || annotationClass.equals(ProblemFactCollectionProperty.class)) {
             processProblemFactPropertyAnnotation(descriptorPolicy, member, annotationClass);
         } else if (annotationClass.equals(PlanningEntityProperty.class)
                 || annotationClass.equals(PlanningEntityCollectionProperty.class)) {
@@ -375,9 +309,7 @@ public class SolutionDescriptor<Solution_> {
         Class<? extends Annotation> annotationClass = ConfigUtils.extractAnnotationClass(member,
                 ConstraintConfigurationProvider.class,
                 ProblemFactProperty.class,
-                org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty.class,
                 ProblemFactCollectionProperty.class,
-                org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty.class,
                 PlanningEntityProperty.class, PlanningEntityCollectionProperty.class,
                 PlanningScore.class);
         if (annotationClass == null) {
@@ -475,11 +407,9 @@ public class SolutionDescriptor<Solution_> {
         MemberAccessor memberAccessor = MemberAccessorFactory.buildMemberAccessor(
                 member, FIELD_OR_READ_METHOD, annotationClass);
         assertNoFieldAndGetterDuplicationOrConflict(memberAccessor, annotationClass);
-        if (annotationClass == ProblemFactProperty.class ||
-                annotationClass == org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty.class) {
+        if (annotationClass == ProblemFactProperty.class) {
             problemFactMemberAccessorMap.put(memberAccessor.getName(), memberAccessor);
-        } else if (annotationClass == ProblemFactCollectionProperty.class ||
-                annotationClass == org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty.class) {
+        } else if (annotationClass == ProblemFactCollectionProperty.class) {
             Class<?> type = memberAccessor.getType();
             if (!(Collection.class.isAssignableFrom(type) || type.isArray())) {
                 throw new IllegalStateException("The solutionClass (" + solutionClass

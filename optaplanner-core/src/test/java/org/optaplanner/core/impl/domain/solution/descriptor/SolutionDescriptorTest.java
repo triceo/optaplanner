@@ -31,12 +31,10 @@ import org.optaplanner.core.impl.testdata.domain.TestdataObject;
 import org.optaplanner.core.impl.testdata.domain.TestdataValue;
 import org.optaplanner.core.impl.testdata.domain.collection.TestdataArrayBasedSolution;
 import org.optaplanner.core.impl.testdata.domain.collection.TestdataSetBasedSolution;
-import org.optaplanner.core.impl.testdata.domain.deprecated.TestdataAnnotatedWithDeprecatedAnnotationsSolution;
 import org.optaplanner.core.impl.testdata.domain.extended.TestdataAnnotatedExtendedSolution;
 import org.optaplanner.core.impl.testdata.domain.extended.TestdataUnannotatedExtendedEntity;
 import org.optaplanner.core.impl.testdata.domain.extended.abstractsolution.TestdataExtendedAbstractSolution;
 import org.optaplanner.core.impl.testdata.domain.extended.abstractsolution.TestdataScoreGetterOverrideExtendedAbstractSolution;
-import org.optaplanner.core.impl.testdata.domain.extended.legacysolution.TestdataLegacySolution;
 import org.optaplanner.core.impl.testdata.domain.reflect.generic.TestdataGenericEntity;
 import org.optaplanner.core.impl.testdata.domain.reflect.generic.TestdataGenericSolution;
 import org.optaplanner.core.impl.testdata.domain.solutionproperties.TestdataNoProblemFactPropertySolution;
@@ -133,18 +131,6 @@ public class SolutionDescriptorTest {
         SolutionDescriptor<TestdataAnnotatedExtendedSolution> solutionDescriptor = TestdataAnnotatedExtendedSolution
                 .buildExtendedSolutionDescriptor();
         assertMapContainsKeysExactly(solutionDescriptor.getProblemFactMemberAccessorMap());
-        assertMapContainsKeysExactly(solutionDescriptor.getProblemFactCollectionMemberAccessorMap(),
-                "valueList", "subValueList");
-        assertMapContainsKeysExactly(solutionDescriptor.getEntityMemberAccessorMap());
-        assertMapContainsKeysExactly(solutionDescriptor.getEntityCollectionMemberAccessorMap(),
-                "entityList", "subEntityList");
-    }
-
-    @Test
-    public void deprecated() {
-        SolutionDescriptor<TestdataAnnotatedWithDeprecatedAnnotationsSolution> solutionDescriptor =
-                TestdataAnnotatedWithDeprecatedAnnotationsSolution.buildExtendedSolutionDescriptor();
-        assertMapContainsKeysExactly(solutionDescriptor.getProblemFactMemberAccessorMap(), "value");
         assertMapContainsKeysExactly(solutionDescriptor.getProblemFactCollectionMemberAccessorMap(),
                 "valueList", "subValueList");
         assertMapContainsKeysExactly(solutionDescriptor.getEntityMemberAccessorMap());
@@ -386,22 +372,6 @@ public class SolutionDescriptorTest {
                 "s1", singleProblemFact, listAsSingleProblemFact, entityList, otherEntity);
 
         assertAllCodesOfCollection(solutionDescriptor.getAllFacts(solution), "otherE1", "f1", "p1", "e1", "e2");
-    }
-
-    // ************************************************************************
-    // Legacy
-    // ************************************************************************
-
-    @Test
-    @Deprecated
-    public void legacySolution() {
-        SolutionDescriptor<TestdataLegacySolution> solutionDescriptor = TestdataLegacySolution.buildSolutionDescriptor();
-        assertMapContainsKeysExactly(solutionDescriptor.getProblemFactMemberAccessorMap());
-        assertMapContainsKeysExactly(solutionDescriptor.getProblemFactCollectionMemberAccessorMap(),
-                "problemFacts");
-        assertMapContainsKeysExactly(solutionDescriptor.getEntityMemberAccessorMap());
-        assertMapContainsKeysExactly(solutionDescriptor.getEntityCollectionMemberAccessorMap(),
-                "entityList");
     }
 
 }
