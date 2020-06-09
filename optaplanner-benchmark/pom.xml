@@ -138,7 +138,7 @@
           </instructions>
         </configuration>
       </plugin>
-      <!-- Temporarily disabled; comparing API at this stage of 8.x development needlessly slows down progress. -->
+      <!-- TODO Re-enable once the 8.x API is stabilized. -->
       <!--<plugin>
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>

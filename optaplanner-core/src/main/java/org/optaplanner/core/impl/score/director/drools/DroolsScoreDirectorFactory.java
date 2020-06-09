@@ -166,7 +166,7 @@ public class DroolsScoreDirectorFactory<Solution_> extends AbstractScoreDirector
 
     public KieSession newKieSession() {
         if (kieBase == null) {
-            return kieContainer.newKieSession((String) null);
+            return kieContainer.newKieSession();
         } else {
             return kieBase.newKieSession();
         }
