@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,8 +47,6 @@ import org.optaplanner.core.impl.testdata.domain.TestdataSolution;
 import org.optaplanner.core.impl.testdata.domain.TestdataValue;
 import org.optaplanner.core.impl.testdata.domain.pinned.TestdataPinnedEntity;
 import org.optaplanner.core.impl.testdata.domain.pinned.TestdataPinnedSolution;
-import org.optaplanner.core.impl.testdata.domain.reinitialize.TestdataReinitializeEntity;
-import org.optaplanner.core.impl.testdata.domain.reinitialize.TestdataReinitializeSolution;
 import org.optaplanner.core.impl.testdata.util.PlannerTestUtils;
 
 public class DefaultExhaustiveSearchPhaseTest {
@@ -200,41 +198,6 @@ public class DefaultExhaustiveSearchPhaseTest {
         solution = PlannerTestUtils.solve(solverConfig, solution);
         assertNotNull(solution);
         assertEquals(0, solution.getEntityList().size());
-    }
-
-    @Test
-    public void solveWithReinitializeVariable() {
-        SolverConfig solverConfig = PlannerTestUtils.buildSolverConfig(
-                TestdataReinitializeSolution.class, TestdataReinitializeEntity.class);
-        solverConfig.setPhaseConfigList(Collections.singletonList(
-                new ExhaustiveSearchPhaseConfig()));
-
-        TestdataReinitializeSolution solution = new TestdataReinitializeSolution("s1");
-        TestdataValue v1 = new TestdataValue("v1");
-        TestdataValue v2 = new TestdataValue("v2");
-        TestdataValue v3 = new TestdataValue("v3");
-        solution.setValueList(Arrays.asList(v1, v2, v3));
-        solution.setEntityList(Arrays.asList(
-                new TestdataReinitializeEntity("e1", null, false),
-                new TestdataReinitializeEntity("e2", v2, false),
-                new TestdataReinitializeEntity("e3", v2, true),
-                new TestdataReinitializeEntity("e4", null, true)));
-
-        solution = PlannerTestUtils.solve(solverConfig, solution);
-        assertNotNull(solution);
-        TestdataReinitializeEntity solvedE1 = solution.getEntityList().get(0);
-        assertCode("e1", solvedE1);
-        assertNotNull(solvedE1.getValue());
-        TestdataReinitializeEntity solvedE2 = solution.getEntityList().get(1);
-        assertCode("e2", solvedE2);
-        assertNotNull(solvedE2.getValue());
-        TestdataReinitializeEntity solvedE3 = solution.getEntityList().get(2);
-        assertCode("e3", solvedE3);
-        assertEquals(v2, solvedE3.getValue());
-        TestdataReinitializeEntity solvedE4 = solution.getEntityList().get(3);
-        assertCode("e4", solvedE4);
-        assertEquals(null, solvedE4.getValue());
-        assertEquals(-1, solution.getScore().getInitScore());
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,19 +65,6 @@ public class KieContainerSolverFactoryTest extends CommonTestMethodBase {
     }
 
     @Test
-    public void buildScanAnnotatedClassesSolver() throws IOException {
-        ReleaseId releaseId = kieContainerHelper.deployTestdataSolverKjar(
-                "buildScanAnnotatedClassesSolver",
-                "org/optaplanner/core/api/solver/kieContainerNamedKsessionKmodule.xml",
-                "org/optaplanner/core/api/solver/scanAnnotatedKieContainerTestdataSolverConfig.xml");
-        SolverFactory<TestdataSolution> solverFactory = SolverFactory.createFromKieContainerXmlResource(
-                releaseId, "testdata/kjar/solverConfig.solver");
-        Solver<TestdataSolution> solver = solverFactory.buildSolver();
-        assertNotNull(solver);
-        assertNewKieSessionSucceeds(solver);
-    }
-
-    @Test
     public void buildSolverWithDefaultKsessionKmodule() throws IOException {
         ReleaseId releaseId = kieContainerHelper.deployTestdataSolverKjar(
                 "buildSolverWithDefaultKsessionKmodule",
@@ -117,7 +104,6 @@ public class KieContainerSolverFactoryTest extends CommonTestMethodBase {
         solverConfig.setEntityClassList(Collections.singletonList(
                 kieContainer.getClassLoader().loadClass("testdata.kjar.ClassloadedTestdataEntity")));
         ScoreDirectorFactoryConfig scoreDirectorFactoryConfig = new ScoreDirectorFactoryConfig();
-        scoreDirectorFactoryConfig.setKsessionName("testdataKsession");
         solverConfig.setScoreDirectorFactoryConfig(scoreDirectorFactoryConfig);
         Solver<?> solver = solverFactory.buildSolver();
         assertNotNull(solver);
