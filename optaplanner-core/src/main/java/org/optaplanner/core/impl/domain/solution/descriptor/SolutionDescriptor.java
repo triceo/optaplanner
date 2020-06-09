@@ -25,7 +25,6 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +76,6 @@ import org.optaplanner.core.impl.domain.constraintweight.descriptor.ConstraintCo
 import org.optaplanner.core.impl.domain.entity.descriptor.EntityDescriptor;
 import org.optaplanner.core.impl.domain.lookup.LookUpStrategyResolver;
 import org.optaplanner.core.impl.domain.policy.DescriptorPolicy;
-import org.optaplanner.core.impl.domain.solution.AbstractSolution;
 import org.optaplanner.core.impl.domain.solution.cloner.FieldAccessingSolutionCloner;
 import org.optaplanner.core.impl.domain.variable.descriptor.GenuineVariableDescriptor;
 import org.optaplanner.core.impl.domain.variable.descriptor.ShadowVariableDescriptor;
@@ -542,51 +540,12 @@ public class SolutionDescriptor<Solution_> {
             return ConfigUtils.newInstance(this, "scoreDefinitionClass", scoreDefinitionClass);
         }
         if (scoreType == Score.class) {
-            if (!AbstractSolution.class.isAssignableFrom(solutionClass)) {
-                throw new IllegalStateException("The solutionClass (" + solutionClass
-                        + ") has a " + PlanningScore.class.getSimpleName()
-                        + " annotated member (" + scoreMemberAccessor
-                        + ") that doesn't return a non-abstract " + Score.class.getSimpleName() + " class.\n"
-                        + "Maybe make it return " + HardSoftScore.class.getSimpleName()
-                        + " or another specific " + Score.class.getSimpleName() + " implementation.");
-            } else {
-                // Magic to support AbstractSolution
-                if (solutionClass == AbstractSolution.class) {
-                    throw new IllegalArgumentException(
-                            "The solutionClass (" + solutionClass + ") cannot be directly a "
-                                    + AbstractSolution.class.getSimpleName() + ", but a subclass would be ok.");
-                }
-                Class<?> baseClass = solutionClass;
-                while (baseClass.getSuperclass() != AbstractSolution.class) {
-                    baseClass = baseClass.getSuperclass();
-                    if (baseClass == null) {
-                        throw new IllegalStateException(
-                                "Impossible situation because the solutionClass (" + solutionClass
-                                        + ") is assignable from " + AbstractSolution.class.getSimpleName() + ".");
-                    }
-                }
-                Type genericAbstractSolution = solutionClass.getGenericSuperclass();
-                if (!(genericAbstractSolution instanceof ParameterizedType)) {
-                    throw new IllegalStateException(
-                            "Impossible situation because the genericAbstractSolution (" + genericAbstractSolution
-                                    + ") is a " + AbstractSolution.class.getSimpleName() + ".");
-                }
-                ParameterizedType parameterizedAbstractSolution = (ParameterizedType) genericAbstractSolution;
-                Type[] typeArguments = parameterizedAbstractSolution.getActualTypeArguments();
-                if (typeArguments.length != 1) {
-                    throw new IllegalStateException(
-                            "Impossible situation because the parameterizedAbstractSolution ("
-                                    + parameterizedAbstractSolution
-                                    + ") is a " + AbstractSolution.class.getSimpleName() + ".");
-                }
-                Type typeArgument = typeArguments[0];
-                if (!(typeArgument instanceof Class)) {
-                    throw new IllegalStateException(
-                            "Impossible situation because a (" + AbstractSolution.class.getSimpleName()
-                                    + "'s typeArgument (" + typeArgument + ") must be a " + Score.class.getSimpleName() + ".");
-                }
-                scoreType = (Class<? extends Score>) typeArgument;
-            }
+            throw new IllegalStateException("The solutionClass (" + solutionClass
+                    + ") has a " + PlanningScore.class.getSimpleName()
+                    + " annotated member (" + scoreMemberAccessor
+                    + ") that doesn't return a non-abstract " + Score.class.getSimpleName() + " class.\n"
+                    + "Maybe make it return " + HardSoftScore.class.getSimpleName()
+                    + " or another specific " + Score.class.getSimpleName() + " implementation.");
         }
         if (!AbstractBendableScore.class.isAssignableFrom(scoreType)) {
             if (annotation.bendableHardLevelsSize() != PlanningScore.NO_LEVEL_SIZE
