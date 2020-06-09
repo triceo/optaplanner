@@ -68,14 +68,6 @@ public class HardSoftLongScoreTest extends AbstractScoreTest {
     }
 
     @Test
-    public void toInitializedScore() {
-        assertEquals(HardSoftLongScore.of(-147L, -258L),
-                HardSoftLongScore.of(-147L, -258L).toInitializedScore());
-        assertEquals(HardSoftLongScore.of(-147L, -258L),
-                HardSoftLongScore.ofUninitialized(-7, -147L, -258L).toInitializedScore());
-    }
-
-    @Test
     public void withInitScore() {
         assertEquals(HardSoftLongScore.ofUninitialized(-7, -147L, -258L),
                 HardSoftLongScore.of(-147L, -258L).withInitScore(-7));

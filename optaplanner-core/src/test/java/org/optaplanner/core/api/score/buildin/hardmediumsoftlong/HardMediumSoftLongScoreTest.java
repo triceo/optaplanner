@@ -82,14 +82,6 @@ public class HardMediumSoftLongScoreTest extends AbstractScoreTest {
     }
 
     @Test
-    public void toInitializedScore() {
-        assertEquals(HardMediumSoftLongScore.of(-147L, -258L, -369L),
-                HardMediumSoftLongScore.of(-147L, -258L, -369L).toInitializedScore());
-        assertEquals(HardMediumSoftLongScore.of(-147L, -258L, -369L),
-                HardMediumSoftLongScore.ofUninitialized(-7, -147L, -258L, -369L).toInitializedScore());
-    }
-
-    @Test
     public void withInitScore() {
         assertEquals(HardMediumSoftLongScore.ofUninitialized(-7, -147L, -258L, -369L),
                 HardMediumSoftLongScore.of(-147L, -258L, -369L).withInitScore(-7));

@@ -28,11 +28,9 @@ import org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore
 import org.optaplanner.core.api.score.buildin.hardmediumsoftlong.HardMediumSoftLongScore;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.buildin.hardsoftbigdecimal.HardSoftBigDecimalScore;
-import org.optaplanner.core.api.score.buildin.hardsoftdouble.HardSoftDoubleScore;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
 import org.optaplanner.core.api.score.buildin.simplebigdecimal.SimpleBigDecimalScore;
-import org.optaplanner.core.api.score.buildin.simpledouble.SimpleDoubleScore;
 import org.optaplanner.core.api.score.buildin.simplelong.SimpleLongScore;
 
 public class ScoreUtilsTest {
@@ -41,13 +39,10 @@ public class ScoreUtilsTest {
     public void parseScore() {
         assertEquals(SimpleScore.of(-1000), ScoreUtils.parseScore(SimpleScore.class, "-1000"));
         assertEquals(SimpleLongScore.of(-1000L), ScoreUtils.parseScore(SimpleLongScore.class, "-1000"));
-        assertEquals(SimpleDoubleScore.of(-1000.0), ScoreUtils.parseScore(SimpleDoubleScore.class, "-1000.0"));
         assertEquals(SimpleBigDecimalScore.of(new BigDecimal("-1000")),
                 ScoreUtils.parseScore(SimpleBigDecimalScore.class, "-1000"));
         assertEquals(HardSoftScore.of(-1000, -200), ScoreUtils.parseScore(HardSoftScore.class, "-1000hard/-200soft"));
         assertEquals(HardSoftLongScore.of(-1000L, -200L), ScoreUtils.parseScore(HardSoftLongScore.class, "-1000hard/-200soft"));
-        assertEquals(HardSoftDoubleScore.of(-1000.0, -200.0),
-                ScoreUtils.parseScore(HardSoftDoubleScore.class, "-1000hard/-200soft"));
         assertEquals(HardSoftBigDecimalScore.of(new BigDecimal("-1000"), new BigDecimal("-200")),
                 ScoreUtils.parseScore(HardSoftBigDecimalScore.class, "-1000hard/-200soft"));
         assertEquals(HardMediumSoftScore.of(-1000, -200, -30),

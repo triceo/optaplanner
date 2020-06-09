@@ -195,19 +195,6 @@ public abstract class AbstractScore<S extends Score> implements Score<S>, Serial
         return initScore >= 0;
     }
 
-    /**
-     * @deprecated We do not use it anymore.
-     */
-    @Deprecated(/* forRemoval = true */)
-    protected void assertNoInitScore() {
-        if (initScore != 0) {
-            throw new IllegalStateException("The score (" + this + ")'s initScore (" + initScore
-                    + ") should be 0.\n"
-                    + "Maybe the score calculator is calculating the initScore too,"
-                    + " although it's the score director's responsibility.");
-        }
-    }
-
     protected String getInitPrefix() {
         if (initScore == 0) {
             return "";

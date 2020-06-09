@@ -65,14 +65,6 @@ public class HardSoftScoreTest extends AbstractScoreTest {
     }
 
     @Test
-    public void toInitializedScore() {
-        assertEquals(HardSoftScore.of(-147, -258),
-                HardSoftScore.of(-147, -258).toInitializedScore());
-        assertEquals(HardSoftScore.of(-147, -258),
-                HardSoftScore.ofUninitialized(-7, -147, -258).toInitializedScore());
-    }
-
-    @Test
     public void withInitScore() {
         assertEquals(HardSoftScore.ofUninitialized(-7, -147, -258),
                 HardSoftScore.of(-147, -258).withInitScore(-7));

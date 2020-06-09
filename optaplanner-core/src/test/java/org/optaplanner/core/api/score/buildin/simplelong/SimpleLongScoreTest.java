@@ -57,14 +57,6 @@ public class SimpleLongScoreTest extends AbstractScoreTest {
     }
 
     @Test
-    public void toInitializedScore() {
-        assertEquals(SimpleLongScore.of(-147L),
-                SimpleLongScore.of(-147L).toInitializedScore());
-        assertEquals(SimpleLongScore.of(-147L),
-                SimpleLongScore.ofUninitialized(-7, -147L).toInitializedScore());
-    }
-
-    @Test
     public void withInitScore() {
         assertEquals(SimpleLongScore.ofUninitialized(-7, -147L),
                 SimpleLongScore.of(-147L).withInitScore(-7));

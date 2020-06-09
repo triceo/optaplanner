@@ -64,11 +64,9 @@ import org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore
 import org.optaplanner.core.api.score.buildin.hardmediumsoftlong.HardMediumSoftLongScore;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.buildin.hardsoftbigdecimal.HardSoftBigDecimalScore;
-import org.optaplanner.core.api.score.buildin.hardsoftdouble.HardSoftDoubleScore;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
 import org.optaplanner.core.api.score.buildin.simplebigdecimal.SimpleBigDecimalScore;
-import org.optaplanner.core.api.score.buildin.simpledouble.SimpleDoubleScore;
 import org.optaplanner.core.api.score.buildin.simplelong.SimpleLongScore;
 import org.optaplanner.core.config.util.ConfigUtils;
 import org.optaplanner.core.impl.domain.common.ConcurrentMemoization;
@@ -93,11 +91,9 @@ import org.optaplanner.core.impl.score.buildin.hardmediumsoft.HardMediumSoftScor
 import org.optaplanner.core.impl.score.buildin.hardmediumsoftlong.HardMediumSoftLongScoreDefinition;
 import org.optaplanner.core.impl.score.buildin.hardsoft.HardSoftScoreDefinition;
 import org.optaplanner.core.impl.score.buildin.hardsoftbigdecimal.HardSoftBigDecimalScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.hardsoftdouble.HardSoftDoubleScoreDefinition;
 import org.optaplanner.core.impl.score.buildin.hardsoftlong.HardSoftLongScoreDefinition;
 import org.optaplanner.core.impl.score.buildin.simple.SimpleScoreDefinition;
 import org.optaplanner.core.impl.score.buildin.simplebigdecimal.SimpleBigDecimalScoreDefinition;
-import org.optaplanner.core.impl.score.buildin.simpledouble.SimpleDoubleScoreDefinition;
 import org.optaplanner.core.impl.score.buildin.simplelong.SimpleLongScoreDefinition;
 import org.optaplanner.core.impl.score.definition.AbstractBendableScoreDefinition;
 import org.optaplanner.core.impl.score.definition.ScoreDefinition;
@@ -676,16 +672,12 @@ public class SolutionDescriptor<Solution_> {
                 return new SimpleScoreDefinition();
             } else if (scoreType.equals(SimpleLongScore.class)) {
                 return new SimpleLongScoreDefinition();
-            } else if (scoreType.equals(SimpleDoubleScore.class)) {
-                return new SimpleDoubleScoreDefinition();
             } else if (scoreType.equals(SimpleBigDecimalScore.class)) {
                 return new SimpleBigDecimalScoreDefinition();
             } else if (scoreType.equals(HardSoftScore.class)) {
                 return new HardSoftScoreDefinition();
             } else if (scoreType.equals(HardSoftLongScore.class)) {
                 return new HardSoftLongScoreDefinition();
-            } else if (scoreType.equals(HardSoftDoubleScore.class)) {
-                return new HardSoftDoubleScoreDefinition();
             } else if (scoreType.equals(HardSoftBigDecimalScore.class)) {
                 return new HardSoftBigDecimalScoreDefinition();
             } else if (scoreType.equals(HardMediumSoftScore.class)) {
