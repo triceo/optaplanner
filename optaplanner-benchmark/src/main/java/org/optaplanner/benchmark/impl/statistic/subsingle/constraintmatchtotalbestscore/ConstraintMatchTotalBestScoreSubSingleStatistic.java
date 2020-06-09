@@ -47,7 +47,6 @@ import org.optaplanner.core.impl.phase.scope.AbstractStepScope;
 import org.optaplanner.core.impl.score.ScoreUtils;
 import org.optaplanner.core.impl.score.definition.ScoreDefinition;
 import org.optaplanner.core.impl.score.director.InnerScoreDirector;
-import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
 import org.optaplanner.core.impl.solver.DefaultSolver;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -81,7 +80,7 @@ public class ConstraintMatchTotalBestScoreSubSingleStatistic<Solution_>
     // ************************************************************************
 
     @Override
-    public void open(Solver<Solution_> solver, ScoreDirectorFactory<Solution_> scoreDirectorFactory) {
+    public void open(Solver<Solution_> solver) {
         DefaultSolver<Solution_> defaultSolver = (DefaultSolver<Solution_>) solver;
         defaultSolver.getSolverScope().getScoreDirector().overwriteConstraintMatchEnabledPreference(true);
         defaultSolver.addPhaseLifecycleListener(listener);

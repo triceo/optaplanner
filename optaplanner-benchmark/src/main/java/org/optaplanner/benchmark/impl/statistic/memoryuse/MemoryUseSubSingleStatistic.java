@@ -25,7 +25,6 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.impl.phase.event.PhaseLifecycleListenerAdapter;
 import org.optaplanner.core.impl.phase.scope.AbstractStepScope;
 import org.optaplanner.core.impl.score.definition.ScoreDefinition;
-import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
 import org.optaplanner.core.impl.solver.DefaultSolver;
 
 public class MemoryUseSubSingleStatistic<Solution_>
@@ -54,7 +53,7 @@ public class MemoryUseSubSingleStatistic<Solution_>
     // ************************************************************************
 
     @Override
-    public void open(Solver<Solution_> solver, ScoreDirectorFactory<Solution_> scoreDirectorFactory) {
+    public void open(Solver<Solution_> solver) {
         ((DefaultSolver<Solution_>) solver).addPhaseLifecycleListener(listener);
     }
 

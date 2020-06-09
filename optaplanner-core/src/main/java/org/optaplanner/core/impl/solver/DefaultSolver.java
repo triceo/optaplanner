@@ -25,6 +25,7 @@ import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.impl.phase.Phase;
+import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
 import org.optaplanner.core.impl.solver.random.RandomFactory;
 import org.optaplanner.core.impl.solver.recaller.BestSolutionRecaller;
 import org.optaplanner.core.impl.solver.scope.DefaultSolverScope;
@@ -73,6 +74,10 @@ public class DefaultSolver<Solution_> extends AbstractSolver<Solution_> {
         return randomFactory;
     }
 
+    public InnerScoreDirectorFactory<Solution_> getScoreDirectorFactory() {
+        return solverScope.getScoreDirector().getScoreDirectorFactory();
+    }
+
     public BestSolutionRecaller<Solution_> getBestSolutionRecaller() {
         return bestSolutionRecaller;
     }
@@ -88,6 +93,20 @@ public class DefaultSolver<Solution_> extends AbstractSolver<Solution_> {
     // ************************************************************************
     // Complex getters
     // ************************************************************************
+
+    public long getTimeMillisSpent() {
+        Long startingSystemTimeMillis = solverScope.getStartingSystemTimeMillis();
+        if (startingSystemTimeMillis == null) {
+            // The solver hasn't started yet
+            return 0L;
+        }
+        Long endingSystemTimeMillis = solverScope.getEndingSystemTimeMillis();
+        if (endingSystemTimeMillis == null) {
+            // The solver hasn't ended yet
+            endingSystemTimeMillis = System.currentTimeMillis();
+        }
+        return endingSystemTimeMillis - startingSystemTimeMillis;
+    }
 
     @Override
     public boolean isSolving() {

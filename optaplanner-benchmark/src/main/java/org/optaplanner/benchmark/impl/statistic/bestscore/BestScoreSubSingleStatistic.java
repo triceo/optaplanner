@@ -25,7 +25,6 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.core.impl.score.definition.ScoreDefinition;
-import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
 
 public class BestScoreSubSingleStatistic<Solution_>
         extends ProblemBasedSubSingleStatistic<Solution_, BestScoreStatisticPoint> {
@@ -42,7 +41,7 @@ public class BestScoreSubSingleStatistic<Solution_>
     // ************************************************************************
 
     @Override
-    public void open(Solver<Solution_> solver, ScoreDirectorFactory<Solution_> scoreDirectorFactory) {
+    public void open(Solver<Solution_> solver) {
         solver.addEventListener(listener);
     }
 
