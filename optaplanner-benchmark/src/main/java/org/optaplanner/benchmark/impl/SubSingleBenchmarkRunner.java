@@ -67,7 +67,7 @@ public class SubSingleBenchmarkRunner<Solution_> implements Callable<SubSingleBe
     // ************************************************************************
 
     @Override
-    public SubSingleBenchmarkRunner<Solution_> call() throws InterruptedException {
+    public SubSingleBenchmarkRunner<Solution_> call() {
         MDC.put(NAME_MDC, subSingleBenchmarkResult.getName());
         Runtime runtime = Runtime.getRuntime();
         ProblemBenchmarkResult<Solution_> problemBenchmarkResult = subSingleBenchmarkResult.getSingleBenchmarkResult()

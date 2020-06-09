@@ -116,20 +116,6 @@ public abstract class AbstractScore<S extends Score> implements Score<S>, Serial
         }
     }
 
-    protected static double parseLevelAsDouble(Class<? extends Score> scoreClass,
-            String scoreString, String levelString) {
-        if (levelString.equals("*")) {
-            return Double.MIN_VALUE;
-        }
-        try {
-            return Double.parseDouble(levelString);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("The scoreString (" + scoreString
-                    + ") for the scoreClass (" + scoreClass.getSimpleName() + ") has a levelString (" + levelString
-                    + ") which is not a valid double.", e);
-        }
-    }
-
     protected static BigDecimal parseLevelAsBigDecimal(Class<? extends Score> scoreClass,
             String scoreString, String levelString) {
         if (levelString.equals("*")) {

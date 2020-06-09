@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,14 +65,6 @@ public abstract class AbstractMove<Solution_> implements Move<Solution_> {
             rebasedObjectList.add(destinationScoreDirector.lookUpWorkingObject(entity));
         }
         return rebasedObjectList;
-    }
-
-    protected static Object[] rebaseArray(Object[] externalObjects, ScoreDirector<?> destinationScoreDirector) {
-        Object[] rebasedObjects = new Object[externalObjects.length];
-        for (int i = 0; i < externalObjects.length; i++) {
-            rebasedObjects[i] = destinationScoreDirector.lookUpWorkingObject(externalObjects[i]);
-        }
-        return rebasedObjects;
     }
 
 }
