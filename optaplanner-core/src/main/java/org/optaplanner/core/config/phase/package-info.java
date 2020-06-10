@@ -14,22 +14,8 @@
  * limitations under the License.
  */
 
-package org.optaplanner.core.config.heuristic.selector.value;
+@XmlAccessorType(value = XmlAccessType.FIELD)
+package org.optaplanner.core.config.phase;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
-
-import org.optaplanner.core.api.domain.variable.PlanningVariable;
-
-/**
- * The manner of sorting a values for a {@link PlanningVariable}.
- */
-@XmlType(name = "ValueSorterMannerType")
-@XmlEnum
-public enum ValueSorterManner {
-    NONE,
-    INCREASING_STRENGTH,
-    INCREASING_STRENGTH_IF_AVAILABLE,
-    DECREASING_STRENGTH,
-    DECREASING_STRENGTH_IF_AVAILABLE;
-}
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;

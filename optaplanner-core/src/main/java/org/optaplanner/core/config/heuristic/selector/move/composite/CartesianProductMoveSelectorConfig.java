@@ -21,9 +21,14 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlType;
+
 import org.optaplanner.core.config.heuristic.selector.common.SelectionCacheType;
 import org.optaplanner.core.config.heuristic.selector.common.SelectionOrder;
 import org.optaplanner.core.config.heuristic.selector.move.MoveSelectorConfig;
+import org.optaplanner.core.config.heuristic.selector.move.generic.ChangeMoveSelectorConfig;
 import org.optaplanner.core.config.util.ConfigUtils;
 import org.optaplanner.core.impl.heuristic.HeuristicConfigPolicy;
 import org.optaplanner.core.impl.heuristic.selector.move.MoveSelector;
@@ -32,9 +37,15 @@ import org.optaplanner.core.impl.heuristic.selector.move.composite.CartesianProd
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
+@XmlType(name = "CartesianProductMoveSelectorType")
 @XStreamAlias("cartesianProductMoveSelector")
 public class CartesianProductMoveSelectorConfig extends MoveSelectorConfig<CartesianProductMoveSelectorConfig> {
 
+    @XmlElements({
+            @XmlElement(name = "unionMoveSelector", type = UnionMoveSelectorConfig.class),
+            @XmlElement(name = "cartesianProductMoveSelector", type = CartesianProductMoveSelectorConfig.class),
+            @XmlElement(name = "changeMoveSelector", type = ChangeMoveSelectorConfig.class),
+    })
     @XStreamImplicit()
     private List<MoveSelectorConfig> moveSelectorConfigList = null;
 

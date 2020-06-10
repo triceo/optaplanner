@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import org.optaplanner.core.config.heuristic.selector.SelectorConfig;
@@ -63,24 +67,30 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
+@XmlType(name = "ValueSelectorType")
 @XStreamAlias("valueSelector")
 public class ValueSelectorConfig extends SelectorConfig<ValueSelectorConfig> {
 
+    @XmlAttribute
     @XStreamAsAttribute
     protected String id = null;
+    @XmlAttribute
     @XStreamAsAttribute
     protected String mimicSelectorRef = null;
 
     protected Class<?> downcastEntityClass = null;
+    @XmlAttribute
     @XStreamAsAttribute // Works with a nested element input too, which is a BC req in 7.x, but undesired in 8.0
     protected String variableName = null;
 
     protected SelectionCacheType cacheType = null;
     protected SelectionOrder selectionOrder = null;
 
+    @XmlElement(name = "nearbySelection")
     @XStreamAlias("nearbySelection")
     protected NearbySelectionConfig nearbySelectionConfig = null;
 
+    @XmlElement(name = "filterClass") // TODO: keep the list or use just a single filter class?
     @XStreamImplicit(itemFieldName = "filterClass")
     protected List<Class<? extends SelectionFilter>> filterClassList = null;
 

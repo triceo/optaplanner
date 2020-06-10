@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.config.heuristic.selector.SelectorConfig;
@@ -53,6 +57,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
+@XmlType(name = "EntitySelectorType")
 @XStreamAlias("entitySelector")
 public class EntitySelectorConfig extends SelectorConfig<EntitySelectorConfig> {
 
@@ -62,8 +67,10 @@ public class EntitySelectorConfig extends SelectorConfig<EntitySelectorConfig> {
         return entitySelectorConfig;
     }
 
+    @XmlAttribute
     @XStreamAsAttribute
     protected String id = null;
+    @XmlAttribute
     @XStreamAsAttribute
     protected String mimicSelectorRef = null;
 
@@ -72,9 +79,11 @@ public class EntitySelectorConfig extends SelectorConfig<EntitySelectorConfig> {
     protected SelectionCacheType cacheType = null;
     protected SelectionOrder selectionOrder = null;
 
+    @XmlElement(name = "nearbySelection")
     @XStreamAlias("nearbySelection")
     protected NearbySelectionConfig nearbySelectionConfig = null;
 
+    @XmlElement(name = "filterClass") // TODO: keep the list or use just a single filter class?
     @XStreamImplicit(itemFieldName = "filterClass")
     protected List<Class<? extends SelectionFilter>> filterClassList = null;
 

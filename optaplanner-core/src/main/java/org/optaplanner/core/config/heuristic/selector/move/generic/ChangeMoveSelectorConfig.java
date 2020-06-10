@@ -21,6 +21,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.optaplanner.core.config.heuristic.selector.common.SelectionCacheType;
 import org.optaplanner.core.config.heuristic.selector.common.SelectionOrder;
 import org.optaplanner.core.config.heuristic.selector.entity.EntitySelectorConfig;
@@ -38,11 +41,15 @@ import org.optaplanner.core.impl.heuristic.selector.value.ValueSelector;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+@XmlType(name = "ChangeMoveSelectorType")
 @XStreamAlias("changeMoveSelector")
 public class ChangeMoveSelectorConfig extends MoveSelectorConfig<ChangeMoveSelectorConfig> {
 
+    @XmlElement(name = "entitySelector")
     @XStreamAlias("entitySelector")
     private EntitySelectorConfig entitySelectorConfig = null;
+
+    @XmlElement(name = "valueSelector")
     @XStreamAlias("valueSelector")
     private ValueSelectorConfig valueSelectorConfig = null;
 

@@ -16,6 +16,9 @@
 
 package org.optaplanner.core.config.phase;
 
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
+
 import org.optaplanner.core.config.AbstractConfig;
 import org.optaplanner.core.config.constructionheuristic.ConstructionHeuristicPhaseConfig;
 import org.optaplanner.core.config.exhaustivesearch.ExhaustiveSearchPhaseConfig;
@@ -33,6 +36,8 @@ import org.optaplanner.core.impl.solver.termination.Termination;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
 
+@XmlType(name = "phaseType")
+@XmlSeeAlso({ ConstructionHeuristicPhaseConfig.class })
 @XStreamInclude({
         CustomPhaseConfig.class,
         NoChangePhaseConfig.class,

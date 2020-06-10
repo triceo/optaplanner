@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,14 @@
 
 package org.optaplanner.core.config.constructionheuristic;
 
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlType;
+
 import org.optaplanner.core.config.heuristic.selector.entity.EntitySorterManner;
 import org.optaplanner.core.config.heuristic.selector.value.ValueSorterManner;
 
+@XmlType(name = "ConstructionHeuristicTypeType") // TODO: think about XML type naming - TypeType
+@XmlEnum
 public enum ConstructionHeuristicType {
     /**
      * A specific form of {@link #ALLOCATE_ENTITY_FROM_QUEUE}.

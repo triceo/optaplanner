@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,16 @@
 
 package org.optaplanner.core.config.heuristic.selector.entity;
 
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlType;
+
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 
 /**
  * The manner of sorting {@link PlanningEntity} instances.
  */
+@XmlType(name = "EntitySorterMannerType")
+@XmlEnum
 public enum EntitySorterManner {
     NONE,
     DECREASING_DIFFICULTY,
