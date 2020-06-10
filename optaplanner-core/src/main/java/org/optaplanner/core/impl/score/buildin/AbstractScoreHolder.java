@@ -155,7 +155,6 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
      *
      * @param kcontext never null
      */
-    @Override
     public void impactScore(RuleContext kcontext) {
         throw new UnsupportedOperationException("In the rule (" + kcontext.getRule().getName()
                 + "), the scoreHolder class (" + getClass()
