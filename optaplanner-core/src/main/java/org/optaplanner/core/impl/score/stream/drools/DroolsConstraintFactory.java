@@ -68,7 +68,7 @@ public final class DroolsConstraintFactory<Solution_> implements InnerConstraint
     public ConstraintSessionFactory<Solution_> buildSessionFactory(Constraint[] constraints) {
         ModelImpl model = new ModelImpl();
 
-        AbstractScoreHolder<?> scoreHolder = (AbstractScoreHolder<?>) solutionDescriptor.getScoreDefinition()
+        AbstractScoreHolder<?> scoreHolder = solutionDescriptor.getScoreDefinition()
                 .buildScoreHolder(false);
         Class<? extends AbstractScoreHolder<?>> scoreHolderClass = (Class<? extends AbstractScoreHolder<?>>) scoreHolder
                 .getClass();

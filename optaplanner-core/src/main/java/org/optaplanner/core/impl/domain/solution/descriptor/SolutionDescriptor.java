@@ -226,6 +226,8 @@ public class SolutionDescriptor<Solution_> {
                     + PlanningEntityCollectionProperty.class.getSimpleName() + " annotation or a "
                     + PlanningEntityProperty.class.getSimpleName() + " annotation.");
         }
+        // Do not check if problemFactCollectionMemberAccessorMap and problemFactMemberAccessorMap are empty
+        // because they are only required for scoreDRL and ConstraintStreams.
         if (scoreMemberAccessor == null) {
             throw new IllegalStateException("The solutionClass (" + solutionClass
                     + ") must have 1 member with a " + PlanningScore.class.getSimpleName() + " annotation.\n"

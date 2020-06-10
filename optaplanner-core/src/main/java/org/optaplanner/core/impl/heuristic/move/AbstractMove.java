@@ -67,4 +67,12 @@ public abstract class AbstractMove<Solution_> implements Move<Solution_> {
         return rebasedObjectList;
     }
 
+    protected static Object[] rebaseArray(Object[] externalObjects, ScoreDirector<?> destinationScoreDirector) {
+        Object[] rebasedObjects = new Object[externalObjects.length];
+        for (int i = 0; i < externalObjects.length; i++) {
+            rebasedObjects[i] = destinationScoreDirector.lookUpWorkingObject(externalObjects[i]);
+        }
+        return rebasedObjects;
+    }
+
 }

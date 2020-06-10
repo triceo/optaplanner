@@ -18,8 +18,8 @@ package org.optaplanner.core.impl.score.definition;
 
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.holder.ScoreHolder;
 import org.optaplanner.core.impl.score.ScoreUtils;
+import org.optaplanner.core.impl.score.buildin.AbstractScoreHolder;
 import org.optaplanner.core.impl.score.buildin.hardsoft.HardSoftScoreDefinition;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.score.director.drools.DroolsScoreDirector;
@@ -150,7 +150,7 @@ public interface ScoreDefinition<S extends Score<S>> {
      * @param constraintMatchEnabled true if {@link ScoreDirector#isConstraintMatchEnabled()} should be true
      * @return never null
      */
-    ScoreHolder<S> buildScoreHolder(boolean constraintMatchEnabled);
+    AbstractScoreHolder<S> buildScoreHolder(boolean constraintMatchEnabled);
 
     /**
      * Builds a {@link Score} which is equal or better than any other {@link Score} with more variables initialized
