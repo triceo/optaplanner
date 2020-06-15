@@ -29,6 +29,7 @@ import org.optaplanner.core.impl.domain.solution.descriptor.SolutionDescriptor;
 import org.optaplanner.core.impl.score.director.InnerScoreDirector;
 import org.optaplanner.core.impl.solver.event.SolverEventSupport;
 import org.optaplanner.core.impl.solver.scope.DefaultSolverScope;
+import org.optaplanner.core.impl.testdata.domain.TestdataSolution;
 
 public class BestSolutionRecallerTest {
 
@@ -86,20 +87,20 @@ public class BestSolutionRecallerTest {
 
     protected void doProcessWorkingSolutionDuringStep(Score originalBestScore, Score stepScore,
             boolean stepImprovesBestSolution) {
-        DefaultSolverScope<Object> solverScope = createSolverScope();
-        Object originalBestSolution = mock(Object.class);
+        DefaultSolverScope<TestdataSolution> solverScope = createSolverScope();
+        TestdataSolution originalBestSolution = mock(TestdataSolution.class);
         when(solverScope.getScoreDirector().getSolutionDescriptor().getScore(originalBestSolution))
                 .thenReturn(originalBestScore);
         solverScope.setBestSolution(originalBestSolution);
         solverScope.setBestScore(originalBestScore);
 
-        ConstructionHeuristicStepScope<Object> stepScope = setupConstrunctionHeuristics(solverScope);
-        Object stepSolution = mock(Object.class);
+        ConstructionHeuristicStepScope<TestdataSolution> stepScope = setupConstrunctionHeuristics(solverScope);
+        TestdataSolution stepSolution = mock(TestdataSolution.class);
         when(solverScope.getScoreDirector().getSolutionDescriptor().getScore(stepSolution)).thenReturn(stepScore);
         when(stepScope.getScore()).thenReturn(stepScore);
         when(stepScope.createOrGetClonedSolution()).thenReturn(stepSolution);
 
-        BestSolutionRecaller<Object> recaller = createBestSolutionRecaller();
+        BestSolutionRecaller<TestdataSolution> recaller = createBestSolutionRecaller();
         recaller.processWorkingSolutionDuringStep(stepScope);
         if (stepImprovesBestSolution) {
             assertEquals(stepSolution, solverScope.getBestSolution());
@@ -140,21 +141,21 @@ public class BestSolutionRecallerTest {
 
     protected void doProcessWorkingSolutionDuringMove(Score originalBestScore, Score moveScore,
             boolean moveImprovesBestSolution) {
-        DefaultSolverScope<Object> solverScope = createSolverScope();
-        Object originalBestSolution = mock(Object.class);
+        DefaultSolverScope<TestdataSolution> solverScope = createSolverScope();
+        TestdataSolution originalBestSolution = mock(TestdataSolution.class);
         when(solverScope.getScoreDirector().getSolutionDescriptor().getScore(originalBestSolution))
                 .thenReturn(originalBestScore);
         solverScope.setBestSolution(originalBestSolution);
         solverScope.setBestScore(originalBestScore);
 
-        ConstructionHeuristicStepScope<Object> stepScope = setupConstrunctionHeuristics(solverScope);
+        ConstructionHeuristicStepScope<TestdataSolution> stepScope = setupConstrunctionHeuristics(solverScope);
 
-        Object moveSolution = mock(Object.class);
+        TestdataSolution moveSolution = mock(TestdataSolution.class);
         when(solverScope.getScoreDirector().getSolutionDescriptor().getScore(moveSolution))
                 .thenReturn(moveScore);
         when(solverScope.getScoreDirector().cloneWorkingSolution()).thenReturn(moveSolution);
 
-        BestSolutionRecaller<Object> recaller = createBestSolutionRecaller();
+        BestSolutionRecaller<TestdataSolution> recaller = createBestSolutionRecaller();
         recaller.processWorkingSolutionDuringMove(moveScore, stepScope);
         if (moveImprovesBestSolution) {
             assertEquals(moveSolution, solverScope.getBestSolution());
