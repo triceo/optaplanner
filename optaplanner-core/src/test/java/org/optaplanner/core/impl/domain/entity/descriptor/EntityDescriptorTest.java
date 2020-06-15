@@ -25,28 +25,11 @@ import org.junit.jupiter.api.Test;
 import org.optaplanner.core.impl.domain.solution.descriptor.SolutionDescriptor;
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionFilter;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaplanner.core.impl.testdata.domain.pinned.TestdataLegacyPinnedEntity;
 import org.optaplanner.core.impl.testdata.domain.pinned.TestdataPinnedEntity;
 import org.optaplanner.core.impl.testdata.domain.pinned.extended.TestdataExtendedPinnedEntity;
 import org.optaplanner.core.impl.testdata.domain.pinned.extended.TestdataExtendedPinnedSolution;
-import org.optaplanner.core.impl.testdata.domain.pinned.extended.TestdataLegacyExtendedPinnedEntity;
-import org.optaplanner.core.impl.testdata.domain.pinned.extended.TestdataLegacyExtendedPinnedSolution;
 
 public class EntityDescriptorTest {
-
-    @Test
-    public void legacyMovableEntitySelectionFilter() {
-        ScoreDirector scoreDirector = mock(ScoreDirector.class);
-        EntityDescriptor entityDescriptor = TestdataLegacyPinnedEntity.buildEntityDescriptor();
-        assertEquals(true, entityDescriptor.hasEffectiveMovableEntitySelectionFilter());
-        SelectionFilter movableEntitySelectionFilter = entityDescriptor.getEffectiveMovableEntitySelectionFilter();
-        assertNotNull(movableEntitySelectionFilter);
-
-        assertEquals(true, movableEntitySelectionFilter.accept(scoreDirector,
-                new TestdataLegacyPinnedEntity("e1", null, false, false)));
-        assertEquals(false, movableEntitySelectionFilter.accept(scoreDirector,
-                new TestdataLegacyPinnedEntity("e2", null, true, false)));
-    }
 
     @Test
     public void movableEntitySelectionFilter() {
@@ -89,32 +72,6 @@ public class EntityDescriptorTest {
                 new TestdataExtendedPinnedEntity("e7", null, false, false, null, false, true)));
         assertEquals(false, parentMovableEntitySelectionFilter.accept(scoreDirector,
                 new TestdataExtendedPinnedEntity("e8", null, true, true, null, true, true)));
-    }
-
-    @Test
-    public void legacyExtendedMovableEntitySelectionFilterUsedByChildSelector() {
-        ScoreDirector scoreDirector = mock(ScoreDirector.class);
-        SolutionDescriptor solutionDescriptor = TestdataLegacyExtendedPinnedSolution.buildSolutionDescriptor();
-
-        EntityDescriptor childEntityDescriptor =
-                solutionDescriptor.findEntityDescriptor(TestdataLegacyExtendedPinnedEntity.class);
-        assertEquals(true, childEntityDescriptor.hasEffectiveMovableEntitySelectionFilter());
-        SelectionFilter childMovableEntitySelectionFilter = childEntityDescriptor.getEffectiveMovableEntitySelectionFilter();
-        assertNotNull(childMovableEntitySelectionFilter);
-
-        // No new TestdataLegacyPinnedEntity() because a child selector would never select a pure parent instance
-        assertEquals(true, childMovableEntitySelectionFilter.accept(scoreDirector,
-                new TestdataLegacyExtendedPinnedEntity("e3", null, false, false, null, false, false)));
-        assertEquals(false, childMovableEntitySelectionFilter.accept(scoreDirector,
-                new TestdataLegacyExtendedPinnedEntity("e4", null, true, false, null, false, false)));
-        assertEquals(false, childMovableEntitySelectionFilter.accept(scoreDirector,
-                new TestdataLegacyExtendedPinnedEntity("e5", null, false, true, null, false, false)));
-        assertEquals(false, childMovableEntitySelectionFilter.accept(scoreDirector,
-                new TestdataLegacyExtendedPinnedEntity("e6", null, false, false, null, true, false)));
-        assertEquals(false, childMovableEntitySelectionFilter.accept(scoreDirector,
-                new TestdataLegacyExtendedPinnedEntity("e7", null, false, false, null, false, true)));
-        assertEquals(false, childMovableEntitySelectionFilter.accept(scoreDirector,
-                new TestdataLegacyExtendedPinnedEntity("e8", null, true, true, null, true, true)));
     }
 
     @Test

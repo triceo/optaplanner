@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,14 +96,6 @@ public class BendableScoreTest extends AbstractScoreTest {
         assertEquals(-5, initializedScore.getHardOrSoftScore(0));
         assertEquals(-10, initializedScore.getHardOrSoftScore(1));
         assertEquals(-200, initializedScore.getHardOrSoftScore(2));
-    }
-
-    @Test
-    public void toInitializedScoreHSS() {
-        assertEquals(scoreDefinitionHSS.createScore(-147, -258, -369),
-                scoreDefinitionHSS.createScore(-147, -258, -369).toInitializedScore());
-        assertEquals(scoreDefinitionHSS.createScore(-147, -258, -369),
-                scoreDefinitionHSS.createScoreUninitialized(-7, -147, -258, -369).toInitializedScore());
     }
 
     @Test

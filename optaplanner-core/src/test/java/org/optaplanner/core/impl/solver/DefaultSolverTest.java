@@ -18,7 +18,6 @@ package org.optaplanner.core.impl.solver;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
@@ -59,7 +58,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(true, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
     }
 
     @Test
@@ -77,7 +75,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(true, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
     }
 
     @Test
@@ -96,7 +93,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(true, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
     }
 
     // TODO https://issues.redhat.com/browse/PLANNER-1738
@@ -114,7 +110,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(false, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
     }
 
     @Test
@@ -132,7 +127,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(false, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
     }
 
     @Test
@@ -150,7 +144,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(true, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
     }
 
     @Test
@@ -170,7 +163,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(false, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
     }
 
     @Test
@@ -191,7 +183,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(false, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
     }
 
     @Test
@@ -213,7 +204,6 @@ public class DefaultSolverTest {
         solution = solver.solve(solution);
         assertNotNull(solution);
         assertEquals(false, solution.getScore().isSolutionInitialized());
-        assertSame(solution, solver.getBestSolution());
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,14 +51,6 @@ public class SimpleScoreTest extends AbstractScoreTest {
     @Test
     public void parseScoreIllegalArgument() {
         assertThatIllegalArgumentException().isThrownBy(() -> SimpleScore.parseScore("-147hard/-258soft"));
-    }
-
-    @Test
-    public void toInitializedScore() {
-        assertEquals(SimpleScore.of(-147),
-                SimpleScore.of(-147).toInitializedScore());
-        assertEquals(SimpleScore.of(-147),
-                SimpleScore.ofUninitialized(-7, -147).toInitializedScore());
     }
 
     @Test

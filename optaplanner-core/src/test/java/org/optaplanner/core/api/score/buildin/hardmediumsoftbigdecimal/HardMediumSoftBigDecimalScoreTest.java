@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,19 +96,6 @@ public class HardMediumSoftBigDecimalScoreTest extends AbstractScoreTest {
                 .isThrownBy(() -> HardMediumSoftBigDecimalScore.parseScore("-147.2"));
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> HardMediumSoftBigDecimalScore.parseScore("-147.2hard/-258.3soft"));
-    }
-
-    @Test
-    public void toInitializedScore() {
-        assertEquals(
-                HardMediumSoftBigDecimalScore.of(new BigDecimal("-147.2"), new BigDecimal("-3.20"), new BigDecimal("-258.3")),
-                HardMediumSoftBigDecimalScore.of(new BigDecimal("-147.2"), new BigDecimal("-3.20"), new BigDecimal("-258.3"))
-                        .toInitializedScore());
-        assertEquals(
-                HardMediumSoftBigDecimalScore.of(new BigDecimal("-147.2"), new BigDecimal("-3.20"), new BigDecimal("-258.3")),
-                HardMediumSoftBigDecimalScore
-                        .ofUninitialized(-7, new BigDecimal("-147.2"), new BigDecimal("-3.20"), new BigDecimal("-258.3"))
-                        .toInitializedScore());
     }
 
     @Test

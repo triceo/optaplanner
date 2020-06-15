@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,15 +76,6 @@ public class HardSoftBigDecimalScoreTest extends AbstractScoreTest {
     @Test
     public void parseScoreIllegalArgument() {
         assertThatIllegalArgumentException().isThrownBy(() -> HardSoftBigDecimalScore.parseScore("-147.2"));
-    }
-
-    @Test
-    public void toInitializedScore() {
-        assertEquals(HardSoftBigDecimalScore.of(new BigDecimal("-147.2"), new BigDecimal("-258.3")),
-                HardSoftBigDecimalScore.of(new BigDecimal("-147.2"), new BigDecimal("-258.3")).toInitializedScore());
-        assertEquals(HardSoftBigDecimalScore.of(new BigDecimal("-147.2"), new BigDecimal("-258.3")),
-                HardSoftBigDecimalScore.ofUninitialized(-7, new BigDecimal("-147.2"), new BigDecimal("-258.3"))
-                        .toInitializedScore());
     }
 
     @Test

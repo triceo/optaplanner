@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,14 +79,6 @@ public class HardMediumSoftScoreTest extends AbstractScoreTest {
     @Test
     public void parseScoreIllegalArgument() {
         assertThatIllegalArgumentException().isThrownBy(() -> HardMediumSoftScore.parseScore("-147"));
-    }
-
-    @Test
-    public void toInitializedScore() {
-        assertEquals(HardMediumSoftScore.of(-147, -258, -369),
-                HardMediumSoftScore.of(-147, -258, -369).toInitializedScore());
-        assertEquals(HardMediumSoftScore.of(-147, -258, -369),
-                HardMediumSoftScore.ofUninitialized(-7, -147, -258, -369).toInitializedScore());
     }
 
     @Test
