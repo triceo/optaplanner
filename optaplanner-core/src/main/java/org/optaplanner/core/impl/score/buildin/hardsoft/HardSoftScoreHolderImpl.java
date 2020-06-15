@@ -26,7 +26,7 @@ import org.optaplanner.core.api.domain.constraintweight.ConstraintConfiguration;
 import org.optaplanner.core.api.domain.constraintweight.ConstraintWeight;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
-import org.optaplanner.core.impl.score.buildin.AbstractScoreHolder;
+import org.optaplanner.core.impl.score.holder.AbstractScoreHolder;
 
 /**
  * @see HardSoftScore

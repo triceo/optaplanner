@@ -26,7 +26,7 @@ import org.optaplanner.core.api.domain.constraintweight.ConstraintConfiguration;
 import org.optaplanner.core.api.domain.constraintweight.ConstraintWeight;
 import org.optaplanner.core.api.score.buildin.simplelong.SimpleLongScore;
 import org.optaplanner.core.api.score.buildin.simplelong.SimpleLongScoreHolder;
-import org.optaplanner.core.impl.score.buildin.AbstractScoreHolder;
+import org.optaplanner.core.impl.score.holder.AbstractScoreHolder;
 
 /**
  * @see SimpleLongScore

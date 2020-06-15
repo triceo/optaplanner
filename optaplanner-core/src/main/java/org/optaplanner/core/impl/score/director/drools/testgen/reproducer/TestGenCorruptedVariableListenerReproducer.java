@@ -18,13 +18,13 @@ package org.optaplanner.core.impl.score.director.drools.testgen.reproducer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.ConsequenceException;
 import org.optaplanner.core.api.score.Score;
-import org.optaplanner.core.impl.score.buildin.AbstractScoreHolder;
 import org.optaplanner.core.impl.score.director.AbstractScoreDirector;
 import org.optaplanner.core.impl.score.director.drools.DroolsScoreDirector;
 import org.optaplanner.core.impl.score.director.drools.testgen.TestGenDroolsScoreDirector;
 import org.optaplanner.core.impl.score.director.drools.testgen.TestGenKieSessionJournal;
 import org.optaplanner.core.impl.score.director.drools.testgen.TestGenKieSessionListener;
 import org.optaplanner.core.impl.score.director.drools.testgen.operation.TestGenKieSessionFireAllRules;
+import org.optaplanner.core.impl.score.holder.AbstractScoreHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

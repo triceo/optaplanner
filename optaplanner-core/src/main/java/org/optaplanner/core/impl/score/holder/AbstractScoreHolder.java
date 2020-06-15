@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaplanner.core.impl.score.buildin;
+package org.optaplanner.core.impl.score.holder;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

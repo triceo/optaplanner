@@ -19,7 +19,7 @@ package org.optaplanner.core.impl.score.director.drools;
 import org.drools.core.common.AgendaItem;
 import org.kie.api.runtime.rule.Match;
 import org.kie.internal.event.rule.RuleEventListener;
-import org.optaplanner.core.impl.score.buildin.AbstractScoreHolder;
+import org.optaplanner.core.impl.score.holder.AbstractScoreHolder;
 
 public final class OptaPlannerRuleEventListener implements RuleEventListener {
 
