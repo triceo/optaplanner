@@ -1,6 +1,6 @@
 
 /*
- * Copyright 2012 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,12 +100,29 @@ public class PlannerAssert extends Assert {
         }
     }
 
+    public static void assertObjectsAreEqual(Object... objects) {
+        for (int i = 0; i < objects.length; i++) {
+            for (int j = i + 1; j < objects.length; j++) {
+                assertEquals(objects[i], objects[j]);
+                assertEquals(objects[i].hashCode(), objects[j].hashCode());
+            }
+        }
+    }
+
     @SafeVarargs
     public static <C extends Comparable<C>> void assertObjectsAreNotEqual(C... objects) {
         for (int i = 0; i < objects.length; i++) {
             for (int j = i + 1; j < objects.length; j++) {
                 assertNotEquals(objects[i], objects[j]);
                 assertNotEquals(0, objects[i].compareTo(objects[j]));
+            }
+        }
+    }
+
+    public static void assertObjectsAreNotEqual(Object... objects) {
+        for (int i = 0; i < objects.length; i++) {
+            for (int j = i + 1; j < objects.length; j++) {
+                assertNotEquals(objects[i], objects[j]);
             }
         }
     }
