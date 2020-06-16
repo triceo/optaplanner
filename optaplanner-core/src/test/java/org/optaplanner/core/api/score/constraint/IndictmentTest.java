@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,17 +67,6 @@ public class IndictmentTest {
                 new Indictment("aa", SimpleScore.ZERO),
                 new Indictment("b", SimpleScore.ZERO),
                 new Indictment("c", SimpleScore.ZERO));
-    }
-
-    @Test
-    public void compareTo() {
-        PlannerAssert.assertCompareToOrder(
-                new Indictment("a", SimpleScore.ZERO),
-                new Indictment("aa", SimpleScore.ZERO),
-                new Indictment("ab", SimpleScore.ZERO),
-                new Indictment("b", SimpleScore.ZERO),
-                new Indictment("c", SimpleScore.ZERO),
-                new Indictment("d", SimpleScore.ZERO));
     }
 
 }

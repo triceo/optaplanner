@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,14 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.impl.phase.scope.AbstractPhaseScope;
-import org.optaplanner.core.impl.solver.scope.DefaultSolverScope;
+import org.optaplanner.core.impl.solver.scope.SolverScope;
 
 public class TimeMillisSpentTerminationTest {
 
     @Test
     public void solveTermination() {
         Termination termination = new TimeMillisSpentTermination(1000L);
-        DefaultSolverScope solverScope = mock(DefaultSolverScope.class);
+        SolverScope solverScope = mock(SolverScope.class);
 
         when(solverScope.calculateTimeMillisSpentUpToNow()).thenReturn(0L);
         assertEquals(false, termination.isSolverTerminated(solverScope));
