@@ -54,7 +54,7 @@ import org.optaplanner.core.impl.solver.io.XStreamConfigReader;
 import org.optaplanner.core.impl.solver.random.DefaultRandomFactory;
 import org.optaplanner.core.impl.solver.random.RandomFactory;
 import org.optaplanner.core.impl.solver.recaller.BestSolutionRecaller;
-import org.optaplanner.core.impl.solver.scope.DefaultSolverScope;
+import org.optaplanner.core.impl.solver.scope.SolverScope;
 import org.optaplanner.core.impl.solver.termination.BasicPlumbingTermination;
 import org.optaplanner.core.impl.solver.termination.Termination;
 import org.slf4j.Logger;
@@ -503,7 +503,7 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
         Integer moveThreadCount_ = resolveMoveThreadCount();
         InnerScoreDirectorFactory<Solution_> scoreDirectorFactory = buildScoreDirectorFactory(environmentMode_);
         boolean constraintMatchEnabledPreference = environmentMode_.isAsserted();
-        DefaultSolverScope<Solution_> solverScope = new DefaultSolverScope<>();
+        SolverScope<Solution_> solverScope = new SolverScope<>();
         solverScope.setScoreDirector(scoreDirectorFactory.buildScoreDirector(true, constraintMatchEnabledPreference));
 
         BestSolutionRecaller<Solution_> bestSolutionRecaller = new BestSolutionRecallerConfig()

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ import org.optaplanner.core.impl.partitionedsearch.scope.PartitionedSearchPhaseS
 import org.optaplanner.core.impl.phase.event.PhaseLifecycleListenerAdapter;
 import org.optaplanner.core.impl.phase.scope.AbstractPhaseScope;
 import org.optaplanner.core.impl.solver.DefaultSolver;
-import org.optaplanner.core.impl.solver.scope.DefaultSolverScope;
+import org.optaplanner.core.impl.solver.scope.SolverScope;
 import org.optaplanner.core.impl.testdata.domain.TestdataEntity;
 import org.optaplanner.core.impl.testdata.domain.TestdataSolution;
 import org.optaplanner.core.impl.testdata.domain.TestdataValue;
@@ -150,7 +150,7 @@ public class DefaultPartitionedSearchPhaseTest {
         ((DefaultSolver<TestdataSolution>) solver).addPhaseLifecycleListener(
                 new PhaseLifecycleListenerAdapter<TestdataSolution>() {
                     @Override
-                    public void solvingStarted(DefaultSolverScope<TestdataSolution> solverScope) {
+                    public void solvingStarted(SolverScope<TestdataSolution> solverScope) {
                         solvingStarted.countDown();
                     }
                 });

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,13 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.impl.localsearch.scope.LocalSearchPhaseScope;
 import org.optaplanner.core.impl.localsearch.scope.LocalSearchStepScope;
-import org.optaplanner.core.impl.solver.scope.DefaultSolverScope;
+import org.optaplanner.core.impl.solver.scope.SolverScope;
 
 public class ValueRatioTabuSizeStrategyTest {
 
     @Test
     public void tabuSize() {
-        LocalSearchPhaseScope phaseScope = new LocalSearchPhaseScope(mock(DefaultSolverScope.class));
+        LocalSearchPhaseScope phaseScope = new LocalSearchPhaseScope(mock(SolverScope.class));
         when(phaseScope.getWorkingValueCount()).thenReturn(100);
         LocalSearchStepScope stepScope = new LocalSearchStepScope(phaseScope);
         assertEquals(10, new ValueRatioTabuSizeStrategy(0.1).determineTabuSize(stepScope));

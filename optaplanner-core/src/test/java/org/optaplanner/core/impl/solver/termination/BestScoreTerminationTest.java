@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import org.optaplanner.core.api.score.buildin.simplebigdecimal.SimpleBigDecimalS
 import org.optaplanner.core.impl.phase.scope.AbstractPhaseScope;
 import org.optaplanner.core.impl.score.buildin.simple.SimpleScoreDefinition;
 import org.optaplanner.core.impl.score.definition.ScoreDefinition;
-import org.optaplanner.core.impl.solver.scope.DefaultSolverScope;
+import org.optaplanner.core.impl.solver.scope.SolverScope;
 
 public class BestScoreTerminationTest {
 
@@ -40,7 +40,7 @@ public class BestScoreTerminationTest {
         ScoreDefinition scoreDefinition = mock(ScoreDefinition.class);
         when(scoreDefinition.getLevelsSize()).thenReturn(1);
         Termination termination = new BestScoreTermination(scoreDefinition, SimpleScore.of(-1000), new double[] {});
-        DefaultSolverScope solverScope = mock(DefaultSolverScope.class);
+        SolverScope solverScope = mock(SolverScope.class);
         when(solverScope.getScoreDefinition()).thenReturn(new SimpleScoreDefinition());
         when(solverScope.isBestSolutionInitialized()).thenReturn(true);
         when(solverScope.getStartingInitializedScore()).thenReturn(SimpleScore.of(-1100));
