@@ -54,7 +54,6 @@ import org.optaplanner.core.impl.heuristic.selector.entity.mimic.MimicReplayingE
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 @XStreamAlias("entitySelector")
 public class EntitySelectorConfig extends SelectorConfig<EntitySelectorConfig> {
@@ -81,9 +80,7 @@ public class EntitySelectorConfig extends SelectorConfig<EntitySelectorConfig> {
     @XStreamAlias("nearbySelection")
     protected NearbySelectionConfig nearbySelectionConfig = null;
 
-    @XmlElement(name = "filterClass") // TODO: keep the list or use just a single filter class?
-    @XStreamImplicit(itemFieldName = "filterClass")
-    protected List<Class<? extends SelectionFilter>> filterClassList = null;
+    protected Class<? extends SelectionFilter> filterClass = null;
 
     protected EntitySorterManner sorterManner = null;
     protected Class<? extends Comparator> sorterComparatorClass = null;
@@ -156,12 +153,12 @@ public class EntitySelectorConfig extends SelectorConfig<EntitySelectorConfig> {
         this.nearbySelectionConfig = nearbySelectionConfig;
     }
 
-    public List<Class<? extends SelectionFilter>> getFilterClassList() {
-        return filterClassList;
+    public Class<? extends SelectionFilter> getFilterClass() {
+        return filterClass;
     }
 
-    public void setFilterClassList(List<Class<? extends SelectionFilter>> filterClassList) {
-        this.filterClassList = filterClassList;
+    public void setFilterClass(Class<? extends SelectionFilter> filterClass) {
+        this.filterClass = filterClass;
     }
 
     public EntitySorterManner getSorterManner() {
@@ -296,7 +293,7 @@ public class EntitySelectorConfig extends SelectorConfig<EntitySelectorConfig> {
                 || cacheType != null
                 || selectionOrder != null
                 || nearbySelectionConfig != null
-                || filterClassList != null
+                || filterClass != null
                 || sorterManner != null
                 || sorterComparatorClass != null
                 || sorterWeightFactoryClass != null
@@ -356,20 +353,16 @@ public class EntitySelectorConfig extends SelectorConfig<EntitySelectorConfig> {
     }
 
     private boolean hasFiltering(EntityDescriptor entityDescriptor) {
-        return !ConfigUtils.isEmptyCollection(filterClassList)
-                || entityDescriptor.hasEffectiveMovableEntitySelectionFilter();
+        return filterClass != null || entityDescriptor.hasEffectiveMovableEntitySelectionFilter();
     }
 
     private EntitySelector applyFiltering(SelectionCacheType resolvedCacheType, SelectionOrder resolvedSelectionOrder,
             EntitySelector entitySelector) {
         EntityDescriptor entityDescriptor = entitySelector.getEntityDescriptor();
         if (hasFiltering(entityDescriptor)) {
-            List<SelectionFilter> filterList = new ArrayList<>(
-                    filterClassList == null ? 1 : filterClassList.size() + 1);
-            if (filterClassList != null) {
-                for (Class<? extends SelectionFilter> filterClass : filterClassList) {
-                    filterList.add(ConfigUtils.newInstance(this, "filterClass", filterClass));
-                }
+            List<SelectionFilter> filterList = new ArrayList<>(filterClass == null ? 1 : 2);
+            if (filterClass != null) {
+                filterList.add(ConfigUtils.newInstance(this, "filterClass", filterClass));
             }
             // Filter out pinned entities
             if (entityDescriptor.hasEffectiveMovableEntitySelectionFilter()) {
@@ -559,8 +552,8 @@ public class EntitySelectorConfig extends SelectorConfig<EntitySelectorConfig> {
         nearbySelectionConfig = ConfigUtils.inheritConfig(nearbySelectionConfig, inheritedConfig.getNearbySelectionConfig());
         cacheType = ConfigUtils.inheritOverwritableProperty(cacheType, inheritedConfig.getCacheType());
         selectionOrder = ConfigUtils.inheritOverwritableProperty(selectionOrder, inheritedConfig.getSelectionOrder());
-        filterClassList = ConfigUtils.inheritOverwritableProperty(
-                filterClassList, inheritedConfig.getFilterClassList());
+        filterClass = ConfigUtils.inheritOverwritableProperty(
+                filterClass, inheritedConfig.getFilterClass());
         sorterManner = ConfigUtils.inheritOverwritableProperty(
                 sorterManner, inheritedConfig.getSorterManner());
         sorterComparatorClass = ConfigUtils.inheritOverwritableProperty(
