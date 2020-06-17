@@ -17,7 +17,6 @@
 package org.optaplanner.core.config.constructionheuristic.placer;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
 
 import org.optaplanner.core.config.AbstractConfig;
 import org.optaplanner.core.impl.constructionheuristic.placer.EntityPlacer;
@@ -28,7 +27,7 @@ import com.thoughtworks.xstream.annotations.XStreamInclude;
 /**
  * General superclass for {@link QueuedEntityPlacerConfig} and {@link PooledEntityPlacerConfig}.
  */
-@XmlType(name = "EntityPlacerType")
+
 @XmlSeeAlso({
         QueuedEntityPlacerConfig.class,
         QueuedValuePlacerConfig.class,

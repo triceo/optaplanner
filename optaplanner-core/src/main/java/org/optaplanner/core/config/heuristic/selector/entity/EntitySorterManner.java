@@ -17,14 +17,13 @@
 package org.optaplanner.core.config.heuristic.selector.entity;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 
 /**
  * The manner of sorting {@link PlanningEntity} instances.
  */
-@XmlType(name = "EntitySorterMannerType")
+
 @XmlEnum
 public enum EntitySorterManner {
     NONE,

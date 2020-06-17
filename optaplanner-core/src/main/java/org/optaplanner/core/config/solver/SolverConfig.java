@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.solver.Solver;
@@ -77,7 +76,7 @@ import com.thoughtworks.xstream.converters.ConversionException;
  * To build a {@link SolverFactory} with it, use {@link SolverFactory#create(SolverConfig)}.
  */
 @XmlRootElement(name = "solver")
-@XmlType(name = "solverType")
+
 @XStreamAlias("solver")
 public class SolverConfig extends AbstractConfig<SolverConfig> {
 

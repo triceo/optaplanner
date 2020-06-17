@@ -17,14 +17,13 @@
 package org.optaplanner.core.config.heuristic.selector.value;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
 
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 /**
  * The manner of sorting a values for a {@link PlanningVariable}.
  */
-@XmlType(name = "ValueSorterMannerType")
+
 @XmlEnum
 public enum ValueSorterManner {
     NONE,

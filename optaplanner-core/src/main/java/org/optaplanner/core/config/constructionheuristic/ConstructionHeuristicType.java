@@ -17,12 +17,10 @@
 package org.optaplanner.core.config.constructionheuristic;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
 
 import org.optaplanner.core.config.heuristic.selector.entity.EntitySorterManner;
 import org.optaplanner.core.config.heuristic.selector.value.ValueSorterManner;
 
-@XmlType(name = "ConstructionHeuristicTypeType") // TODO: think about XML type naming - TypeType
 @XmlEnum
 public enum ConstructionHeuristicType {
     /**

@@ -17,9 +17,7 @@
 package org.optaplanner.core.config.constructionheuristic.decider.forager;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "ConstructionHeuristicPickEarlyTypeType") // TODO: think about XML type naming - TypeType
 @XmlEnum
 public enum ConstructionHeuristicPickEarlyType {
     NEVER,

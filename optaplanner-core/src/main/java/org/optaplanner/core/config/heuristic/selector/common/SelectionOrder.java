@@ -17,14 +17,13 @@
 package org.optaplanner.core.config.heuristic.selector.common;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
 
 import org.optaplanner.core.config.heuristic.selector.SelectorConfig;
 
 /**
  * Defines in which order the elements or a selector are selected.
  */
-@XmlType(name = "SelectionOrderType")
+
 @XmlEnum
 public enum SelectionOrder {
     /**

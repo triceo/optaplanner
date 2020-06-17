@@ -17,14 +17,13 @@
 package org.optaplanner.core.config.heuristic.selector.common.decorator;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
 
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionSorter;
 
 /**
  * @see SelectionSorter
  */
-@XmlType(name = "SelectionSorterOrderType")
+
 @XmlEnum
 public enum SelectionSorterOrder {
     /**
