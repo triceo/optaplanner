@@ -18,10 +18,19 @@ package org.optaplanner.core.config.solver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.IOUtils;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.solver.io.XStreamConfigReader;
@@ -29,7 +38,41 @@ import org.optaplanner.core.impl.solver.io.XStreamConfigReader;
 import com.thoughtworks.xstream.XStream;
 
 public class SolverConfigTest {
+    private static final String TEST_SOLVER_CONFIG = "testSolverConfig.xml";
 
+    private final Unmarshaller unmarshaller;
+    private final Marshaller marshaller;
+
+    public SolverConfigTest() throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(SolverConfig.class);
+        unmarshaller = jaxbContext.createUnmarshaller();
+        marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    }
+
+    @Test
+    public void solverConfigMarshalling() throws JAXBException, IOException {
+        SolverConfig jaxbSolverConfig = unmarshallSolverConfig(TEST_SOLVER_CONFIG);
+
+        // serialize and deserialize back
+        File tempFile = Files.createTempFile("jaxbSolverConfig", ".xml").toFile();
+        marshaller.marshal(jaxbSolverConfig, tempFile);
+        jaxbSolverConfig = (SolverConfig) unmarshaller.unmarshal(tempFile);
+
+        // compare with xstream TODO: replace by a comparison with a configuration object model created via API
+        SolverConfig xstreamSolverConfig = (SolverConfig) XStreamConfigReader.buildXStream().fromXML(tempFile);
+        Assertions.assertThat(jaxbSolverConfig).usingRecursiveComparison().isEqualTo(xstreamSolverConfig);
+    }
+
+    private SolverConfig unmarshallSolverConfig(String solverConfigResource) {
+        try (InputStream testSolverConfigStream = SolverConfigTest.class.getResourceAsStream(TEST_SOLVER_CONFIG)) {
+            return (SolverConfig) unmarshaller.unmarshal(testSolverConfigStream);
+        } catch (IOException | JAXBException exception) {
+            throw new RuntimeException("Failed to read solver configuration resource " + solverConfigResource, exception);
+        }
+    }
+
+    // TODO: remove this test when switching to JAXB
     @Test
     public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
         String solverConfigResource = "org/optaplanner/core/config/solver/testdataSolverConfig.xml";
