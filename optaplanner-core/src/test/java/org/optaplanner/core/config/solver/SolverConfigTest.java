@@ -18,11 +18,13 @@ package org.optaplanner.core.config.solver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -48,19 +50,21 @@ public class SolverConfigTest {
         unmarshaller = jaxbContext.createUnmarshaller();
         marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.setProperty(Marshaller.JAXB_ENCODING, StandardCharsets.UTF_8.toString());
     }
 
     @Test
-    public void solverConfigMarshalling() throws JAXBException, IOException {
+    public void solverConfigMarshalling() throws JAXBException {
         SolverConfig jaxbSolverConfig = unmarshallSolverConfig(TEST_SOLVER_CONFIG);
 
-        // serialize and deserialize back
-        File tempFile = Files.createTempFile("jaxbSolverConfig", ".xml").toFile();
-        marshaller.marshal(jaxbSolverConfig, tempFile);
-        jaxbSolverConfig = (SolverConfig) unmarshaller.unmarshal(tempFile);
+        Writer stringWriter = new StringWriter();
+        marshaller.marshal(jaxbSolverConfig, stringWriter);
+        String jaxbString = stringWriter.toString();
+        Reader stringReader = new StringReader(jaxbString);
+        jaxbSolverConfig = (SolverConfig) unmarshaller.unmarshal(stringReader);
 
         // compare with xstream TODO: replace by a comparison with a configuration object model created via API
-        SolverConfig xstreamSolverConfig = (SolverConfig) XStreamConfigReader.buildXStream().fromXML(tempFile);
+        SolverConfig xstreamSolverConfig = (SolverConfig) XStreamConfigReader.buildXStream().fromXML(jaxbString);
         Assertions.assertThat(jaxbSolverConfig).usingRecursiveComparison().isEqualTo(xstreamSolverConfig);
     }
 
