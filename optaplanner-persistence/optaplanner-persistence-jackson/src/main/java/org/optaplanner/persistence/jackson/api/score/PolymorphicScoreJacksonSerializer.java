@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  * For a {@link Score} subtype field, use {@link HardSoftScoreJacksonSerializer} or similar instead.
  * <p>
  * For example: use
- * {@code @JsonSerialize(using = PolymorphicScoreJacksonJsonSerializer.class) @JsonDeserialize(using = PolymorphicScoreJacksonJsonDeserializer.class)}
+ * {@code @JsonSerialize(using = PolymorphicScoreJacksonSerializer.class) @JsonDeserialize(using = PolymorphicScoreJacksonDeserializer.class)}
  * on a {@code Score score} field which contains a {@link HardSoftScore} instance
  * and it will marshalled to JSON as {@code "score":{"type":"HARD_SOFT",score:"-999hard/-999soft"}}.
  *

@@ -24,7 +24,7 @@ import org.optaplanner.core.api.score.Score;
 /**
  * JAXB binding support for a {@link Score} type.
  * <p>
- * For example: use {@code @XmlJavaTypeAdapter(HardSoftScoreJaxbXmlAdapter.class)}
+ * For example: use {@code @XmlJavaTypeAdapter(HardSoftScoreJaxbAdapter.class)}
  * on a {@code HardSoftScore score} field and it will marshalled to XML as {@code <score>-999hard/-999soft</score>}.
  *
  * @see Score

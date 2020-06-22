@@ -35,7 +35,7 @@ import com.fasterxml.jackson.databind.ser.ContextualSerializer;
  * so the score type is recorded too and it can be deserialized.
  * <p>
  * For example: use
- * {@code @JsonSerialize(using = HardSoftScoreJacksonJsonSerializer.class) @JsonDeserialize(using = HardSoftScoreJacksonJsonDeserializer.class)}
+ * {@code @JsonSerialize(using = HardSoftScoreJacksonSerializer.class) @JsonDeserialize(using = HardSoftScoreJacksonDeserializer.class)}
  * on a {@code HardSoftScore score} field and it will marshalled to JSON as {@code "score":"-999hard/-999soft"}.
  * Or better yet, use {@link OptaPlannerJacksonModule} instead.
  *
@@ -51,7 +51,7 @@ public abstract class AbstractScoreJacksonSerializer<Score_ extends Score<Score_
         JavaType propertyType = property.getType();
         if (Score.class.equals(propertyType.getRawClass())) {
             // If the property type is Score (not HardSoftScore for example),
-            // delegate to PolymorphicScoreJacksonJsonSerializer instead to write the score type too
+            // delegate to PolymorphicScoreJacksonSerializer instead to write the score type too
             // This presumes that OptaPlannerJacksonModule is registered
             return provider.findValueSerializer(propertyType);
         }
