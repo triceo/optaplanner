@@ -16,7 +16,6 @@
 
 package org.optaplanner.core.api.score.constraint;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,7 +27,7 @@ import org.optaplanner.core.impl.domain.lookup.ClassAndPlanningIdComparator;
 /**
  * Retrievable from {@link ConstraintMatchTotal#getConstraintMatchSet()}.
  */
-public final class ConstraintMatch implements Serializable, Comparable<ConstraintMatch> {
+public final class ConstraintMatch implements Comparable<ConstraintMatch> {
 
     private final String constraintPackage;
     private final String constraintName;

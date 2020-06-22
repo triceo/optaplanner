@@ -16,7 +16,6 @@
 
 package org.optaplanner.core.impl.score.holder;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -44,8 +43,7 @@ import org.optaplanner.core.impl.score.director.drools.OptaPlannerRuleEventListe
  *
  * @param <Score_> the {@link Score} type
  */
-public abstract class AbstractScoreHolder<Score_ extends Score<Score_>>
-        implements ScoreHolder<Score_>, Serializable {
+public abstract class AbstractScoreHolder<Score_ extends Score<Score_>> implements ScoreHolder<Score_> {
 
     protected final boolean constraintMatchEnabled;
     protected final Map<String, ConstraintMatchTotal> constraintMatchTotalMap;

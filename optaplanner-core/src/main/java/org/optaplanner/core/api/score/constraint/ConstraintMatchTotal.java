@@ -16,7 +16,6 @@
 
 package org.optaplanner.core.api.score.constraint;
 
-import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +32,7 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
  * Explains the {@link Score} of a {@link PlanningSolution}, from the opposite side than {@link Indictment}.
  * Retrievable from {@link ScoreDirector#getConstraintMatchTotalMap()}.
  */
-public final class ConstraintMatchTotal implements Serializable, Comparable<ConstraintMatchTotal> {
+public final class ConstraintMatchTotal implements Comparable<ConstraintMatchTotal> {
 
     /**
      * @param constraintPackage never null
