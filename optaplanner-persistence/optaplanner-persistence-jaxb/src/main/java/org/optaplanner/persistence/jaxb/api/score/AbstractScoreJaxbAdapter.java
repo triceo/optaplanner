@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import org.optaplanner.core.api.score.Score;
  * @see Score
  * @param <Score_> the actual score type
  */
-public abstract class AbstractScoreJaxbXmlAdapter<Score_ extends Score<Score_>> extends XmlAdapter<String, Score_> {
+public abstract class AbstractScoreJaxbAdapter<Score_ extends Score<Score_>> extends XmlAdapter<String, Score_> {
 
     @Override
     public String marshal(Score_ score) {

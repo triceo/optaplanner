@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.optaplanner.persistence.jaxb.api.score.buildin.bendablelong;
+package org.optaplanner.persistence.jaxb.api.score.buildin.bendable;
 
-import org.optaplanner.core.api.score.buildin.bendablelong.BendableLongScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapter;
+import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapter;
 
 @SuppressWarnings("checkstyle:javadocstyle")
 /**
  * {@inheritDoc}
  */
-public class BendableLongScoreJaxbXmlAdapter extends AbstractScoreJaxbXmlAdapter<BendableLongScore> {
+public class BendableScoreJaxbAdapter extends AbstractScoreJaxbAdapter<BendableScore> {
 
     @Override
-    public BendableLongScore unmarshal(String scoreString) {
-        return BendableLongScore.parseScore(scoreString);
+    public BendableScore unmarshal(String scoreString) {
+        return BendableScore.parseScore(scoreString);
     }
 
 }

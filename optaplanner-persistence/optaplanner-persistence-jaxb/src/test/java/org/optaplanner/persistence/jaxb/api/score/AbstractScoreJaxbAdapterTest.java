@@ -32,7 +32,7 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.optaplanner.core.api.score.Score;
 
-public abstract class AbstractScoreJaxbXmlAdapterTest {
+public abstract class AbstractScoreJaxbAdapterTest {
 
     // ************************************************************************
     // Helper methods

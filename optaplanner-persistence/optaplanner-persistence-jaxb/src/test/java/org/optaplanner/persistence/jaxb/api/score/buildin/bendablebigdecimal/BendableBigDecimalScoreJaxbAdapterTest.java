@@ -23,9 +23,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.score.buildin.bendablebigdecimal.BendableBigDecimalScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapterTest;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapterTest;
 
-public class BendableBigDecimalScoreJaxbXmlAdapterTest extends AbstractScoreJaxbXmlAdapterTest {
+public class BendableBigDecimalScoreJaxbAdapterTest extends AbstractScoreJaxbAdapterTest {
 
     @Test
     public void serializeAndDeserialize() {
@@ -45,7 +45,7 @@ public class BendableBigDecimalScoreJaxbXmlAdapterTest extends AbstractScoreJaxb
     @XmlRootElement
     public static class TestBendableBigDecimalScoreWrapper extends TestScoreWrapper<BendableBigDecimalScore> {
 
-        @XmlJavaTypeAdapter(BendableBigDecimalScoreJaxbXmlAdapter.class)
+        @XmlJavaTypeAdapter(BendableBigDecimalScoreJaxbAdapter.class)
         private BendableBigDecimalScore score;
 
         @SuppressWarnings("unused")

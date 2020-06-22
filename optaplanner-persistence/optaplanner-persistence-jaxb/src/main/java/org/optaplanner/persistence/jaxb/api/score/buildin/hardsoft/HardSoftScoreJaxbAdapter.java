@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.optaplanner.persistence.jaxb.api.score.buildin.bendable;
+package org.optaplanner.persistence.jaxb.api.score.buildin.hardsoft;
 
-import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapter;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapter;
 
 @SuppressWarnings("checkstyle:javadocstyle")
 /**
  * {@inheritDoc}
  */
-public class BendableScoreJaxbXmlAdapter extends AbstractScoreJaxbXmlAdapter<BendableScore> {
+public class HardSoftScoreJaxbAdapter extends AbstractScoreJaxbAdapter<HardSoftScore> {
 
     @Override
-    public BendableScore unmarshal(String scoreString) {
-        return BendableScore.parseScore(scoreString);
+    public HardSoftScore unmarshal(String scoreString) {
+        return HardSoftScore.parseScore(scoreString);
     }
 
 }

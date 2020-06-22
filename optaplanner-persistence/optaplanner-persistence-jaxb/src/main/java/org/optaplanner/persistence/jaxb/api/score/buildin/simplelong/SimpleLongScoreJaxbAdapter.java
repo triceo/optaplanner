@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.optaplanner.persistence.jaxb.api.score.buildin.simple;
+package org.optaplanner.persistence.jaxb.api.score.buildin.simplelong;
 
-import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapter;
+import org.optaplanner.core.api.score.buildin.simplelong.SimpleLongScore;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapter;
 
 @SuppressWarnings("checkstyle:javadocstyle")
 /**
  * {@inheritDoc}
  */
-public class SimpleScoreJaxbXmlAdapter extends AbstractScoreJaxbXmlAdapter<SimpleScore> {
+public class SimpleLongScoreJaxbAdapter extends AbstractScoreJaxbAdapter<SimpleLongScore> {
 
     @Override
-    public SimpleScore unmarshal(String scoreString) {
-        return SimpleScore.parseScore(scoreString);
+    public SimpleLongScore unmarshal(String scoreString) {
+        return SimpleLongScore.parseScore(scoreString);
     }
 
 }

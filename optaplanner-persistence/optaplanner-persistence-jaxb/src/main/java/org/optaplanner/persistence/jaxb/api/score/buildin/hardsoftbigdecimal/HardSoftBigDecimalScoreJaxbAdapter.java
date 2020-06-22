@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.optaplanner.persistence.jaxb.api.score.buildin.hardmediumsoft;
+package org.optaplanner.persistence.jaxb.api.score.buildin.hardsoftbigdecimal;
 
-import org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapter;
+import org.optaplanner.core.api.score.buildin.hardsoftbigdecimal.HardSoftBigDecimalScore;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapter;
 
 @SuppressWarnings("checkstyle:javadocstyle")
 /**
  * {@inheritDoc}
  */
-public class HardMediumSoftScoreJaxbXmlAdapter extends AbstractScoreJaxbXmlAdapter<HardMediumSoftScore> {
+public class HardSoftBigDecimalScoreJaxbAdapter extends AbstractScoreJaxbAdapter<HardSoftBigDecimalScore> {
 
     @Override
-    public HardMediumSoftScore unmarshal(String scoreString) {
-        return HardMediumSoftScore.parseScore(scoreString);
+    public HardSoftBigDecimalScore unmarshal(String scoreString) {
+        return HardSoftBigDecimalScore.parseScore(scoreString);
     }
 
 }

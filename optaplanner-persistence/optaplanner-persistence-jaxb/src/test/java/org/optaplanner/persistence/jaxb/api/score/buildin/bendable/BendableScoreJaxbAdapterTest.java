@@ -21,9 +21,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapterTest;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapterTest;
 
-public class BendableScoreJaxbXmlAdapterTest extends AbstractScoreJaxbXmlAdapterTest {
+public class BendableScoreJaxbAdapterTest extends AbstractScoreJaxbAdapterTest {
 
     @Test
     public void serializeAndDeserialize() {
@@ -39,7 +39,7 @@ public class BendableScoreJaxbXmlAdapterTest extends AbstractScoreJaxbXmlAdapter
     @XmlRootElement
     public static class TestBendableScoreWrapper extends TestScoreWrapper<BendableScore> {
 
-        @XmlJavaTypeAdapter(BendableScoreJaxbXmlAdapter.class)
+        @XmlJavaTypeAdapter(BendableScoreJaxbAdapter.class)
         private BendableScore score;
 
         @SuppressWarnings("unused")

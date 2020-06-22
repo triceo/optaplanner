@@ -14,44 +14,44 @@
  * limitations under the License.
  */
 
-package org.optaplanner.persistence.jaxb.api.score.buildin.simple;
+package org.optaplanner.persistence.jaxb.api.score.buildin.hardsoft;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.junit.jupiter.api.Test;
-import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapterTest;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapterTest;
 
-public class SimpleScoreJaxbXmlAdapterTest extends AbstractScoreJaxbXmlAdapterTest {
+public class HardSoftScoreJaxbAdapterTest extends AbstractScoreJaxbAdapterTest {
 
     @Test
     public void serializeAndDeserialize() {
-        assertSerializeAndDeserialize(null, new TestSimpleScoreWrapper(null));
+        assertSerializeAndDeserialize(null, new TestHardSoftScoreWrapper(null));
 
-        SimpleScore score = SimpleScore.of(1234);
-        assertSerializeAndDeserialize(score, new TestSimpleScoreWrapper(score));
+        HardSoftScore score = HardSoftScore.of(1200, 34);
+        assertSerializeAndDeserialize(score, new TestHardSoftScoreWrapper(score));
 
-        score = SimpleScore.ofUninitialized(-7, 1234);
-        assertSerializeAndDeserialize(score, new TestSimpleScoreWrapper(score));
+        score = HardSoftScore.ofUninitialized(-7, 1200, 34);
+        assertSerializeAndDeserialize(score, new TestHardSoftScoreWrapper(score));
     }
 
     @XmlRootElement
-    public static class TestSimpleScoreWrapper extends TestScoreWrapper<SimpleScore> {
+    public static class TestHardSoftScoreWrapper extends TestScoreWrapper<HardSoftScore> {
 
-        @XmlJavaTypeAdapter(SimpleScoreJaxbXmlAdapter.class)
-        private SimpleScore score;
+        @XmlJavaTypeAdapter(HardSoftScoreJaxbAdapter.class)
+        private HardSoftScore score;
 
         @SuppressWarnings("unused")
-        private TestSimpleScoreWrapper() {
+        private TestHardSoftScoreWrapper() {
         }
 
-        public TestSimpleScoreWrapper(SimpleScore score) {
+        public TestHardSoftScoreWrapper(HardSoftScore score) {
             this.score = score;
         }
 
         @Override
-        public SimpleScore getScore() {
+        public HardSoftScore getScore() {
             return score;
         }
 

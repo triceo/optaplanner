@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@
 package org.optaplanner.persistence.jaxb.api.score.buildin.bendablebigdecimal;
 
 import org.optaplanner.core.api.score.buildin.bendablebigdecimal.BendableBigDecimalScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapter;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapter;
 
 @SuppressWarnings("checkstyle:javadocstyle")
 /**
  * {@inheritDoc}
  */
-public class BendableBigDecimalScoreJaxbXmlAdapter extends AbstractScoreJaxbXmlAdapter<BendableBigDecimalScore> {
+public class BendableBigDecimalScoreJaxbAdapter extends AbstractScoreJaxbAdapter<BendableBigDecimalScore> {
 
     @Override
     public BendableBigDecimalScore unmarshal(String scoreString) {

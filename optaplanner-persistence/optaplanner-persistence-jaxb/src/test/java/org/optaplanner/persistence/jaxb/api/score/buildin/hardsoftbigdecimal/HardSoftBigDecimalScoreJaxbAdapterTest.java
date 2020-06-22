@@ -23,9 +23,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.score.buildin.hardsoftbigdecimal.HardSoftBigDecimalScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapterTest;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapterTest;
 
-public class HardSoftBigDecimalScoreJaxbXmlAdapterTest extends AbstractScoreJaxbXmlAdapterTest {
+public class HardSoftBigDecimalScoreJaxbAdapterTest extends AbstractScoreJaxbAdapterTest {
 
     @Test
     public void serializeAndDeserialize() {
@@ -41,7 +41,7 @@ public class HardSoftBigDecimalScoreJaxbXmlAdapterTest extends AbstractScoreJaxb
     @XmlRootElement
     public static class TestHardSoftBigDecimalScoreWrapper extends TestScoreWrapper<HardSoftBigDecimalScore> {
 
-        @XmlJavaTypeAdapter(HardSoftBigDecimalScoreJaxbXmlAdapter.class)
+        @XmlJavaTypeAdapter(HardSoftBigDecimalScoreJaxbAdapter.class)
         private HardSoftBigDecimalScore score;
 
         @SuppressWarnings("unused")

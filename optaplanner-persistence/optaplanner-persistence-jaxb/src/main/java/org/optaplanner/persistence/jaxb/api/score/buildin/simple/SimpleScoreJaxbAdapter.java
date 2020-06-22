@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.optaplanner.persistence.jaxb.api.score.buildin.simplebigdecimal;
+package org.optaplanner.persistence.jaxb.api.score.buildin.simple;
 
-import org.optaplanner.core.api.score.buildin.simplebigdecimal.SimpleBigDecimalScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapter;
+import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapter;
 
 @SuppressWarnings("checkstyle:javadocstyle")
 /**
  * {@inheritDoc}
  */
-public class SimpleBigDecimalScoreJaxbXmlAdapter extends AbstractScoreJaxbXmlAdapter<SimpleBigDecimalScore> {
+public class SimpleScoreJaxbAdapter extends AbstractScoreJaxbAdapter<SimpleScore> {
 
     @Override
-    public SimpleBigDecimalScore unmarshal(String scoreString) {
-        return SimpleBigDecimalScore.parseScore(scoreString);
+    public SimpleScore unmarshal(String scoreString) {
+        return SimpleScore.parseScore(scoreString);
     }
 
 }

@@ -21,9 +21,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.score.buildin.simplelong.SimpleLongScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapterTest;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapterTest;
 
-public class SimpleLongScoreJaxbXmlAdapterTest extends AbstractScoreJaxbXmlAdapterTest {
+public class SimpleLongScoreJaxbAdapterTest extends AbstractScoreJaxbAdapterTest {
 
     @Test
     public void serializeAndDeserialize() {
@@ -37,9 +37,9 @@ public class SimpleLongScoreJaxbXmlAdapterTest extends AbstractScoreJaxbXmlAdapt
     }
 
     @XmlRootElement
-    public static class TestSimpleLongScoreWrapper extends AbstractScoreJaxbXmlAdapterTest.TestScoreWrapper<SimpleLongScore> {
+    public static class TestSimpleLongScoreWrapper extends AbstractScoreJaxbAdapterTest.TestScoreWrapper<SimpleLongScore> {
 
-        @XmlJavaTypeAdapter(SimpleLongScoreJaxbXmlAdapter.class)
+        @XmlJavaTypeAdapter(SimpleLongScoreJaxbAdapter.class)
         private SimpleLongScore score;
 
         @SuppressWarnings("unused")

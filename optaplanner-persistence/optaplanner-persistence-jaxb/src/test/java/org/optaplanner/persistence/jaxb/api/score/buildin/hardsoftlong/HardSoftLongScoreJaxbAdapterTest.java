@@ -21,9 +21,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
-import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbXmlAdapterTest;
+import org.optaplanner.persistence.jaxb.api.score.AbstractScoreJaxbAdapterTest;
 
-public class HardSoftLongScoreJaxbXmlAdapterTest extends AbstractScoreJaxbXmlAdapterTest {
+public class HardSoftLongScoreJaxbAdapterTest extends AbstractScoreJaxbAdapterTest {
 
     @Test
     public void serializeAndDeserialize() {
@@ -39,7 +39,7 @@ public class HardSoftLongScoreJaxbXmlAdapterTest extends AbstractScoreJaxbXmlAda
     @XmlRootElement
     public static class TestHardSoftLongScoreWrapper extends TestScoreWrapper<HardSoftLongScore> {
 
-        @XmlJavaTypeAdapter(HardSoftLongScoreJaxbXmlAdapter.class)
+        @XmlJavaTypeAdapter(HardSoftLongScoreJaxbAdapter.class)
         private HardSoftLongScore score;
 
         @SuppressWarnings("unused")
