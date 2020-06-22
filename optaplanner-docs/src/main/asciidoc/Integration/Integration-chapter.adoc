@@ -339,8 +339,8 @@ objectMapper.registerModule(OptaPlannerJacksonModule.createModule());
 ==== Jackson: marshalling a `Score`
 
 When a `Score` is marshalled to/from JSON by the default Jackson configuration, it fails.
-The `OptaPlannerJacksonModule` fixes that, by using `HardSoftScoreJacksonJsonSerializer`,
-`HardSoftScoreJacksonJsonDeserializer`, etc.
+The `OptaPlannerJacksonModule` fixes that, by using `HardSoftScoreJacksonSerializer`,
+`HardSoftScoreJacksonDeserializer`, etc.
 
 [source,java,options="nowrap"]
 ----
@@ -367,7 +367,7 @@ For example, this generates:
 [NOTE]
 ====
 When reading a `BendableScore`, the `hardLevelsSize` and `softLevelsSize` implied in the JSON element,
-must always be in sync with those defined in the `@PlanningScore` annotation in the solution class. For example:
+must always be in sync with those defined in the `@PlanningScore` annotation in the solution class.For example:
 
 [source,json]
 ----
@@ -393,8 +393,7 @@ public class Schedule {
 ----
 ====
 
-When a field is the `Score` supertype (instead of a specific type such as `HardSoftScore`),
-it uses `PolymorphicScoreJacksonJsonSerializer` and `PolymorphicScoreJacksonJsonDeserializer`
+When a field is the `Score` supertype (instead of a specific type such as `HardSoftScore`), it uses `PolymorphicScoreJacksonSerializer` and `PolymorphicScoreJacksonDeserializer`
 to record the score type in JSON too, otherwise it would be impossible to deserialize it:
 
 [source,java,options="nowrap"]
