@@ -21,11 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.optaplanner.core.api.score.ScoreManager;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.api.solver.SolverFactory;
-import org.optaplanner.core.impl.score.director.InnerScoreDirector;
-import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
-import org.optaplanner.core.impl.solver.DefaultSolverFactory;
 import org.optaplanner.examples.common.app.CommonApp;
 import org.optaplanner.examples.common.app.LoggingMain;
 import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
@@ -38,7 +36,7 @@ import org.optaplanner.persistence.xstream.impl.domain.solution.XStreamSolutionF
 
 public class VehicleRoutingDistanceTypeComparison extends LoggingMain {
 
-    private final InnerScoreDirectorFactory<VehicleRoutingSolution> scoreDirectorFactory;
+    private final ScoreManager<VehicleRoutingSolution> scoreManager;
 
     public static void main(String[] args) {
         new VehicleRoutingDistanceTypeComparison().compare(
@@ -55,7 +53,7 @@ public class VehicleRoutingDistanceTypeComparison extends LoggingMain {
         solutionFileIO = new XStreamSolutionFileIO<>(VehicleRoutingSolution.class);
         SolverFactory<VehicleRoutingSolution> solverFactory = SolverFactory
                 .createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
-        scoreDirectorFactory = ((DefaultSolverFactory<VehicleRoutingSolution>) solverFactory).getScoreDirectorFactory();
+        scoreManager = ScoreManager.create(solverFactory);
     }
 
     public void compare(String... filePaths) {
@@ -111,10 +109,7 @@ public class VehicleRoutingDistanceTypeComparison extends LoggingMain {
             Customer varNext = varCustomer.getNextCustomer();
             inputCustomer.setNextCustomer(varNext == null ? null : inputCustomerMap.get(varNext.getId()));
         }
-        try (InnerScoreDirector<VehicleRoutingSolution> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
-            scoreDirector.setWorkingSolution(inputSolution);
-            scoreDirector.calculateScore();
-        }
+        scoreManager.updateScore(inputSolution);
     }
 
 }

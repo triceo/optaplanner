@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.optaplanner.core.api.score.constraint;
+package org.optaplanner.core.impl.score.constraint;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
-import org.optaplanner.core.impl.score.constraint.DefaultConstraintMatchTotal;
+import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.impl.testdata.domain.TestdataEntity;
 import org.optaplanner.core.impl.testdata.util.PlannerAssert;
 
-public class ConstraintMatchTotalTest {
+public class DefaultConstraintMatchTotalTest {
 
     @Test
     public void getScoreTotal() {
