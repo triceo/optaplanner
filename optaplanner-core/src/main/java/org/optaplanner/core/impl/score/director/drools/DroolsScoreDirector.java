@@ -112,17 +112,6 @@ public class DroolsScoreDirector<Solution_>
     }
 
     @Override
-    public Collection<ConstraintMatchTotal> getConstraintMatchTotals() {
-        if (workingSolution == null) {
-            throw new IllegalStateException(
-                    "The method setWorkingSolution() must be called before the method getConstraintMatchTotals().");
-        }
-        // Notice that we don't trigger the variable listeners
-        kieSession.fireAllRules();
-        return scoreHolder.getConstraintMatchTotals();
-    }
-
-    @Override
     public Map<String, ConstraintMatchTotal> getConstraintMatchTotalMap() {
         if (workingSolution == null) {
             throw new IllegalStateException(

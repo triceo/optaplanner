@@ -18,7 +18,6 @@ package org.optaplanner.examples.common.persistence;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -344,7 +343,7 @@ public abstract class AbstractXlsxSolutionFileIO<Solution_> implements SolutionF
         protected final Solution_ solution;
         protected final Score score;
         protected final ScoreDefinition scoreDefinition;
-        protected final Collection<ConstraintMatchTotal> constraintMatchTotals;
+        protected final Map<String, ConstraintMatchTotal> constraintMatchTotalsMap;
         protected final Map<Object, Indictment> indictmentMap;
 
         protected XSSFWorkbook workbook;
@@ -379,7 +378,7 @@ public abstract class AbstractXlsxSolutionFileIO<Solution_> implements SolutionF
             try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
                 scoreDirector.setWorkingSolution(solution);
                 score = scoreDirector.calculateScore();
-                constraintMatchTotals = scoreDirector.getConstraintMatchTotals();
+                constraintMatchTotalsMap = scoreDirector.getConstraintMatchTotalMap();
                 indictmentMap = scoreDirector.getIndictmentMap();
             }
         }
@@ -494,7 +493,7 @@ public abstract class AbstractXlsxSolutionFileIO<Solution_> implements SolutionF
             }
             Comparator<ConstraintMatchTotal> constraintWeightComparator = Comparator.comparing(
                     ConstraintMatchTotal::getConstraintWeight, Comparator.nullsLast(Comparator.reverseOrder()));
-            constraintMatchTotals.stream()
+            constraintMatchTotalsMap.values().stream()
                     .sorted(constraintWeightComparator
                             .thenComparing(ConstraintMatchTotal::getConstraintPackage)
                             .thenComparing(ConstraintMatchTotal::getConstraintName))
@@ -516,7 +515,7 @@ public abstract class AbstractXlsxSolutionFileIO<Solution_> implements SolutionF
                     .thenComparing(ConstraintMatchTotal::getConstraintName);
             Comparator<ConstraintMatch> constraintMatchComparator = Comparator
                     .comparing(ConstraintMatch::getScore);
-            constraintMatchTotals.stream()
+            constraintMatchTotalsMap.values().stream()
                     .sorted(constraintMatchTotalComparator)
                     .forEach(constraintMatchTotal -> {
                         nextRow();

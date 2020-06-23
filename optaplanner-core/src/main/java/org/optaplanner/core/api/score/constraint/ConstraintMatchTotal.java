@@ -16,6 +16,9 @@
 
 package org.optaplanner.core.api.score.constraint;
 
+import static java.util.Comparator.comparing;
+
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +36,10 @@ import org.optaplanner.core.api.score.director.ScoreDirector;
  * Retrievable from {@link ScoreDirector#getConstraintMatchTotalMap()}.
  */
 public final class ConstraintMatchTotal implements Comparable<ConstraintMatchTotal> {
+
+    private static final Comparator<ConstraintMatchTotal> COMPARATOR =
+            comparing(ConstraintMatchTotal::getConstraintPackage)
+                    .thenComparing(ConstraintMatchTotal::getConstraintName);
 
     /**
      * @param constraintPackage never null
@@ -163,13 +170,7 @@ public final class ConstraintMatchTotal implements Comparable<ConstraintMatchTot
 
     @Override
     public int compareTo(ConstraintMatchTotal other) {
-        if (!constraintPackage.equals(other.constraintPackage)) {
-            return constraintPackage.compareTo(other.constraintPackage);
-        } else if (!constraintName.equals(other.constraintName)) {
-            return constraintName.compareTo(other.constraintName);
-        } else {
-            return 0;
-        }
+        return COMPARATOR.compare(this, other);
     }
 
     @Override

@@ -272,7 +272,7 @@ public abstract class AbstractScoreDirector<Solution_, Factory_ extends Abstract
         final int INDICTMENT_LIMIT = 5;
         final int CONSTRAINT_MATCH_LIMIT = 2;
         Score workingScore = calculateScore();
-        Collection<ConstraintMatchTotal> constraintMatchTotals = getConstraintMatchTotals();
+        Collection<ConstraintMatchTotal> constraintMatchTotals = getConstraintMatchTotalMap().values();
         StringBuilder scoreExplanation = new StringBuilder((constraintMatchTotals.size() + 4 + 2 * INDICTMENT_LIMIT) * 80);
         scoreExplanation.append("Explanation of score (").append(workingScore).append("):\n");
         scoreExplanation.append("    Constraint match totals:\n");
@@ -713,10 +713,10 @@ public abstract class AbstractScoreDirector<Solution_, Factory_ extends Abstract
                     + "  Check your score constraints manually.";
         }
 
-        Map<List<Object>, ConstraintMatch> corruptedMap = createConstraintMatchMap(getConstraintMatchTotals());
+        Map<List<Object>, ConstraintMatch> corruptedMap = createConstraintMatchMap(getConstraintMatchTotalMap().values());
         Map<List<Object>, ConstraintMatch> excessMap = new LinkedHashMap<>(corruptedMap);
-        Map<List<Object>, ConstraintMatch> missingMap = createConstraintMatchMap(
-                uncorruptedScoreDirector.getConstraintMatchTotals());
+        Map<List<Object>, ConstraintMatch> missingMap =
+                createConstraintMatchMap(uncorruptedScoreDirector.getConstraintMatchTotalMap().values());
         excessMap.keySet().removeAll(missingMap.keySet()); // missingMap == uncorruptedMap
         missingMap.keySet().removeAll(corruptedMap.keySet());
 

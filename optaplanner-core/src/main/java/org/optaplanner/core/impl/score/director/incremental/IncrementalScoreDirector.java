@@ -16,11 +16,11 @@
 
 package org.optaplanner.core.impl.score.director.incremental;
 
-import java.util.Collection;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.Score;
@@ -98,20 +98,16 @@ public class IncrementalScoreDirector<Solution_>
     }
 
     @Override
-    public Collection<ConstraintMatchTotal> getConstraintMatchTotals() {
+    public Map<String, ConstraintMatchTotal> getConstraintMatchTotalMap() {
         if (!isConstraintMatchEnabled()) {
             throw new IllegalStateException("When constraintMatchEnabled (" + isConstraintMatchEnabled()
                     + ") is disabled in the constructor, this method should not be called.");
         }
         // Notice that we don't trigger the variable listeners
         return ((ConstraintMatchAwareIncrementalScoreCalculator<Solution_>) incrementalScoreCalculator)
-                .getConstraintMatchTotals();
-    }
-
-    @Override
-    public Map<String, ConstraintMatchTotal> getConstraintMatchTotalMap() {
-        return getConstraintMatchTotals().stream()
-                .collect(Collectors.toMap(ConstraintMatchTotal::getConstraintId, Function.identity()));
+                .getConstraintMatchTotals()
+                .stream()
+                .collect(toMap(ConstraintMatchTotal::getConstraintId, identity()));
     }
 
     @Override
@@ -127,7 +123,7 @@ public class IncrementalScoreDirector<Solution_>
         }
         Map<Object, Indictment> indictmentMap = new LinkedHashMap<>(); // TODO use entitySize
         Score zeroScore = getScoreDefinition().getZeroScore();
-        for (ConstraintMatchTotal constraintMatchTotal : getConstraintMatchTotals()) {
+        for (ConstraintMatchTotal constraintMatchTotal : getConstraintMatchTotalMap().values()) {
             for (ConstraintMatch constraintMatch : constraintMatchTotal.getConstraintMatchSet()) {
                 constraintMatch.getJustificationList().stream()
                         .distinct() // One match might have the same justification twice

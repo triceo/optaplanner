@@ -82,15 +82,6 @@ public class ConstraintStreamScoreDirector<Solution_>
     }
 
     @Override
-    public Collection<ConstraintMatchTotal> getConstraintMatchTotals() {
-        if (workingSolution == null) {
-            throw new IllegalStateException(
-                    "The method setWorkingSolution() must be called before the method getConstraintMatchTotals().");
-        }
-        return session.getConstraintMatchTotalMap().values();
-    }
-
-    @Override
     public Map<String, ConstraintMatchTotal> getConstraintMatchTotalMap() {
         if (workingSolution == null) {
             throw new IllegalStateException(

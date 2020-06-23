@@ -17,7 +17,6 @@
 package org.optaplanner.core.impl.score.holder;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,14 +61,6 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>> implemen
 
     public boolean isConstraintMatchEnabled() {
         return constraintMatchEnabled;
-    }
-
-    public Collection<ConstraintMatchTotal> getConstraintMatchTotals() {
-        if (!isConstraintMatchEnabled()) {
-            throw new IllegalStateException("When constraintMatchEnabled (" + isConstraintMatchEnabled()
-                    + ") is disabled in the constructor, this method should not be called.");
-        }
-        return constraintMatchTotalMap.values();
     }
 
     public Map<String, ConstraintMatchTotal> getConstraintMatchTotalMap() {

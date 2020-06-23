@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -135,9 +135,9 @@ public abstract class SolverPerformanceTest<Solution_> extends LoggingTest {
             Score score = scoreDirector.calculateScore();
             assertThat(bestScore).isEqualTo(score);
             if (scoreDirector.isConstraintMatchEnabled()) {
-                Collection<ConstraintMatchTotal> constraintMatchTotals = scoreDirector.getConstraintMatchTotals();
+                Map<String, ConstraintMatchTotal> constraintMatchTotals = scoreDirector.getConstraintMatchTotalMap();
                 assertThat(constraintMatchTotals).isNotNull();
-                assertThat(constraintMatchTotals.stream()
+                assertThat(constraintMatchTotals.values().stream()
                         .map(ConstraintMatchTotal::getScore)
                         .reduce(Score::add)
                         .orElse(scoreDefinition.getZeroScore())).isEqualTo(score);

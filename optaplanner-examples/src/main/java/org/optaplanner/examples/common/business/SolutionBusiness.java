@@ -256,8 +256,8 @@ public class SolutionBusiness<Solution_> {
     }
 
     public List<ConstraintMatchTotal> getConstraintMatchTotalList() {
-        List<ConstraintMatchTotal> constraintMatchTotalList = new ArrayList<>(
-                guiScoreDirector.getConstraintMatchTotals());
+        List<ConstraintMatchTotal> constraintMatchTotalList =
+                new ArrayList<>(guiScoreDirector.getConstraintMatchTotalMap().values());
         Collections.sort(constraintMatchTotalList);
         return constraintMatchTotalList;
     }

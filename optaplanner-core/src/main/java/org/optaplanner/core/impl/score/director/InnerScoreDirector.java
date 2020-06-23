@@ -16,7 +16,6 @@
 
 package org.optaplanner.core.impl.score.director;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -70,21 +69,6 @@ public interface InnerScoreDirector<Solution_> extends ScoreDirector<Solution_>,
      *         and {@link #getIndictmentMap} can be called
      */
     boolean isConstraintMatchEnabled();
-
-    /**
-     * Explains the {@link Score} of {@link #calculateScore()} by splitting it up per {@link Constraint}.
-     * <p>
-     * The sum of {@link ConstraintMatchTotal#getScore()} equals {@link #calculateScore()}.
-     * <p>
-     * Call {@link #calculateScore()} before calling this method,
-     * unless that method has already been called since the last {@link PlanningVariable} changes.
-     *
-     * @return never null
-     * @throws IllegalStateException if {@link #isConstraintMatchEnabled()} returns false
-     * @see #getConstraintMatchTotalMap()
-     * @see #getIndictmentMap()
-     */
-    Collection<ConstraintMatchTotal> getConstraintMatchTotals();
 
     /**
      * Explains the {@link Score} of {@link #calculateScore()} by splitting it up per {@link Constraint}.

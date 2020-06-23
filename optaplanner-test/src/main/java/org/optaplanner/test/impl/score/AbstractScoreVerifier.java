@@ -130,7 +130,7 @@ public abstract class AbstractScoreVerifier<Solution_> {
             return scoreDirector.getConstraintMatchTotalMap().get(constraintId);
         }
         ConstraintMatchTotal matchTotal = null;
-        for (ConstraintMatchTotal selectedMatchTotal : scoreDirector.getConstraintMatchTotals()) {
+        for (ConstraintMatchTotal selectedMatchTotal : scoreDirector.getConstraintMatchTotalMap().values()) {
             if (selectedMatchTotal.getConstraintName().equals(constraintName)) {
                 if (matchTotal != null) {
                     throw new IllegalArgumentException("The constraintName (" + constraintName
