@@ -51,8 +51,8 @@ public interface InnerScoreDirectorFactory<Solution_> extends ScoreDirectorFacto
      * @param constraintMatchEnabledPreference false if a {@link ScoreDirector} implementation
      *        should not do {@link ConstraintMatch} tracking even if it supports it.
      * @return never null
-     * @see ScoreDirector#isConstraintMatchEnabled()
-     * @see ScoreDirector#getConstraintMatchTotalMap()
+     * @see InnerScoreDirector#isConstraintMatchEnabled()
+     * @see InnerScoreDirector#getConstraintMatchTotalMap()
      */
     InnerScoreDirector<Solution_> buildScoreDirector(boolean lookUpEnabled, boolean constraintMatchEnabledPreference);
 

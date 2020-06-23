@@ -32,8 +32,6 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.Timeout;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.Score;
-import org.optaplanner.core.api.score.ScoreExplanation;
-import org.optaplanner.core.api.score.ScoreManager;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
@@ -41,6 +39,7 @@ import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaplanner.core.impl.score.definition.ScoreDefinition;
+import org.optaplanner.core.impl.score.director.InnerScoreDirector;
 import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
 import org.optaplanner.core.impl.solver.DefaultSolverFactory;
 import org.optaplanner.examples.common.TestSystemProperties;
@@ -65,6 +64,10 @@ public abstract class SolverPerformanceTest<Solution_> extends LoggingTest {
         return Optional.ofNullable(MOVE_THREAD_COUNTS_STRING)
                 .map(s -> Arrays.stream(s.split(",")))
                 .orElse(Stream.of(SolverConfig.MOVE_THREAD_COUNT_NONE));
+    }
+
+    protected static TestData testData(String unsolvedDataFile, String bestScoreLimit, EnvironmentMode environmentMode) {
+        return new TestData(unsolvedDataFile, bestScoreLimit, environmentMode);
     }
 
     @TestFactory
@@ -93,13 +96,9 @@ public abstract class SolverPerformanceTest<Solution_> extends LoggingTest {
 
     protected abstract Stream<TestData> testData();
 
-    private void runSpeedTest(
-            File unsolvedDataFile,
-            String bestScoreLimitString,
-            EnvironmentMode environmentMode,
+    private void runSpeedTest(File unsolvedDataFile, String bestScoreLimitString, EnvironmentMode environmentMode,
             String moveThreadCount) {
-        SolverFactory<Solution_> solverFactory = buildSolverFactory(
-                bestScoreLimitString, environmentMode, moveThreadCount);
+        SolverFactory<Solution_> solverFactory = buildSolverFactory(bestScoreLimitString, environmentMode, moveThreadCount);
         Solution_ problem = solutionFileIO.read(unsolvedDataFile);
         logger.info("Opened: {}", unsolvedDataFile);
         Solver<Solution_> solver = solverFactory.buildSolver();
@@ -107,9 +106,7 @@ public abstract class SolverPerformanceTest<Solution_> extends LoggingTest {
         assertScoreAndConstraintMatches(solverFactory, bestSolution, bestScoreLimitString);
     }
 
-    private SolverFactory<Solution_> buildSolverFactory(
-            String bestScoreLimitString,
-            EnvironmentMode environmentMode,
+    private SolverFactory<Solution_> buildSolverFactory(String bestScoreLimitString, EnvironmentMode environmentMode,
             String moveThreadCount) {
         SolverConfig solverConfig = SolverConfig.createFromXmlResource(solverConfigResource);
         solverConfig.withEnvironmentMode(environmentMode)
@@ -124,27 +121,27 @@ public abstract class SolverPerformanceTest<Solution_> extends LoggingTest {
         assertThat(bestSolution).isNotNull();
         InnerScoreDirectorFactory<Solution_> scoreDirectorFactory = ((DefaultSolverFactory<Solution_>) solverFactory)
                 .getScoreDirectorFactory();
+        Score bestScore = scoreDirectorFactory.getSolutionDescriptor().getScore(bestSolution);
         ScoreDefinition scoreDefinition = scoreDirectorFactory.getScoreDefinition();
         Score bestScoreLimit = scoreDefinition.parseScore(bestScoreLimitString);
-
-        ScoreExplanation scoreExplanation = ScoreManager.create(solverFactory).explain(bestSolution);
-        Score bestScore = scoreExplanation.getScore();
         assertThat(bestScore.compareTo(bestScoreLimit))
                 .as("The bestScore (" + bestScore + ") must be at least the bestScoreLimit (" + bestScoreLimit + ").")
                 .isGreaterThanOrEqualTo(0);
 
-        assertThat(bestScore).isEqualTo(bestScore);
-        Map<String, ConstraintMatchTotal> constraintMatchTotals = scoreExplanation.getConstraintMatchTotalMap();
-        assertThat(constraintMatchTotals).isNotNull();
-        assertThat(constraintMatchTotals.values().stream()
-                .map(ConstraintMatchTotal::getScore)
-                .reduce(Score::add)
-                .orElse(scoreDefinition.getZeroScore())).isEqualTo(bestScore);
-        assertThat(scoreExplanation.getIndictmentMap()).isNotNull();
-    }
-
-    protected static TestData testData(String unsolvedDataFile, String bestScoreLimit, EnvironmentMode environmentMode) {
-        return new TestData(unsolvedDataFile, bestScoreLimit, environmentMode);
+        try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
+            scoreDirector.setWorkingSolution(bestSolution);
+            Score score = scoreDirector.calculateScore();
+            assertThat(bestScore).isEqualTo(score);
+            if (scoreDirector.isConstraintMatchEnabled()) {
+                Map<String, ConstraintMatchTotal> constraintMatchTotals = scoreDirector.getConstraintMatchTotalMap();
+                assertThat(constraintMatchTotals).isNotNull();
+                assertThat(constraintMatchTotals.values().stream()
+                        .map(ConstraintMatchTotal::getScore)
+                        .reduce(Score::add)
+                        .orElse(scoreDefinition.getZeroScore())).isEqualTo(score);
+                assertThat(scoreDirector.getIndictmentMap()).isNotNull();
+            }
+        }
     }
 
     protected static class TestData {
