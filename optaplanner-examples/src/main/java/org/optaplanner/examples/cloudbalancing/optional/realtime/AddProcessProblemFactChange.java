@@ -17,7 +17,7 @@
 package org.optaplanner.examples.cloudbalancing.optional.realtime;
 
 import org.optaplanner.core.api.score.director.ScoreDirector;
-import org.optaplanner.core.impl.solver.ProblemFactChange;
+import org.optaplanner.core.api.solver.ProblemFactChange;
 import org.optaplanner.examples.cloudbalancing.domain.CloudBalance;
 import org.optaplanner.examples.cloudbalancing.domain.CloudProcess;
 

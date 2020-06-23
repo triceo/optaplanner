@@ -20,8 +20,8 @@ import org.optaplanner.core.api.domain.lookup.LookUpStrategyType;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.Score;
+import org.optaplanner.core.api.solver.ProblemFactChange;
 import org.optaplanner.core.impl.heuristic.move.Move;
-import org.optaplanner.core.impl.solver.ProblemFactChange;
 
 /**
  * The ScoreDirector holds the {@link PlanningSolution working solution}

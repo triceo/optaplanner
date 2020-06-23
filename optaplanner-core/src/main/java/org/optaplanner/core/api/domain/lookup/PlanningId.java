@@ -27,8 +27,8 @@ import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.solution.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.director.ScoreDirector;
+import org.optaplanner.core.api.solver.ProblemFactChange;
 import org.optaplanner.core.impl.heuristic.move.Move;
-import org.optaplanner.core.impl.solver.ProblemFactChange;
 
 /**
  * Specifies that a bean property (or a field) is the id to match
