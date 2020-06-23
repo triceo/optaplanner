@@ -705,8 +705,7 @@ public interface ConstraintMatchAwareIncrementalScoreCalculator<Solution_> {
 }
 ----
 
-For example in machine reassignment, create one ConstraintMatchTotal per constraint type
-and call `addConstraintMatch()` for each constraint match:
+For example in machine reassignment, create one `ConstraintMatchTotal` per constraint type and call `addConstraintMatch()` for each constraint match:
 
 [source,java,options="nowrap"]
 ----
@@ -722,8 +721,8 @@ public class MachineReassignmentIncrementalScoreCalculator
 
     @Override
     public Collection<ConstraintMatchTotal> getConstraintMatchTotals() {
-        ConstraintMatchTotal maximumCapacityMatchTotal = new ConstraintMatchTotal(
-                CONSTRAINT_PACKAGE, "maximumCapacity", HardSoftLongScore.ZERO);
+        ConstraintMatchTotal maximumCapacityMatchTotal = new DefaultConstraintMatchTotal(CONSTRAINT_PACKAGE,
+            "maximumCapacity", HardSoftLongScore.ZERO);
         ...
         for (MrMachineScorePart machineScorePart : machineScorePartMap.values()) {
             for (MrMachineCapacityScorePart machineCapacityScorePart : machineScorePart.machineCapacityScorePartList) {
@@ -1241,7 +1240,7 @@ image::ScoreCalculation/scoreVisualization.png[align="center"]
 [[constraintMatchTotal]]
 === Constraint match total: break down the score by constraint
 
-To break down the score per constraint, get the ``DefaultConstraintMatchTotal``s from the ``ScoreExplanatin``:
+To break down the score per constraint, get the ``ConstraintMatchTotal``s from the ``ScoreExplanation``:
 
 [source,java,options="nowrap"]
 ----
@@ -1259,7 +1258,7 @@ for (ConstraintMatchTotal constraintMatchTotal : constraintMatchTotals) {
 }
 ----
 
-Each `DefaultConstraintMatchTotal` represents one constraint and has a part of the overall score.
+Each `ConstraintMatchTotal` represents one constraint and has a part of the overall score.
 The sum of all the `ConstraintMatchTotal.getScore()` equals the overall score.
 
 [NOTE]
@@ -1271,7 +1270,7 @@ The sum of all the `ConstraintMatchTotal.getScore()` equals the overall score.
 [[indictmentHeatMap]]
 === Indictment heat map: visualize the hot planning entities
 
-To show a heat map in the UI that highlights the planning entities and problem facts have an impact on the ``Score``, get the `DefaultIndictment` map from the ``ScoreExplanation``:
+To show a heat map in the UI that highlights the planning entities and problem facts have an impact on the ``Score``, get the `Indictment` map from the ``ScoreExplanation``:
 
 [source,java,options="nowrap"]
 ----
@@ -1292,8 +1291,8 @@ for (CloudProcess process : cloudBalance.getProcessList()) {
 }
 ----
 
-Each `DefaultIndictment` is the sum of all constraints where that justification object is involved with.
-The sum of all the `Indictment.getScoreTotal()` differs from the overall score, because multiple ``DefaultIndictment``s can share the same `ConstraintMatch`.
+Each `Indictment` is the sum of all constraints where that justification object is involved with.
+The sum of all the `Indictment.getScoreTotal()` differs from the overall score, because multiple ``Indictment``s can share the same `ConstraintMatch`.
 
 [NOTE]
 ====
