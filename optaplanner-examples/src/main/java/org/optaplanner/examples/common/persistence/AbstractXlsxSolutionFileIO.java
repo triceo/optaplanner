@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.score.definition.ScoreDefinition;
+import org.optaplanner.core.impl.score.director.InnerScoreDirector;
 import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
-import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
 import org.optaplanner.persistence.common.api.domain.solution.SolutionFileIO;
 import org.optaplanner.swing.impl.TangoColorFactory;
@@ -372,10 +372,11 @@ public abstract class AbstractXlsxSolutionFileIO<Solution_> implements SolutionF
 
         public AbstractXlsxWriter(Solution_ solution, String solverConfigResource) {
             this.solution = solution;
-            ScoreDirectorFactory<Solution_> scoreDirectorFactory = SolverFactory
+            InnerScoreDirectorFactory<Solution_> scoreDirectorFactory = (InnerScoreDirectorFactory<Solution_>) SolverFactory
                     .<Solution_> createFromXmlResource(solverConfigResource).getScoreDirectorFactory();
-            scoreDefinition = ((InnerScoreDirectorFactory) scoreDirectorFactory).getScoreDefinition();
-            try (ScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
+            scoreDefinition = scoreDirectorFactory.getScoreDefinition();
+            // TODO replace with ScoreManager
+            try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
                 scoreDirector.setWorkingSolution(solution);
                 score = scoreDirector.calculateScore();
                 constraintMatchTotals = scoreDirector.getConstraintMatchTotals();

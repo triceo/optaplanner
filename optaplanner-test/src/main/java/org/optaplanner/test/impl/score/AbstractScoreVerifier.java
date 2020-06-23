@@ -27,8 +27,8 @@ import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig;
 import org.optaplanner.core.impl.domain.solution.descriptor.SolutionDescriptor;
+import org.optaplanner.core.impl.score.director.InnerScoreDirector;
 import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
-import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.test.impl.score.buildin.hardsoft.HardSoftScoreVerifier;
 
 /**
@@ -77,10 +77,9 @@ public abstract class AbstractScoreVerifier<Solution_> {
      * @param expectedWeight never null, the total weight for all matches of that 1 constraint
      * @param solution never null
      */
-    protected void assertWeight(
-            String constraintPackage, String constraintName, int scoreLevel, Number expectedWeight,
+    protected void assertWeight(String constraintPackage, String constraintName, int scoreLevel, Number expectedWeight,
             Solution_ solution) {
-        ScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector();
+        InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector();
         scoreDirector.setWorkingSolution(solution);
         scoreDirector.calculateScore();
         ConstraintMatchTotal matchTotal = findConstraintMatchTotal(constraintPackage, constraintName, scoreDirector);
@@ -124,8 +123,8 @@ public abstract class AbstractScoreVerifier<Solution_> {
      * @param scoreDirector never null
      * @return null if there is no constraint matched or the constraint doesn't exist
      */
-    private ConstraintMatchTotal findConstraintMatchTotal(
-            String constraintPackage, String constraintName, ScoreDirector<Solution_> scoreDirector) {
+    private ConstraintMatchTotal findConstraintMatchTotal(String constraintPackage, String constraintName,
+            InnerScoreDirector<Solution_> scoreDirector) {
         if (constraintPackage != null) {
             String constraintId = ConstraintMatchTotal.composeConstraintId(constraintPackage, constraintName);
             return scoreDirector.getConstraintMatchTotalMap().get(constraintId);

@@ -19,27 +19,27 @@ package org.optaplanner.core.impl.score;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.ScoreManager;
-import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
+import org.optaplanner.core.impl.score.director.InnerScoreDirector;
+import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
 
 /**
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  */
 public class DefaultScoreManager<Solution_> implements ScoreManager<Solution_> {
 
-    private ScoreDirectorFactory<Solution_> scoreDirectorFactory;
+    private InnerScoreDirectorFactory<Solution_> scoreDirectorFactory;
 
-    public DefaultScoreManager(ScoreDirectorFactory<Solution_> scoreDirectorFactory) {
+    public DefaultScoreManager(InnerScoreDirectorFactory<Solution_> scoreDirectorFactory) {
         this.scoreDirectorFactory = scoreDirectorFactory;
     }
 
-    public ScoreDirectorFactory<Solution_> getScoreDirectorFactory() {
+    public InnerScoreDirectorFactory<Solution_> getScoreDirectorFactory() {
         return scoreDirectorFactory;
     }
 
     @Override
     public Score updateScore(Solution_ solution) {
-        try (ScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
+        try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
             scoreDirector.setWorkingSolution(solution);
             return scoreDirector.calculateScore();
         }
@@ -47,7 +47,7 @@ public class DefaultScoreManager<Solution_> implements ScoreManager<Solution_> {
 
     @Override
     public String explainScore(Solution_ solution) {
-        try (ScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
+        try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
             scoreDirector.setWorkingSolution(solution);
             return scoreDirector.explainScore();
         }

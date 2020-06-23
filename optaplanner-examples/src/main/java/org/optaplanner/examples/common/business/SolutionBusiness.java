@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,6 @@ import org.optaplanner.core.impl.heuristic.selector.move.generic.SwapMove;
 import org.optaplanner.core.impl.heuristic.selector.move.generic.chained.ChainedChangeMove;
 import org.optaplanner.core.impl.heuristic.selector.move.generic.chained.ChainedSwapMove;
 import org.optaplanner.core.impl.score.director.InnerScoreDirector;
-import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
 import org.optaplanner.examples.common.app.CommonApp;
 import org.optaplanner.examples.common.persistence.AbstractSolutionExporter;
@@ -77,7 +76,7 @@ public class SolutionBusiness<Solution_> {
     // volatile because the solve method doesn't come from the event thread (like every other method call)
     private volatile Solver<Solution_> solver;
     private String solutionFileName = null;
-    private ScoreDirector<Solution_> guiScoreDirector;
+    private InnerScoreDirector<Solution_> guiScoreDirector;
 
     private final AtomicReference<Solution_> skipToBestSolutionRef = new AtomicReference<>();
 
@@ -184,7 +183,7 @@ public class SolutionBusiness<Solution_> {
         this.solver = solver;
     }
 
-    public void setGuiScoreDirector(ScoreDirector<Solution_> guiScoreDirector) {
+    public void setGuiScoreDirector(InnerScoreDirector<Solution_> guiScoreDirector) {
         this.guiScoreDirector = guiScoreDirector;
     }
 

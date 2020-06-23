@@ -21,9 +21,10 @@ import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
+import org.optaplanner.core.api.score.director.ScoreDirector;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.score.DefaultScoreManager;
-import org.optaplanner.core.impl.score.director.ScoreDirector;
+import org.optaplanner.core.impl.solver.DefaultSolverFactory;
 
 /**
  * A stateless service to help calculate {@link Score}, {@link ConstraintMatchTotal},
@@ -49,7 +50,7 @@ public interface ScoreManager<Solution_> {
      * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
      */
     static <Solution_> ScoreManager<Solution_> create(SolverFactory<Solution_> solverFactory) {
-        return new DefaultScoreManager<>(solverFactory.getScoreDirectorFactory());
+        return new DefaultScoreManager<>(((DefaultSolverFactory<Solution_>) solverFactory).getScoreDirectorFactory());
     }
 
     // ************************************************************************

@@ -37,6 +37,7 @@ import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
+import org.optaplanner.core.api.score.director.ScoreDirector;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.impl.domain.entity.descriptor.EntityDescriptor;
 import org.optaplanner.core.impl.domain.lookup.ClassAndPlanningIdComparator;
@@ -702,7 +703,8 @@ public abstract class AbstractScoreDirector<Solution_, Factory_ extends Abstract
      * @param predicted true if the score was predicted and might have been calculated on another thread
      * @return never null
      */
-    protected String buildScoreCorruptionAnalysis(ScoreDirector<Solution_> uncorruptedScoreDirector, boolean predicted) {
+    protected String buildScoreCorruptionAnalysis(InnerScoreDirector<Solution_> uncorruptedScoreDirector,
+            boolean predicted) {
         if (!isConstraintMatchEnabled() || !uncorruptedScoreDirector.isConstraintMatchEnabled()) {
             return "Score corruption analysis could not be generated because"
                     + " either corrupted constraintMatchEnabled (" + isConstraintMatchEnabled()
