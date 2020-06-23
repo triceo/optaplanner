@@ -16,6 +16,7 @@
 
 package org.optaplanner.core.api.score;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.Predicate;
 
@@ -30,7 +31,8 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
  * @see Score
  * @see HardSoftScore
  */
-public abstract class AbstractScore<S extends Score> implements Score<S> {
+public abstract class AbstractScore<S extends Score> implements Score<S>,
+        Serializable {
 
     protected static final String INIT_LABEL = "init";
 
