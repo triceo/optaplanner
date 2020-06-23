@@ -102,7 +102,7 @@ public abstract class SolutionPanel<Solution_> extends JPanel implements Scrolla
     }
 
     public Solution_ getSolution() {
-        return (Solution_) solutionBusiness.getSolution();
+        return solutionBusiness.getSolution();
     }
 
     @Override

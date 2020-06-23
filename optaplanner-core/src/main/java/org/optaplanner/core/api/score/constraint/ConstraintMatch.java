@@ -58,7 +58,7 @@ public final class ConstraintMatch implements Comparable<ConstraintMatch> {
     }
 
     public List<Object> getJustificationList() {
-        return justificationList;
+        return Collections.unmodifiableList(justificationList);
     }
 
     public Score getScore() {

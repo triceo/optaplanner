@@ -16,6 +16,8 @@
 
 package org.optaplanner.examples.common.business;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,10 +30,12 @@ import javax.swing.SwingUtilities;
 import org.apache.commons.io.FileUtils;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.Score;
+import org.optaplanner.core.api.score.ScoreManager;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.solver.ProblemFactChange;
 import org.optaplanner.core.api.solver.Solver;
+import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.domain.entity.descriptor.EntityDescriptor;
 import org.optaplanner.core.impl.domain.solution.descriptor.SolutionDescriptor;
 import org.optaplanner.core.impl.domain.variable.descriptor.GenuineVariableDescriptor;
@@ -43,7 +47,9 @@ import org.optaplanner.core.impl.heuristic.selector.move.generic.ChangeMove;
 import org.optaplanner.core.impl.heuristic.selector.move.generic.SwapMove;
 import org.optaplanner.core.impl.heuristic.selector.move.generic.chained.ChainedChangeMove;
 import org.optaplanner.core.impl.heuristic.selector.move.generic.chained.ChainedSwapMove;
+import org.optaplanner.core.impl.score.constraint.DefaultConstraintMatchTotal;
 import org.optaplanner.core.impl.score.director.InnerScoreDirector;
+import org.optaplanner.core.impl.solver.DefaultSolverFactory;
 import org.optaplanner.examples.common.app.CommonApp;
 import org.optaplanner.examples.common.persistence.AbstractSolutionExporter;
 import org.optaplanner.examples.common.persistence.AbstractSolutionImporter;
@@ -77,6 +83,7 @@ public class SolutionBusiness<Solution_> {
     private volatile Solver<Solution_> solver;
     private String solutionFileName = null;
     private InnerScoreDirector<Solution_> guiScoreDirector;
+    private ScoreManager<Solution_> scoreManager;
 
     private final AtomicReference<Solution_> skipToBestSolutionRef = new AtomicReference<>();
 
@@ -179,12 +186,11 @@ public class SolutionBusiness<Solution_> {
         return exporter.getOutputFileSuffix();
     }
 
-    public void setSolver(Solver<Solution_> solver) {
-        this.solver = solver;
-    }
-
-    public void setGuiScoreDirector(InnerScoreDirector<Solution_> guiScoreDirector) {
-        this.guiScoreDirector = guiScoreDirector;
+    public void setSolver(SolverFactory<Solution_> solverFactory) {
+        this.solver = solverFactory.buildSolver();
+        this.scoreManager = ScoreManager.create(solverFactory);
+        this.guiScoreDirector =
+                ((DefaultSolverFactory<Solution_>) solverFactory).getScoreDirectorFactory().buildScoreDirector();
     }
 
     public List<File> getUnsolvedFileList() {
@@ -218,7 +224,7 @@ public class SolutionBusiness<Solution_> {
     }
 
     public Score getScore() {
-        return guiScoreDirector.calculateScore();
+        return scoreManager.explain(getSolution()).getScore();
     }
 
     public boolean isSolving() {
@@ -256,14 +262,17 @@ public class SolutionBusiness<Solution_> {
     }
 
     public List<ConstraintMatchTotal> getConstraintMatchTotalList() {
-        List<ConstraintMatchTotal> constraintMatchTotalList =
-                new ArrayList<>(guiScoreDirector.getConstraintMatchTotalMap().values());
-        Collections.sort(constraintMatchTotalList);
-        return constraintMatchTotalList;
+        return scoreManager.explain(getSolution())
+                .getConstraintMatchTotalMap()
+                .values()
+                .stream()
+                .map(constraintMatchTotal -> (DefaultConstraintMatchTotal) constraintMatchTotal)
+                .sorted()
+                .collect(toList());
     }
 
     public Map<Object, Indictment> getIndictmentMap() {
-        return guiScoreDirector.getIndictmentMap();
+        return scoreManager.explain(getSolution()).getIndictmentMap();
     }
 
     public void importSolution(File file) {

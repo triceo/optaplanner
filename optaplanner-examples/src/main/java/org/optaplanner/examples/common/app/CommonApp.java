@@ -125,8 +125,7 @@ public abstract class CommonApp<Solution_> extends LoggingMain {
     public SolutionBusiness<Solution_> createSolutionBusiness() {
         SolutionBusiness<Solution_> solutionBusiness = new SolutionBusiness<>(this);
         DefaultSolverFactory<Solution_> solverFactory = (DefaultSolverFactory<Solution_>) createSolverFactory();
-        solutionBusiness.setSolver(solverFactory.buildSolver());
-        solutionBusiness.setGuiScoreDirector(solverFactory.getScoreDirectorFactory().buildScoreDirector());
+        solutionBusiness.setSolver(solverFactory);
         solutionBusiness.setDataDir(determineDataDir(dataDirName));
         solutionBusiness.setSolutionFileIO(createSolutionFileIO());
         solutionBusiness.setImporters(createSolutionImporters());

@@ -18,6 +18,7 @@ package org.optaplanner.core.impl.score.stream.bavet;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
@@ -29,6 +30,7 @@ import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
+import org.optaplanner.core.impl.score.constraint.DefaultIndictment;
 import org.optaplanner.core.impl.score.definition.ScoreDefinition;
 import org.optaplanner.core.impl.score.inliner.ScoreInliner;
 import org.optaplanner.core.impl.score.stream.ConstraintSession;
@@ -171,19 +173,19 @@ public final class BavetConstraintSession<Solution_> implements ConstraintSessio
     @Override
     public Map<Object, Indictment> getIndictmentMap() {
         // TODO This is temporary, inefficient code, replace it!
-        Map<Object, Indictment> indictmentMap = new LinkedHashMap<>(); // TODO use entitySize
+        Map<Object, DefaultIndictment> indictmentMap = new LinkedHashMap<>(); // TODO use entitySize
         for (ConstraintMatchTotal constraintMatchTotal : getConstraintMatchTotalMap().values()) {
             for (ConstraintMatch constraintMatch : constraintMatchTotal.getConstraintMatchSet()) {
                 constraintMatch.getJustificationList().stream()
                         .distinct() // One match might have the same justification twice
                         .forEach(justification -> {
-                            Indictment indictment = indictmentMap.computeIfAbsent(justification,
-                                    k -> new Indictment(justification, zeroScore));
+                            DefaultIndictment indictment = indictmentMap.computeIfAbsent(justification,
+                                    k -> new DefaultIndictment(justification, zeroScore));
                             indictment.addConstraintMatch(constraintMatch);
                         });
             }
         }
-        return indictmentMap;
+        return Collections.unmodifiableMap(indictmentMap);
     }
 
     @Override

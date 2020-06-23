@@ -19,6 +19,7 @@ package org.optaplanner.core.impl.score.director.incremental;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.score.director.ScoreDirector;
 import org.optaplanner.core.impl.domain.entity.descriptor.EntityDescriptor;
 import org.optaplanner.core.impl.domain.variable.descriptor.VariableDescriptor;
+import org.optaplanner.core.impl.score.constraint.DefaultIndictment;
 import org.optaplanner.core.impl.score.director.AbstractScoreDirector;
 
 /**
@@ -121,20 +123,20 @@ public class IncrementalScoreDirector<Solution_>
         if (incrementalIndictmentMap != null) {
             return incrementalIndictmentMap;
         }
-        Map<Object, Indictment> indictmentMap = new LinkedHashMap<>(); // TODO use entitySize
+        Map<Object, DefaultIndictment> indictmentMap = new LinkedHashMap<>(); // TODO use entitySize
         Score zeroScore = getScoreDefinition().getZeroScore();
         for (ConstraintMatchTotal constraintMatchTotal : getConstraintMatchTotalMap().values()) {
             for (ConstraintMatch constraintMatch : constraintMatchTotal.getConstraintMatchSet()) {
                 constraintMatch.getJustificationList().stream()
                         .distinct() // One match might have the same justification twice
                         .forEach(justification -> {
-                            Indictment indictment = indictmentMap.computeIfAbsent(justification,
-                                    k -> new Indictment(justification, zeroScore));
+                            DefaultIndictment indictment = indictmentMap.computeIfAbsent(justification,
+                                    k -> new DefaultIndictment(justification, zeroScore));
                             indictment.addConstraintMatch(constraintMatch);
                         });
             }
         }
-        return indictmentMap;
+        return Collections.unmodifiableMap(indictmentMap);
     }
 
     // ************************************************************************
