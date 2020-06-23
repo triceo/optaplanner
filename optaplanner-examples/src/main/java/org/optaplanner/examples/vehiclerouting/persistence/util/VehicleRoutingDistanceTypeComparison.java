@@ -25,6 +25,7 @@ import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.score.director.InnerScoreDirector;
 import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
+import org.optaplanner.core.impl.solver.DefaultSolverFactory;
 import org.optaplanner.examples.common.app.CommonApp;
 import org.optaplanner.examples.common.app.LoggingMain;
 import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
@@ -54,7 +55,7 @@ public class VehicleRoutingDistanceTypeComparison extends LoggingMain {
         solutionFileIO = new XStreamSolutionFileIO<>(VehicleRoutingSolution.class);
         SolverFactory<VehicleRoutingSolution> solverFactory = SolverFactory
                 .createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
-        scoreDirectorFactory = (InnerScoreDirectorFactory<VehicleRoutingSolution>) solverFactory.getScoreDirectorFactory();
+        scoreDirectorFactory = ((DefaultSolverFactory<VehicleRoutingSolution>) solverFactory).getScoreDirectorFactory();
     }
 
     public void compare(String... filePaths) {
@@ -110,7 +111,6 @@ public class VehicleRoutingDistanceTypeComparison extends LoggingMain {
             Customer varNext = varCustomer.getNextCustomer();
             inputCustomer.setNextCustomer(varNext == null ? null : inputCustomerMap.get(varNext.getId()));
         }
-        // TODO replace with ScoreManager
         try (InnerScoreDirector<VehicleRoutingSolution> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
             scoreDirector.setWorkingSolution(inputSolution);
             scoreDirector.calculateScore();

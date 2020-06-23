@@ -65,8 +65,7 @@ public interface InnerScoreDirector<Solution_> extends ScoreDirector<Solution_>,
     Score calculateScore();
 
     /**
-     * @return true if {@link #getConstraintMatchTotals()}, {@link #getConstraintMatchTotalMap()}
-     *         and {@link #getIndictmentMap} can be called
+     * @return true if {@link #getConstraintMatchTotalMap()} and {@link #getIndictmentMap} can be called
      */
     boolean isConstraintMatchEnabled();
 

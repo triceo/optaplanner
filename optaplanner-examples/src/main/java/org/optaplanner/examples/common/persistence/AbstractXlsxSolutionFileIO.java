@@ -46,6 +46,8 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.optaplanner.core.api.score.Score;
+import org.optaplanner.core.api.score.ScoreExplanation;
+import org.optaplanner.core.api.score.ScoreManager;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
@@ -54,6 +56,7 @@ import org.optaplanner.core.impl.score.definition.ScoreDefinition;
 import org.optaplanner.core.impl.score.director.InnerScoreDirector;
 import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
 import org.optaplanner.core.impl.score.director.ScoreDirectorFactory;
+import org.optaplanner.core.impl.solver.DefaultSolverFactory;
 import org.optaplanner.persistence.common.api.domain.solution.SolutionFileIO;
 import org.optaplanner.swing.impl.TangoColorFactory;
 
@@ -99,8 +102,9 @@ public abstract class AbstractXlsxSolutionFileIO<Solution_> implements SolutionF
 
         public AbstractXlsxReader(XSSFWorkbook workbook, String solverConfigResource) {
             this.workbook = workbook;
-            ScoreDirectorFactory<Solution_> scoreDirectorFactory = SolverFactory
-                    .<Solution_> createFromXmlResource(solverConfigResource).getScoreDirectorFactory();
+            SolverFactory<Solution_> solverFactory = SolverFactory.createFromXmlResource(solverConfigResource);
+            ScoreDirectorFactory<Solution_> scoreDirectorFactory =
+                    ((DefaultSolverFactory<Solution_>) solverFactory).getScoreDirectorFactory();
             scoreDefinition = ((InnerScoreDirectorFactory) scoreDirectorFactory).getScoreDefinition();
         }
 
@@ -371,16 +375,16 @@ public abstract class AbstractXlsxSolutionFileIO<Solution_> implements SolutionF
 
         public AbstractXlsxWriter(Solution_ solution, String solverConfigResource) {
             this.solution = solution;
-            InnerScoreDirectorFactory<Solution_> scoreDirectorFactory = (InnerScoreDirectorFactory<Solution_>) SolverFactory
-                    .<Solution_> createFromXmlResource(solverConfigResource).getScoreDirectorFactory();
-            scoreDefinition = scoreDirectorFactory.getScoreDefinition();
-            // TODO replace with ScoreManager
-            try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
-                scoreDirector.setWorkingSolution(solution);
-                score = scoreDirector.calculateScore();
-                constraintMatchTotalsMap = scoreDirector.getConstraintMatchTotalMap();
-                indictmentMap = scoreDirector.getIndictmentMap();
+            DefaultSolverFactory<Solution_> solverFactory =
+                    (DefaultSolverFactory<Solution_>) SolverFactory.createFromXmlResource(solverConfigResource);
+            try (InnerScoreDirector<Solution_> scoreDirector = solverFactory.getScoreDirectorFactory().buildScoreDirector()) {
+                scoreDefinition = scoreDirector.getScoreDefinition();
             }
+            ScoreExplanation scoreManager = ScoreManager.create(solverFactory)
+                    .explain(solution);
+            score = scoreManager.getScore();
+            constraintMatchTotalsMap = scoreManager.getConstraintMatchTotalMap();
+            indictmentMap = scoreManager.getIndictmentMap();
         }
 
         public abstract Workbook write();

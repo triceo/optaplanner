@@ -18,6 +18,7 @@ package org.optaplanner.core.impl.score;
 
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.Score;
+import org.optaplanner.core.api.score.ScoreExplanation;
 import org.optaplanner.core.api.score.ScoreManager;
 import org.optaplanner.core.impl.score.director.InnerScoreDirector;
 import org.optaplanner.core.impl.score.director.InnerScoreDirectorFactory;
@@ -50,6 +51,15 @@ public class DefaultScoreManager<Solution_> implements ScoreManager<Solution_> {
         try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
             scoreDirector.setWorkingSolution(solution);
             return scoreDirector.explainScore();
+        }
+    }
+
+    @Override
+    public ScoreExplanation explain(Solution_ solution) {
+        try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector(true, true)) {
+            scoreDirector.setWorkingSolution(solution);
+            return new DefaultScoreExplanation(scoreDirector.calculateScore(), scoreDirector.explainScore(),
+                    scoreDirector.getConstraintMatchTotalMap(), scoreDirector.getIndictmentMap());
         }
     }
 }

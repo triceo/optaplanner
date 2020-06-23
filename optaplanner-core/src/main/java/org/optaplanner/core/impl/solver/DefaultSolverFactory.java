@@ -42,7 +42,6 @@ public final class DefaultSolverFactory<Solution_> extends SolverFactory<Solutio
         return solverConfig.buildSolver();
     }
 
-    @Override
     public InnerScoreDirectorFactory<Solution_> getScoreDirectorFactory() {
         return solverConfig.buildScoreDirectorFactory(solverConfig.determineEnvironmentMode());
     }

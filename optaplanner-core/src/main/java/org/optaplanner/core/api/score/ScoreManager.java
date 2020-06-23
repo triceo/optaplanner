@@ -21,7 +21,6 @@ import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
-import org.optaplanner.core.api.score.director.ScoreDirector;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.score.DefaultScoreManager;
 import org.optaplanner.core.impl.solver.DefaultSolverFactory;
@@ -70,15 +69,21 @@ public interface ScoreManager<Solution_> {
      * In case of an {@link Score#isFeasible() infeasible} solution, this can help diagnose the cause of that.
      * <p>
      * Do not parse this string.
-     * Instead, to provide this information in a UI or a service, use {@link SolverFactory#getScoreDirectorFactory()}
-     * to retrieve {@link ScoreDirector#getConstraintMatchTotalMap()} and {@link ScoreDirector#getIndictmentMap()}
+     * Instead, to provide this information in a UI or a service, use {@link #explain(Object)}
+     * to retrieve {@link ScoreExplanation#getConstraintMatchTotalMap()} and {@link ScoreExplanation#getIndictmentMap()}
      * and convert those into a domain specific API.
-     * <p>
-     * This method is thread-safe.
      *
+     * @param solution never null
      * @return null if {@link #updateScore(Object)} returns null with the same solution
-     * @see ScoreDirector#explainScore()
      */
     String explainScore(Solution_ solution);
+
+    /**
+     * Calculates and retrieves metadata necessary for describing the quality of a particular solution.
+     *
+     * @param solution never null
+     * @return never null
+     */
+    ScoreExplanation explain(Solution_ solution);
 
 }
