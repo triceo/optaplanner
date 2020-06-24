@@ -172,11 +172,18 @@ public class SolverConfigTest {
         queuedEntityPlacerConfig.setEntitySelectorConfig(placerEntitySelectorConfig);
         queuedEntityPlacerConfig.setMoveSelectorConfigList(Collections.singletonList(cartesianProductMoveSelectorConfig));
 
+        List<String> variableNameIncludeList = new ArrayList<>();
+        variableNameIncludeList.add("variableA");
+        variableNameIncludeList.add("variableB");
+
+        SwapMoveSelectorConfig swapMoveSelectorConfig = new SwapMoveSelectorConfig();
+        swapMoveSelectorConfig.setVariableNameIncludeList(variableNameIncludeList);
+
         ConstructionHeuristicPhaseConfig constructionHeuristicPhaseConfig = new ConstructionHeuristicPhaseConfig();
         constructionHeuristicPhaseConfig.withConstructionHeuristicType(ConstructionHeuristicType.FIRST_FIT_DECREASING)
                 .withForagerConfig(constructionHeuristicForagerConfig)
                 .withEntityPlacerConfig(queuedEntityPlacerConfig)
-                .withMoveSelectorConfigList(Collections.singletonList(new SwapMoveSelectorConfig()));
+                .withMoveSelectorConfigList(Collections.singletonList(swapMoveSelectorConfig));
 
         CustomPhaseConfig customPhaseConfig = new CustomPhaseConfig().withCustomPhaseCommandClassList(
                 Collections.singletonList(AbstractCustomPhaseCommand.class));

@@ -57,7 +57,12 @@
         </changeMoveSelector>
       </cartesianProductMoveSelector>
     </queuedEntityPlacer>
-    <swapMoveSelector/>
+    <swapMoveSelector>
+      <variableNameIncludes>
+        <variableNameInclude>variableA</variableNameInclude>
+        <variableNameInclude>variableB</variableNameInclude>
+      </variableNameIncludes>
+    </swapMoveSelector>
   </constructionHeuristic>
 
   <customPhase>
