@@ -41,8 +41,8 @@ import org.optaplanner.core.config.heuristic.selector.move.generic.chained.KOptM
 import org.optaplanner.core.config.heuristic.selector.move.generic.chained.SubChainChangeMoveSelectorConfig;
 import org.optaplanner.core.config.heuristic.selector.move.generic.chained.SubChainSwapMoveSelectorConfig;
 import org.optaplanner.core.config.heuristic.selector.move.generic.chained.TailChainSwapMoveSelectorConfig;
-import org.optaplanner.core.config.localsearch.decider.acceptor.AcceptorConfig;
 import org.optaplanner.core.config.localsearch.decider.acceptor.AcceptorType;
+import org.optaplanner.core.config.localsearch.decider.acceptor.LocalSearchAcceptorConfig;
 import org.optaplanner.core.config.localsearch.decider.forager.LocalSearchForagerConfig;
 import org.optaplanner.core.config.localsearch.decider.forager.LocalSearchPickEarlyType;
 import org.optaplanner.core.config.phase.PhaseConfig;
@@ -90,7 +90,7 @@ public class LocalSearchPhaseConfig extends PhaseConfig<LocalSearchPhaseConfig> 
     private List<MoveSelectorConfig> moveSelectorConfigList = null;
     @XmlElement(name = "acceptor")
     @XStreamAlias("acceptor")
-    private AcceptorConfig acceptorConfig = null;
+    private LocalSearchAcceptorConfig acceptorConfig = null;
     @XmlElement(name = "forager")
     @XStreamAlias("forager")
     private LocalSearchForagerConfig foragerConfig = null;
@@ -115,11 +115,11 @@ public class LocalSearchPhaseConfig extends PhaseConfig<LocalSearchPhaseConfig> 
         this.moveSelectorConfigList = moveSelectorConfig == null ? null : Collections.singletonList(moveSelectorConfig);
     }
 
-    public AcceptorConfig getAcceptorConfig() {
+    public LocalSearchAcceptorConfig getAcceptorConfig() {
         return acceptorConfig;
     }
 
-    public void setAcceptorConfig(AcceptorConfig acceptorConfig) {
+    public void setAcceptorConfig(LocalSearchAcceptorConfig acceptorConfig) {
         this.acceptorConfig = acceptorConfig;
     }
 
@@ -145,7 +145,7 @@ public class LocalSearchPhaseConfig extends PhaseConfig<LocalSearchPhaseConfig> 
         return this;
     }
 
-    public LocalSearchPhaseConfig withAcceptorConfig(AcceptorConfig acceptorConfig) {
+    public LocalSearchPhaseConfig withAcceptorConfig(LocalSearchAcceptorConfig acceptorConfig) {
         this.acceptorConfig = acceptorConfig;
         return this;
     }
@@ -228,7 +228,7 @@ public class LocalSearchPhaseConfig extends PhaseConfig<LocalSearchPhaseConfig> 
     }
 
     protected Acceptor buildAcceptor(HeuristicConfigPolicy configPolicy) {
-        AcceptorConfig acceptorConfig_;
+        LocalSearchAcceptorConfig acceptorConfig_;
         if (acceptorConfig != null) {
             if (localSearchType != null) {
                 throw new IllegalArgumentException("The localSearchType (" + localSearchType
@@ -238,7 +238,7 @@ public class LocalSearchPhaseConfig extends PhaseConfig<LocalSearchPhaseConfig> 
             acceptorConfig_ = acceptorConfig;
         } else {
             LocalSearchType localSearchType_ = defaultIfNull(localSearchType, LocalSearchType.LATE_ACCEPTANCE);
-            acceptorConfig_ = new AcceptorConfig();
+            acceptorConfig_ = new LocalSearchAcceptorConfig();
             switch (localSearchType_) {
                 case HILL_CLIMBING:
                 case VARIABLE_NEIGHBORHOOD_DESCENT:

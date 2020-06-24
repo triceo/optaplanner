@@ -64,8 +64,8 @@ import org.optaplanner.core.config.heuristic.selector.value.ValueSelectorConfig;
 import org.optaplanner.core.config.heuristic.selector.value.ValueSorterManner;
 import org.optaplanner.core.config.localsearch.LocalSearchPhaseConfig;
 import org.optaplanner.core.config.localsearch.LocalSearchType;
-import org.optaplanner.core.config.localsearch.decider.acceptor.AcceptorConfig;
 import org.optaplanner.core.config.localsearch.decider.acceptor.AcceptorType;
+import org.optaplanner.core.config.localsearch.decider.acceptor.LocalSearchAcceptorConfig;
 import org.optaplanner.core.config.localsearch.decider.acceptor.stepcountinghillclimbing.StepCountingHillClimbingType;
 import org.optaplanner.core.config.localsearch.decider.forager.FinalistPodiumType;
 import org.optaplanner.core.config.localsearch.decider.forager.LocalSearchForagerConfig;
@@ -214,7 +214,7 @@ public class SolverConfigTest {
         acceptorTypeList.add(AcceptorType.ENTITY_TABU);
         acceptorTypeList.add(AcceptorType.STEP_COUNTING_HILL_CLIMBING);
 
-        AcceptorConfig localSearchAcceptorConfig = new AcceptorConfig()
+        LocalSearchAcceptorConfig localSearchAcceptorConfig = new LocalSearchAcceptorConfig()
                 .withAcceptorTypeList(acceptorTypeList)
                 .withEntityTabuRatio(2.0)
                 .withStepCountingHillClimbingType(StepCountingHillClimbingType.EQUAL_OR_IMPROVING_STEP)
