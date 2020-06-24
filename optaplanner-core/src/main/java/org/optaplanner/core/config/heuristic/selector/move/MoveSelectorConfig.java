@@ -191,7 +191,7 @@ public abstract class MoveSelectorConfig<C extends MoveSelectorConfig> extends S
         return this;
     }
 
-    public MoveSelectorConfig withFilterClassList(Class<? extends SelectionFilter> filterClass) {
+    public MoveSelectorConfig withFilterClass(Class<? extends SelectionFilter> filterClass) {
         this.filterClass = filterClass;
         return this;
     }
