@@ -27,6 +27,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
@@ -44,6 +47,7 @@ import org.optaplanner.core.config.AbstractConfig;
 import org.optaplanner.core.config.score.trend.InitializingScoreTrendLevel;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.util.ConfigUtils;
+import org.optaplanner.core.config.util.JaxbMapAdapter;
 import org.optaplanner.core.config.util.KeyAsElementMapConverter;
 import org.optaplanner.core.impl.domain.solution.descriptor.SolutionDescriptor;
 import org.optaplanner.core.impl.score.director.AbstractScoreDirectorFactory;
@@ -70,27 +74,39 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
     private static final String GENERATE_DROOLS_TEST_ON_ERROR_PROPERTY_NAME = "optaplanner.drools.generateTestOnError";
 
     protected Class<? extends EasyScoreCalculator> easyScoreCalculatorClass = null;
+
+    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> easyScoreCalculatorCustomProperties = null;
 
     protected Class<? extends ConstraintProvider> constraintProviderClass = null;
+
+    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> constraintProviderCustomProperties = null;
     protected ConstraintStreamImplType constraintStreamImplType;
 
     protected Class<? extends IncrementalScoreCalculator> incrementalScoreCalculatorClass = null;
+
+    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> incrementalScoreCalculatorCustomProperties = null;
 
+    @XmlElement(name = "scoreDrl")
     @XStreamImplicit(itemFieldName = "scoreDrl")
     protected List<String> scoreDrlList = null;
+    @XmlElement(name = "scoreDrlFile")
     @XStreamImplicit(itemFieldName = "scoreDrlFile")
     protected List<File> scoreDrlFileList = null;
+
+    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> kieBaseConfigurationProperties = null;
 
+    // TODO: this should be rather an enum?
     protected String initializingScoreTrend = null;
 
+    @XmlElement(name = "assertionScoreDirectorFactory")
     @XStreamAlias("assertionScoreDirectorFactory")
     protected ScoreDirectorFactoryConfig assertionScoreDirectorFactory = null;
 

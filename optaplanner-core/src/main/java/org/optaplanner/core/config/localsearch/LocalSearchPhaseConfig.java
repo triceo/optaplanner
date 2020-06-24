@@ -23,13 +23,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
+
 import org.optaplanner.core.config.heuristic.selector.common.SelectionCacheType;
 import org.optaplanner.core.config.heuristic.selector.common.SelectionOrder;
 import org.optaplanner.core.config.heuristic.selector.move.MoveSelectorConfig;
 import org.optaplanner.core.config.heuristic.selector.move.composite.CartesianProductMoveSelectorConfig;
 import org.optaplanner.core.config.heuristic.selector.move.composite.UnionMoveSelectorConfig;
+import org.optaplanner.core.config.heuristic.selector.move.factory.MoveIteratorFactoryConfig;
+import org.optaplanner.core.config.heuristic.selector.move.factory.MoveListFactoryConfig;
 import org.optaplanner.core.config.heuristic.selector.move.generic.ChangeMoveSelectorConfig;
+import org.optaplanner.core.config.heuristic.selector.move.generic.PillarChangeMoveSelectorConfig;
+import org.optaplanner.core.config.heuristic.selector.move.generic.PillarSwapMoveSelectorConfig;
 import org.optaplanner.core.config.heuristic.selector.move.generic.SwapMoveSelectorConfig;
+import org.optaplanner.core.config.heuristic.selector.move.generic.chained.KOptMoveSelectorConfig;
+import org.optaplanner.core.config.heuristic.selector.move.generic.chained.SubChainChangeMoveSelectorConfig;
+import org.optaplanner.core.config.heuristic.selector.move.generic.chained.SubChainSwapMoveSelectorConfig;
+import org.optaplanner.core.config.heuristic.selector.move.generic.chained.TailChainSwapMoveSelectorConfig;
 import org.optaplanner.core.config.localsearch.decider.acceptor.AcceptorConfig;
 import org.optaplanner.core.config.localsearch.decider.acceptor.AcceptorType;
 import org.optaplanner.core.config.localsearch.decider.forager.LocalSearchForagerConfig;
@@ -60,11 +71,27 @@ public class LocalSearchPhaseConfig extends PhaseConfig<LocalSearchPhaseConfig> 
 
     protected LocalSearchType localSearchType = null;
 
+    @XmlElements({
+            @XmlElement(name = "cartesianProductMoveSelector", type = CartesianProductMoveSelectorConfig.class),
+            @XmlElement(name = "changeMoveSelector", type = ChangeMoveSelectorConfig.class),
+            @XmlElement(name = "kOptMoveSelector", type = KOptMoveSelectorConfig.class),
+            @XmlElement(name = "moveIteratorFactory", type = MoveIteratorFactoryConfig.class),
+            @XmlElement(name = "moveListFactory", type = MoveListFactoryConfig.class),
+            @XmlElement(name = "pillarChangeMoveSelector", type = PillarChangeMoveSelectorConfig.class),
+            @XmlElement(name = "pillarSwapMoveSelector", type = PillarSwapMoveSelectorConfig.class),
+            @XmlElement(name = "subChainChangeMoveSelector", type = SubChainChangeMoveSelectorConfig.class),
+            @XmlElement(name = "subChainSwapMoveSelector", type = SubChainSwapMoveSelectorConfig.class),
+            @XmlElement(name = "swapMoveSelector", type = SwapMoveSelectorConfig.class),
+            @XmlElement(name = "tailChainSwapMoveSelector", type = TailChainSwapMoveSelectorConfig.class),
+            @XmlElement(name = "unionMoveSelector", type = UnionMoveSelectorConfig.class)
+    })
     // TODO This is a List due to XStream limitations. With JAXB it could be just a MoveSelectorConfig instead.
     @XStreamImplicit()
     private List<MoveSelectorConfig> moveSelectorConfigList = null;
+    @XmlElement(name = "acceptor")
     @XStreamAlias("acceptor")
     private AcceptorConfig acceptorConfig = null;
+    @XmlElement(name = "forager")
     @XStreamAlias("forager")
     private LocalSearchForagerConfig foragerConfig = null;
 

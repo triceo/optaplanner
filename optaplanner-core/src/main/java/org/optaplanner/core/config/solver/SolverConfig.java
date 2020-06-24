@@ -43,8 +43,12 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.AbstractConfig;
 import org.optaplanner.core.config.constructionheuristic.ConstructionHeuristicPhaseConfig;
+import org.optaplanner.core.config.exhaustivesearch.ExhaustiveSearchPhaseConfig;
 import org.optaplanner.core.config.localsearch.LocalSearchPhaseConfig;
+import org.optaplanner.core.config.partitionedsearch.PartitionedSearchPhaseConfig;
+import org.optaplanner.core.config.phase.NoChangePhaseConfig;
 import org.optaplanner.core.config.phase.PhaseConfig;
+import org.optaplanner.core.config.phase.custom.CustomPhaseConfig;
 import org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig;
 import org.optaplanner.core.config.solver.random.RandomType;
 import org.optaplanner.core.config.solver.recaller.BestSolutionRecallerConfig;
@@ -240,17 +244,25 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
     protected Class<? extends ThreadFactory> threadFactoryClass = null;
 
     protected Class<?> solutionClass = null;
+    @XmlElement(name = "entityClass")
     @XStreamImplicit(itemFieldName = "entityClass")
     protected List<Class<?>> entityClassList = null;
 
+    @XmlElement(name = "scoreDirectorFactory")
     @XStreamAlias("scoreDirectorFactory")
     protected ScoreDirectorFactoryConfig scoreDirectorFactoryConfig = null;
 
+    @XmlElement(name = "termination")
     @XStreamAlias("termination")
     private TerminationConfig terminationConfig;
 
     @XmlElements({
-            @XmlElement(name = "constructionHeuristic", type = ConstructionHeuristicPhaseConfig.class)
+            @XmlElement(name = "constructionHeuristic", type = ConstructionHeuristicPhaseConfig.class),
+            @XmlElement(name = "customPhase", type = CustomPhaseConfig.class),
+            @XmlElement(name = "exhaustiveSearch", type = ExhaustiveSearchPhaseConfig.class),
+            @XmlElement(name = "localSearch", type = LocalSearchPhaseConfig.class),
+            @XmlElement(name = "noChangePhase", type = NoChangePhaseConfig.class),
+            @XmlElement(name = "partitionedSearch", type = PartitionedSearchPhaseConfig.class)
     })
     @XStreamImplicit()
     protected List<PhaseConfig> phaseConfigList = null;

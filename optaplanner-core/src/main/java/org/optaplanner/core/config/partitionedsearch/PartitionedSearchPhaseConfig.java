@@ -21,13 +21,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadFactory;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import org.optaplanner.core.api.score.director.ScoreDirector;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.config.constructionheuristic.ConstructionHeuristicPhaseConfig;
+import org.optaplanner.core.config.exhaustivesearch.ExhaustiveSearchPhaseConfig;
 import org.optaplanner.core.config.localsearch.LocalSearchPhaseConfig;
+import org.optaplanner.core.config.phase.NoChangePhaseConfig;
 import org.optaplanner.core.config.phase.PhaseConfig;
+import org.optaplanner.core.config.phase.custom.CustomPhaseConfig;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.util.ConfigUtils;
+import org.optaplanner.core.config.util.JaxbMapAdapter;
 import org.optaplanner.core.config.util.KeyAsElementMapConverter;
 import org.optaplanner.core.impl.heuristic.HeuristicConfigPolicy;
 import org.optaplanner.core.impl.partitionedsearch.DefaultPartitionedSearchPhase;
@@ -55,11 +63,20 @@ public class PartitionedSearchPhaseConfig extends PhaseConfig<PartitionedSearchP
     // and also because the input config file should match the output config file
 
     protected Class<? extends SolutionPartitioner<?>> solutionPartitionerClass = null;
+    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> solutionPartitionerCustomProperties = null;
 
     protected String runnablePartThreadLimit = null;
 
+    @XmlElements({
+            @XmlElement(name = "constructionHeuristic", type = ConstructionHeuristicPhaseConfig.class),
+            @XmlElement(name = "customPhase", type = CustomPhaseConfig.class),
+            @XmlElement(name = "exhaustiveSearch", type = ExhaustiveSearchPhaseConfig.class),
+            @XmlElement(name = "localSearch", type = LocalSearchPhaseConfig.class),
+            @XmlElement(name = "noChangePhase", type = NoChangePhaseConfig.class),
+            @XmlElement(name = "partitionedSearch", type = PartitionedSearchPhaseConfig.class)
+    })
     @XStreamImplicit()
     protected List<PhaseConfig> phaseConfigList = null;
 

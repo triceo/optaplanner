@@ -21,6 +21,8 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+
 import org.optaplanner.core.config.AbstractConfig;
 import org.optaplanner.core.config.localsearch.decider.acceptor.stepcountinghillclimbing.StepCountingHillClimbingType;
 import org.optaplanner.core.config.solver.EnvironmentMode;
@@ -46,6 +48,7 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias("acceptor")
 public class AcceptorConfig extends AbstractConfig<AcceptorConfig> {
 
+    @XmlElement(name = "acceptorType")
     @XStreamImplicit(itemFieldName = "acceptorType")
     private List<AcceptorType> acceptorTypeList = null;
 

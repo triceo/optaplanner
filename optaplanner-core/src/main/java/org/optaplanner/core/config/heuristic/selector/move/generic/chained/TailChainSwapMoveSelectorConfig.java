@@ -16,6 +16,8 @@
 
 package org.optaplanner.core.config.heuristic.selector.move.generic.chained;
 
+import javax.xml.bind.annotation.XmlElement;
+
 import org.optaplanner.core.config.heuristic.selector.common.SelectionCacheType;
 import org.optaplanner.core.config.heuristic.selector.common.SelectionOrder;
 import org.optaplanner.core.config.heuristic.selector.entity.EntitySelectorConfig;
@@ -36,6 +38,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("tailChainSwapMoveSelector")
 public class TailChainSwapMoveSelectorConfig extends MoveSelectorConfig<TailChainSwapMoveSelectorConfig> {
 
+    @XmlElement(name = "entitySelector")
     @XStreamAlias("entitySelector")
     private EntitySelectorConfig entitySelectorConfig = null;
     /**
@@ -43,6 +46,7 @@ public class TailChainSwapMoveSelectorConfig extends MoveSelectorConfig<TailChai
      * the secondary entity might not exist if the value is a buoy (= the last entity in a chain)
      * and also because with nearby selection, it's more important that the value is near (instead of the secondary entity).
      */
+    @XmlElement(name = "valueSelector")
     @XStreamAlias("valueSelector")
     private ValueSelectorConfig valueSelectorConfig = null;
 
