@@ -17,12 +17,12 @@
 package org.optaplanner.core.impl.score.constraint;
 
 import static java.util.Comparator.comparing;
+import static java.util.Objects.hash;
+import static java.util.Objects.requireNonNull;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import org.optaplanner.core.api.score.Score;
@@ -40,7 +40,7 @@ public final class DefaultConstraintMatchTotal implements ConstraintMatchTotal,
     private final String constraintName;
     private final Score constraintWeight;
 
-    private final Set<ConstraintMatch> constraintMatchSet;
+    private final Set<ConstraintMatch> constraintMatchSet = new LinkedHashSet<>();
     private Score score;
 
     public DefaultConstraintMatchTotal(String constraintPackage, String constraintName, Score zeroScore) {
@@ -49,11 +49,10 @@ public final class DefaultConstraintMatchTotal implements ConstraintMatchTotal,
 
     public DefaultConstraintMatchTotal(String constraintPackage, String constraintName, Score constraintWeight,
             Score zeroScore) {
-        this.constraintPackage = constraintPackage;
-        this.constraintName = constraintName;
-        constraintMatchSet = new LinkedHashSet<>();
+        this.constraintPackage = requireNonNull(constraintPackage);
+        this.constraintName = requireNonNull(constraintName);
         this.constraintWeight = constraintWeight;
-        score = zeroScore;
+        this.score = requireNonNull(zeroScore);
     }
 
     @Override
@@ -73,7 +72,7 @@ public final class DefaultConstraintMatchTotal implements ConstraintMatchTotal,
 
     @Override
     public Set<ConstraintMatch> getConstraintMatchSet() {
-        return Collections.unmodifiableSet(constraintMatchSet);
+        return constraintMatchSet;
     }
 
     @Override
@@ -137,7 +136,7 @@ public final class DefaultConstraintMatchTotal implements ConstraintMatchTotal,
 
     @Override
     public int hashCode() {
-        return Objects.hash(constraintPackage, constraintName);
+        return hash(constraintPackage, constraintName);
     }
 
     @Override

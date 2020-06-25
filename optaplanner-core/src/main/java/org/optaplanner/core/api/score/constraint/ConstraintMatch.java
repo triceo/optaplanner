@@ -16,10 +16,11 @@
 
 package org.optaplanner.core.api.score.constraint;
 
-import java.util.Collections;
+import static java.util.Objects.hash;
+import static java.util.Objects.requireNonNull;
+
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.impl.domain.lookup.ClassAndPlanningIdComparator;
@@ -43,10 +44,10 @@ public final class ConstraintMatch implements Comparable<ConstraintMatch> {
      */
     public ConstraintMatch(String constraintPackage, String constraintName, List<Object> justificationList,
             Score score) {
-        this.constraintPackage = constraintPackage;
-        this.constraintName = constraintName;
-        this.justificationList = Collections.unmodifiableList(justificationList);
-        this.score = score;
+        this.constraintPackage = requireNonNull(constraintPackage);
+        this.constraintName = requireNonNull(constraintName);
+        this.justificationList = requireNonNull(justificationList);
+        this.score = requireNonNull(score);
     }
 
     public String getConstraintPackage() {
@@ -58,7 +59,7 @@ public final class ConstraintMatch implements Comparable<ConstraintMatch> {
     }
 
     public List<Object> getJustificationList() {
-        return Collections.unmodifiableList(justificationList);
+        return justificationList;
     }
 
     public Score getScore() {
@@ -124,7 +125,7 @@ public final class ConstraintMatch implements Comparable<ConstraintMatch> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(constraintPackage, constraintName, justificationList);
+        return hash(constraintPackage, constraintName, justificationList);
     }
 
     @Override

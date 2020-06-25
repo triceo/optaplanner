@@ -19,7 +19,6 @@ package org.optaplanner.core.impl.score.director.incremental;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -123,20 +122,20 @@ public class IncrementalScoreDirector<Solution_>
         if (incrementalIndictmentMap != null) {
             return incrementalIndictmentMap;
         }
-        Map<Object, DefaultIndictment> indictmentMap = new LinkedHashMap<>(); // TODO use entitySize
+        Map<Object, Indictment> indictmentMap = new LinkedHashMap<>(); // TODO use entitySize
         Score zeroScore = getScoreDefinition().getZeroScore();
         for (ConstraintMatchTotal constraintMatchTotal : getConstraintMatchTotalMap().values()) {
             for (ConstraintMatch constraintMatch : constraintMatchTotal.getConstraintMatchSet()) {
                 constraintMatch.getJustificationList().stream()
                         .distinct() // One match might have the same justification twice
                         .forEach(justification -> {
-                            DefaultIndictment indictment = indictmentMap.computeIfAbsent(justification,
+                            DefaultIndictment indictment = (DefaultIndictment) indictmentMap.computeIfAbsent(justification,
                                     k -> new DefaultIndictment(justification, zeroScore));
                             indictment.addConstraintMatch(constraintMatch);
                         });
             }
         }
-        return Collections.unmodifiableMap(indictmentMap);
+        return indictmentMap;
     }
 
     // ************************************************************************

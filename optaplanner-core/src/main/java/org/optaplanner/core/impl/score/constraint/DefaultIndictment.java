@@ -16,7 +16,6 @@
 
 package org.optaplanner.core.impl.score.constraint;
 
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -44,7 +43,7 @@ public final class DefaultIndictment implements Indictment {
 
     @Override
     public Set<ConstraintMatch> getConstraintMatchSet() {
-        return Collections.unmodifiableSet(constraintMatchSet);
+        return constraintMatchSet;
     }
 
     @Override

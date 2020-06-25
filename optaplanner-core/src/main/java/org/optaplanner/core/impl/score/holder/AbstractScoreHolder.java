@@ -17,7 +17,6 @@
 package org.optaplanner.core.impl.score.holder;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +47,8 @@ import org.optaplanner.core.impl.score.director.drools.OptaPlannerRuleEventListe
 public abstract class AbstractScoreHolder<Score_ extends Score<Score_>> implements ScoreHolder<Score_> {
 
     protected final boolean constraintMatchEnabled;
-    protected final Map<String, DefaultConstraintMatchTotal> constraintMatchTotalMap;
-    protected final Map<Object, DefaultIndictment> indictmentMap;
+    protected final Map<String, ConstraintMatchTotal> constraintMatchTotalMap;
+    protected final Map<Object, Indictment> indictmentMap;
     protected final Score_ zeroScore;
     private BiFunction<List<Object>, Rule, List<Object>> justificationListConverter = null;
 
@@ -71,7 +70,7 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>> implemen
             throw new IllegalStateException("When constraintMatchEnabled (" + isConstraintMatchEnabled()
                     + ") is disabled in the constructor, this method should not be called.");
         }
-        return Collections.unmodifiableMap(constraintMatchTotalMap);
+        return constraintMatchTotalMap;
     }
 
     public Map<Object, Indictment> getIndictmentMap() {
@@ -79,7 +78,7 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>> implemen
             throw new IllegalStateException("When constraintMatchEnabled (" + isConstraintMatchEnabled()
                     + ") is disabled in the constructor, this method should not be called.");
         }
-        return Collections.unmodifiableMap(indictmentMap);
+        return indictmentMap;
     }
 
     // ************************************************************************
@@ -123,7 +122,7 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>> implemen
             List<DefaultIndictment> indictmentList = justificationList.stream()
                     .distinct() // One match might have the same justification twice
                     .map(justification -> {
-                        DefaultIndictment indictment = indictmentMap.computeIfAbsent(justification,
+                        DefaultIndictment indictment = (DefaultIndictment) indictmentMap.computeIfAbsent(justification,
                                 k -> new DefaultIndictment(justification, zeroScore));
                         indictment.addConstraintMatch(constraintMatch);
                         return indictment;
@@ -138,7 +137,7 @@ public abstract class AbstractScoreHolder<Score_ extends Score<Score_>> implemen
         String constraintPackage = rule.getPackageName();
         String constraintName = rule.getName();
         String constraintId = ConstraintMatchTotal.composeConstraintId(constraintPackage, constraintName);
-        return constraintMatchTotalMap.computeIfAbsent(constraintId,
+        return (DefaultConstraintMatchTotal) constraintMatchTotalMap.computeIfAbsent(constraintId,
                 k -> new DefaultConstraintMatchTotal(constraintPackage, constraintName, null, zeroScore));
     }
 

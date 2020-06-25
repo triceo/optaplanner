@@ -16,10 +16,9 @@
 
 package org.optaplanner.core.impl.score;
 
-import static java.util.Collections.unmodifiableMap;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Map;
-import java.util.Objects;
 
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.ScoreExplanation;
@@ -35,10 +34,10 @@ public final class DefaultScoreExplanation implements ScoreExplanation {
 
     public DefaultScoreExplanation(Score score, String summary,
             Map<String, ConstraintMatchTotal> constraintMatchTotalMap, Map<Object, Indictment> indictmentMap) {
-        this.score = Objects.requireNonNull(score);
-        this.summary = Objects.requireNonNull(summary);
-        this.constraintMatchTotalMap = unmodifiableMap(constraintMatchTotalMap);
-        this.indictmentMap = unmodifiableMap(indictmentMap);
+        this.score = requireNonNull(score);
+        this.summary = requireNonNull(summary);
+        this.constraintMatchTotalMap = requireNonNull(constraintMatchTotalMap);
+        this.indictmentMap = requireNonNull(indictmentMap);
     }
 
     @Override

@@ -18,7 +18,6 @@ package org.optaplanner.core.impl.score.stream.bavet;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
@@ -173,19 +172,19 @@ public final class BavetConstraintSession<Solution_> implements ConstraintSessio
     @Override
     public Map<Object, Indictment> getIndictmentMap() {
         // TODO This is temporary, inefficient code, replace it!
-        Map<Object, DefaultIndictment> indictmentMap = new LinkedHashMap<>(); // TODO use entitySize
+        Map<Object, Indictment> indictmentMap = new LinkedHashMap<>(); // TODO use entitySize
         for (ConstraintMatchTotal constraintMatchTotal : getConstraintMatchTotalMap().values()) {
             for (ConstraintMatch constraintMatch : constraintMatchTotal.getConstraintMatchSet()) {
                 constraintMatch.getJustificationList().stream()
                         .distinct() // One match might have the same justification twice
                         .forEach(justification -> {
-                            DefaultIndictment indictment = indictmentMap.computeIfAbsent(justification,
+                            DefaultIndictment indictment = (DefaultIndictment) indictmentMap.computeIfAbsent(justification,
                                     k -> new DefaultIndictment(justification, zeroScore));
                             indictment.addConstraintMatch(constraintMatch);
                         });
             }
         }
-        return Collections.unmodifiableMap(indictmentMap);
+        return indictmentMap;
     }
 
     @Override
