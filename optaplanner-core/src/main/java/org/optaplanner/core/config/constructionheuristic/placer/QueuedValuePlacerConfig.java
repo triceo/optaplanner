@@ -41,6 +41,7 @@ import org.optaplanner.core.config.heuristic.selector.move.generic.chained.SubCh
 import org.optaplanner.core.config.heuristic.selector.move.generic.chained.TailChainSwapMoveSelectorConfig;
 import org.optaplanner.core.config.heuristic.selector.value.ValueSelectorConfig;
 import org.optaplanner.core.config.util.ConfigUtils;
+import org.optaplanner.core.config.util.MoveSelectorElementNames;
 import org.optaplanner.core.impl.constructionheuristic.placer.QueuedValuePlacer;
 import org.optaplanner.core.impl.domain.entity.descriptor.EntityDescriptor;
 import org.optaplanner.core.impl.domain.variable.descriptor.GenuineVariableDescriptor;
@@ -69,18 +70,23 @@ public class QueuedValuePlacerConfig extends EntityPlacerConfig<QueuedValuePlace
 
     // TODO This is a List due to XStream limitations. With JAXB it could be just a MoveSelectorConfig instead.
     @XmlElements({
-            @XmlElement(name = "cartesianProductMoveSelector", type = CartesianProductMoveSelectorConfig.class),
-            @XmlElement(name = "changeMoveSelector", type = ChangeMoveSelectorConfig.class),
-            @XmlElement(name = "kOptMoveSelector", type = KOptMoveSelectorConfig.class),
-            @XmlElement(name = "moveIteratorFactory", type = MoveIteratorFactoryConfig.class),
-            @XmlElement(name = "moveListFactory", type = MoveListFactoryConfig.class),
-            @XmlElement(name = "pillarChangeMoveSelector", type = PillarChangeMoveSelectorConfig.class),
-            @XmlElement(name = "pillarSwapMoveSelector", type = PillarSwapMoveSelectorConfig.class),
-            @XmlElement(name = "subChainChangeMoveSelector", type = SubChainChangeMoveSelectorConfig.class),
-            @XmlElement(name = "subChainSwapMoveSelector", type = SubChainSwapMoveSelectorConfig.class),
-            @XmlElement(name = "swapMoveSelector", type = SwapMoveSelectorConfig.class),
-            @XmlElement(name = "tailChainSwapMoveSelector", type = TailChainSwapMoveSelectorConfig.class),
-            @XmlElement(name = "unionMoveSelector", type = UnionMoveSelectorConfig.class)
+            @XmlElement(name = MoveSelectorElementNames.CARTESIAN_PRODUCT_MOVE_SELECTOR,
+                    type = CartesianProductMoveSelectorConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.CHANGE_MOVE_SELECTOR, type = ChangeMoveSelectorConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.K_OPT_MOVE_SELECTOR, type = KOptMoveSelectorConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.MOVE_ITERATOR_FACTORY, type = MoveIteratorFactoryConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.MOVE_LIST_FACTORY, type = MoveListFactoryConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.PILLAR_CHANGE_MOVE_SELECTOR,
+                    type = PillarChangeMoveSelectorConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.PILLAR_SWAP_MOVE_SELECTOR, type = PillarSwapMoveSelectorConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.SUB_CHAIN_CHANGE_MOVE_SELECTOR,
+                    type = SubChainChangeMoveSelectorConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.SUB_CHAIN_SWAP_MOVE_SELECTOR,
+                    type = SubChainSwapMoveSelectorConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.SWAP_MOVE_SELECTOR, type = SwapMoveSelectorConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.TAIL_CHAIN_SWAP_MOVE_SELECTOR,
+                    type = TailChainSwapMoveSelectorConfig.class),
+            @XmlElement(name = MoveSelectorElementNames.UNION_MOVE_SELECTOR, type = UnionMoveSelectorConfig.class)
     })
     @XStreamImplicit()
     private List<MoveSelectorConfig> moveSelectorConfigList = null;
