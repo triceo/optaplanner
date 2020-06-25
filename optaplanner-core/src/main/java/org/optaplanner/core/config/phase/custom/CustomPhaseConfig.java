@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.optaplanner.core.config.phase.PhaseConfig;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.util.ConfigUtils;
-import org.optaplanner.core.config.util.JaxbMapAdapter;
+import org.optaplanner.core.config.util.JaxbCustomPropertiesAdapter;
 import org.optaplanner.core.config.util.KeyAsElementMapConverter;
 import org.optaplanner.core.impl.heuristic.HeuristicConfigPolicy;
 import org.optaplanner.core.impl.phase.custom.CustomPhase;
@@ -52,7 +52,7 @@ public class CustomPhaseConfig extends PhaseConfig<CustomPhaseConfig> {
     @XStreamImplicit(itemFieldName = "customPhaseCommandClass")
     protected List<Class<? extends CustomPhaseCommand>> customPhaseCommandClassList = null;
 
-    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
+    @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> customProperties = null;
 

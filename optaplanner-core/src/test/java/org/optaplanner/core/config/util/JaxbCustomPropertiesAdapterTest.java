@@ -32,11 +32,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.junit.jupiter.api.Test;
 
-public class JaxbMapAdapterTest {
+public class JaxbCustomPropertiesAdapterTest {
 
     private final Unmarshaller unmarshaller;
 
-    public JaxbMapAdapterTest() throws JAXBException {
+    public JaxbCustomPropertiesAdapterTest() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(TestBean.class);
         unmarshaller = jaxbContext.createUnmarshaller();
     }
@@ -58,16 +58,16 @@ public class JaxbMapAdapterTest {
 
     @Test
     public void nullValues() {
-        JaxbMapAdapter jaxbMapAdapter = new JaxbMapAdapter();
-        assertThat(jaxbMapAdapter.marshal(null)).isNull();
-        assertThat(jaxbMapAdapter.unmarshal(null)).isNull();
+        JaxbCustomPropertiesAdapter jaxbCustomPropertiesAdapter = new JaxbCustomPropertiesAdapter();
+        assertThat(jaxbCustomPropertiesAdapter.marshal(null)).isNull();
+        assertThat(jaxbCustomPropertiesAdapter.unmarshal(null)).isNull();
     }
 
     @XmlAccessorType(value = XmlAccessType.FIELD)
     @XmlRootElement
     private static class TestBean {
 
-        @XmlJavaTypeAdapter(JaxbMapAdapter.class)
+        @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)
         private Map<String, String> customProperties = null;
 
         public TestBean() {

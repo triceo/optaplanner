@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.optaplanner.core.config.heuristic.selector.common.SelectionCacheType;
 import org.optaplanner.core.config.heuristic.selector.move.MoveSelectorConfig;
 import org.optaplanner.core.config.util.ConfigUtils;
-import org.optaplanner.core.config.util.JaxbMapAdapter;
+import org.optaplanner.core.config.util.JaxbCustomPropertiesAdapter;
 import org.optaplanner.core.config.util.KeyAsElementMapConverter;
 import org.optaplanner.core.impl.heuristic.HeuristicConfigPolicy;
 import org.optaplanner.core.impl.heuristic.selector.move.MoveSelector;
@@ -38,7 +38,7 @@ public class MoveIteratorFactoryConfig extends MoveSelectorConfig<MoveIteratorFa
 
     protected Class<? extends MoveIteratorFactory> moveIteratorFactoryClass = null;
 
-    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
+    @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> moveIteratorFactoryCustomProperties = null;
 

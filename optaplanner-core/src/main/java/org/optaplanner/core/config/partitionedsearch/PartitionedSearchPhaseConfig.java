@@ -35,7 +35,7 @@ import org.optaplanner.core.config.phase.PhaseConfig;
 import org.optaplanner.core.config.phase.custom.CustomPhaseConfig;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.util.ConfigUtils;
-import org.optaplanner.core.config.util.JaxbMapAdapter;
+import org.optaplanner.core.config.util.JaxbCustomPropertiesAdapter;
 import org.optaplanner.core.config.util.KeyAsElementMapConverter;
 import org.optaplanner.core.impl.heuristic.HeuristicConfigPolicy;
 import org.optaplanner.core.impl.partitionedsearch.DefaultPartitionedSearchPhase;
@@ -63,7 +63,7 @@ public class PartitionedSearchPhaseConfig extends PhaseConfig<PartitionedSearchP
     // and also because the input config file should match the output config file
 
     protected Class<? extends SolutionPartitioner<?>> solutionPartitionerClass = null;
-    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
+    @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> solutionPartitionerCustomProperties = null;
 

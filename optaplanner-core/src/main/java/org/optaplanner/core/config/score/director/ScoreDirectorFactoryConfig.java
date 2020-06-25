@@ -47,7 +47,7 @@ import org.optaplanner.core.config.AbstractConfig;
 import org.optaplanner.core.config.score.trend.InitializingScoreTrendLevel;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.util.ConfigUtils;
-import org.optaplanner.core.config.util.JaxbMapAdapter;
+import org.optaplanner.core.config.util.JaxbCustomPropertiesAdapter;
 import org.optaplanner.core.config.util.KeyAsElementMapConverter;
 import org.optaplanner.core.impl.domain.solution.descriptor.SolutionDescriptor;
 import org.optaplanner.core.impl.score.director.AbstractScoreDirectorFactory;
@@ -75,20 +75,20 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
 
     protected Class<? extends EasyScoreCalculator> easyScoreCalculatorClass = null;
 
-    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
+    @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> easyScoreCalculatorCustomProperties = null;
 
     protected Class<? extends ConstraintProvider> constraintProviderClass = null;
 
-    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
+    @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> constraintProviderCustomProperties = null;
     protected ConstraintStreamImplType constraintStreamImplType;
 
     protected Class<? extends IncrementalScoreCalculator> incrementalScoreCalculatorClass = null;
 
-    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
+    @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> incrementalScoreCalculatorCustomProperties = null;
 
@@ -99,7 +99,7 @@ public class ScoreDirectorFactoryConfig extends AbstractConfig<ScoreDirectorFact
     @XStreamImplicit(itemFieldName = "scoreDrlFile")
     protected List<File> scoreDrlFileList = null;
 
-    @XmlJavaTypeAdapter(JaxbMapAdapter.class)
+    @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)
     @XStreamConverter(KeyAsElementMapConverter.class)
     protected Map<String, String> kieBaseConfigurationProperties = null;
 

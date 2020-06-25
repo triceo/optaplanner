@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class JaxbMapAdapter extends XmlAdapter<JaxbMapAdapter.JaxbAdaptedMap, Map<String, String>> {
+public class JaxbCustomPropertiesAdapter extends XmlAdapter<JaxbCustomPropertiesAdapter.JaxbAdaptedMap, Map<String, String>> {
 
     @Override
     public Map<String, String> unmarshal(JaxbAdaptedMap jaxbAdaptedMap) {
@@ -41,7 +41,7 @@ public class JaxbMapAdapter extends XmlAdapter<JaxbMapAdapter.JaxbAdaptedMap, Ma
             return null;
         }
         List<JaxbAdaptedMapEntry> entries = originalMap.entrySet().stream()
-                .map(entry -> new JaxbMapAdapter.JaxbAdaptedMapEntry(entry.getKey(), entry.getValue()))
+                .map(entry -> new JaxbCustomPropertiesAdapter.JaxbAdaptedMapEntry(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
         return new JaxbAdaptedMap(entries);
     }
