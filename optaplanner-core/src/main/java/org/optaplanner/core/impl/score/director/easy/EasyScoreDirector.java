@@ -20,18 +20,18 @@ import java.util.Map;
 
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.Score;
+import org.optaplanner.core.api.score.ScoreExplanation;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.score.director.ScoreDirector;
 import org.optaplanner.core.impl.score.director.AbstractScoreDirector;
-import org.optaplanner.core.impl.score.director.InnerScoreDirector;
 
 /**
  * Easy java implementation of {@link ScoreDirector}, which recalculates the {@link Score}
  * of the {@link PlanningSolution working solution} every time. This is non-incremental calculation, which is slow.
- * This score director implementation does not support {@link InnerScoreDirector#getConstraintMatchTotalMap()} and
- * {@link InnerScoreDirector#getIndictmentMap()}.
+ * This score director implementation does not support {@link ScoreExplanation#getConstraintMatchTotalMap()} and
+ * {@link ScoreExplanation#getIndictmentMap()}.
  *
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  * @see ScoreDirector

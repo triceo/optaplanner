@@ -69,21 +69,22 @@ public interface ScoreManager<Solution_> {
      * In case of an {@link Score#isFeasible() infeasible} solution, this can help diagnose the cause of that.
      * <p>
      * Do not parse this string.
-     * Instead, to provide this information in a UI or a service, use {@link #explain(Object)}
+     * Instead, to provide this information in a UI or a service, use {@link #explainScore(Object)}
      * to retrieve {@link ScoreExplanation#getConstraintMatchTotalMap()} and {@link ScoreExplanation#getIndictmentMap()}
      * and convert those into a domain specific API.
      *
      * @param solution never null
      * @return null if {@link #updateScore(Object)} returns null with the same solution
      */
-    String explainScore(Solution_ solution);
+    String getSummary(Solution_ solution);
 
     /**
-     * Calculates and retrieves metadata necessary for describing the quality of a particular solution.
+     * Calculates and retrieves {@link ConstraintMatchTotal}s and {@link Indictment}s necessary for describing the
+     * quality of a particular solution.
      *
      * @param solution never null
      * @return never null
      */
-    ScoreExplanation explain(Solution_ solution);
+    ScoreExplanation<Solution_> explainScore(Solution_ solution);
 
 }

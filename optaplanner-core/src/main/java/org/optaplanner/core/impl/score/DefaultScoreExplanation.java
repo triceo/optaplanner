@@ -25,19 +25,26 @@ import org.optaplanner.core.api.score.ScoreExplanation;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
 
-public final class DefaultScoreExplanation implements ScoreExplanation {
+public final class DefaultScoreExplanation<Solution_> implements ScoreExplanation<Solution_> {
 
+    private final Solution_ solution;
     private final Score score;
     private final String summary;
     private final Map<String, ConstraintMatchTotal> constraintMatchTotalMap;
     private final Map<Object, Indictment> indictmentMap;
 
-    public DefaultScoreExplanation(Score score, String summary,
+    public DefaultScoreExplanation(Solution_ solution, Score score, String summary,
             Map<String, ConstraintMatchTotal> constraintMatchTotalMap, Map<Object, Indictment> indictmentMap) {
+        this.solution = solution;
         this.score = requireNonNull(score);
         this.summary = requireNonNull(summary);
         this.constraintMatchTotalMap = requireNonNull(constraintMatchTotalMap);
         this.indictmentMap = requireNonNull(indictmentMap);
+    }
+
+    @Override
+    public Solution_ getSolution() {
+        return solution;
     }
 
     @Override
@@ -60,4 +67,8 @@ public final class DefaultScoreExplanation implements ScoreExplanation {
         return indictmentMap;
     }
 
+    @Override
+    public String toString() {
+        return summary; // So that this class can be used in strings directly.
+    }
 }

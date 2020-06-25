@@ -381,7 +381,7 @@ public abstract class AbstractXlsxSolutionFileIO<Solution_> implements SolutionF
                 scoreDefinition = scoreDirector.getScoreDefinition();
             }
             ScoreExplanation scoreManager = ScoreManager.create(solverFactory)
-                    .explain(solution);
+                    .explainScore(solution);
             score = scoreManager.getScore();
             constraintMatchTotalsMap = scoreManager.getConstraintMatchTotalMap();
             indictmentMap = scoreManager.getIndictmentMap();

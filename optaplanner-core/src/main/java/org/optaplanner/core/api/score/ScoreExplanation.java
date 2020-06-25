@@ -19,6 +19,7 @@ package org.optaplanner.core.api.score;
 import java.util.Map;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.solution.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
@@ -26,12 +27,24 @@ import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.score.stream.Constraint;
 
 /**
- * Holds metadata necessary to explain the quality of a particular {@link Score}.
+ * Build by {@link ScoreManager#explainScore(Object)} to hold {@link ConstraintMatchTotal}s and {@link Indictment}s
+ * necessary to explain the quality of a particular {@link Score}.
+ *
+ * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  */
-public interface ScoreExplanation {
+public interface ScoreExplanation<Solution_> {
 
     /**
-     * Return the {@link Score} explained by this explanation.
+     * Retrieve the {@link PlanningSolution} that the score being explained comes from.
+     *
+     * @return never null
+     */
+    Solution_ getSolution();
+
+    /**
+     * Return the {@link Score} being explained.
+     * If the specific {@link Score} type used by the {@link PlanningSolution} is required,
+     * call {@link #getSolution()} and retrieve it from there.
      * 
      * @return never null
      */
@@ -47,8 +60,6 @@ public interface ScoreExplanation {
      * Instead, to provide this information in a UI or a service,
      * use {@link #getConstraintMatchTotalMap()} and {@link #getIndictmentMap()}
      * and convert those into a domain specific API.
-     * <p>
-     * This automatically calls {@link #getScore()} ()} first.
      *
      * @return never null
      */

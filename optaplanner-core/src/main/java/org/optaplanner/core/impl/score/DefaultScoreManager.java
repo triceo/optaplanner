@@ -40,19 +40,19 @@ public class DefaultScoreManager<Solution_> implements ScoreManager<Solution_> {
 
     @Override
     public Score updateScore(Solution_ solution) {
-        return explain(solution).getScore();
+        return explainScore(solution).getScore();
     }
 
     @Override
-    public String explainScore(Solution_ solution) {
-        return explain(solution).getSummary();
+    public String getSummary(Solution_ solution) {
+        return explainScore(solution).getSummary();
     }
 
     @Override
-    public ScoreExplanation explain(Solution_ solution) {
+    public ScoreExplanation<Solution_> explainScore(Solution_ solution) {
         try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector(true, true)) {
             scoreDirector.setWorkingSolution(solution);
-            return new DefaultScoreExplanation(scoreDirector.calculateScore(), scoreDirector.explainScore(),
+            return new DefaultScoreExplanation(solution, scoreDirector.calculateScore(), scoreDirector.explainScore(),
                     scoreDirector.getConstraintMatchTotalMap(), scoreDirector.getIndictmentMap());
         }
     }

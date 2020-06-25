@@ -224,7 +224,7 @@ public class SolutionBusiness<Solution_> {
     }
 
     public Score getScore() {
-        return scoreManager.explain(getSolution()).getScore();
+        return scoreManager.explainScore(getSolution()).getScore();
     }
 
     public boolean isSolving() {
@@ -262,7 +262,7 @@ public class SolutionBusiness<Solution_> {
     }
 
     public List<ConstraintMatchTotal> getConstraintMatchTotalList() {
-        return scoreManager.explain(getSolution())
+        return scoreManager.explainScore(getSolution())
                 .getConstraintMatchTotalMap()
                 .values()
                 .stream()
@@ -272,7 +272,7 @@ public class SolutionBusiness<Solution_> {
     }
 
     public Map<Object, Indictment> getIndictmentMap() {
-        return scoreManager.explain(getSolution()).getIndictmentMap();
+        return scoreManager.explainScore(getSolution()).getIndictmentMap();
     }
 
     public void importSolution(File file) {
