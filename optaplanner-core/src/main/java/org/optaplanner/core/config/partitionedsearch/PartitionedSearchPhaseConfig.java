@@ -35,7 +35,6 @@ import org.optaplanner.core.config.phase.PhaseConfig;
 import org.optaplanner.core.config.phase.custom.CustomPhaseConfig;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.util.ConfigUtils;
-import org.optaplanner.core.config.util.JaxbCustomPropertiesAdapter;
 import org.optaplanner.core.config.util.KeyAsElementMapConverter;
 import org.optaplanner.core.impl.heuristic.HeuristicConfigPolicy;
 import org.optaplanner.core.impl.partitionedsearch.DefaultPartitionedSearchPhase;
@@ -44,6 +43,7 @@ import org.optaplanner.core.impl.partitionedsearch.partitioner.SolutionPartition
 import org.optaplanner.core.impl.solver.recaller.BestSolutionRecaller;
 import org.optaplanner.core.impl.solver.termination.Termination;
 import org.optaplanner.core.impl.solver.thread.ChildThreadType;
+import org.optaplanner.core.impl.util.JaxbCustomPropertiesAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

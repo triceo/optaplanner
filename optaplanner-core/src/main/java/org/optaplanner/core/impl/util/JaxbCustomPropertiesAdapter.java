@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaplanner.core.config.util;
+package org.optaplanner.core.impl.util;
 
 import java.util.List;
 import java.util.Map;
