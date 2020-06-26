@@ -248,7 +248,7 @@ public class SolverConfigTest {
 
         PartitionedSearchPhaseConfig partitionedSearchPhaseConfig = new PartitionedSearchPhaseConfig();
         partitionedSearchPhaseConfig.setPhaseConfigList(partitionedSearchPhaseConfigList);
-        partitionedSearchPhaseConfig.setSolutionPartitionerClass(TestSolutionPartitioner.class);
+        partitionedSearchPhaseConfig.setSolutionPartitionerClass(DummySolutionPartitioner.class);
         partitionedSearchPhaseConfig.setSolutionPartitionerCustomProperties(solutionPartitionerCustomProperties);
 
         ScoreDirectorFactoryConfig scoreDirectorFactoryConfig = new ScoreDirectorFactoryConfig()
@@ -323,7 +323,7 @@ public class SolverConfigTest {
         assertThat(savedXml.trim()).isEqualTo(originalXml.trim());
     }
 
-    private static class TestSolutionPartitioner implements SolutionPartitioner<TestdataSolution> {
+    private static class DummySolutionPartitioner implements SolutionPartitioner<TestdataSolution> {
 
         @Override
         public List<TestdataSolution> splitWorkingSolution(ScoreDirector<TestdataSolution> scoreDirector,

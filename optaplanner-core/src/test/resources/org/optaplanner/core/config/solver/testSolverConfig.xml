@@ -108,7 +108,7 @@
   <noChangePhase/>
 
   <partitionedSearch>
-    <solutionPartitionerClass>org.optaplanner.core.config.solver.SolverConfigTest$TestSolutionPartitioner</solutionPartitionerClass>
+    <solutionPartitionerClass>org.optaplanner.core.config.solver.SolverConfigTest$DummySolutionPartitioner</solutionPartitionerClass>
     <solutionPartitionerCustomProperties>
       <property name="partCount" value="4"/>
       <property name="minimumProcessListSize" value="300"/>
