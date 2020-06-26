@@ -45,6 +45,8 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 @XStreamAlias("customPhase")
 public class CustomPhaseConfig extends PhaseConfig<CustomPhaseConfig> {
 
+    public static final String XML_ELEMENT_NAME = "customPhase";
+
     // Warning: all fields are null (and not defaulted) because they can be inherited
     // and also because the input config file should match the output config file
 

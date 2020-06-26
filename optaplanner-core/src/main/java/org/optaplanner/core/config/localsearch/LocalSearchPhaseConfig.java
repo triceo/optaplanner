@@ -66,6 +66,8 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias("localSearch")
 public class LocalSearchPhaseConfig extends PhaseConfig<LocalSearchPhaseConfig> {
 
+    public static final String XML_ELEMENT_NAME = "localSearch";
+
     // Warning: all fields are null (and not defaulted) because they can be inherited
     // and also because the input config file should match the output config file
 

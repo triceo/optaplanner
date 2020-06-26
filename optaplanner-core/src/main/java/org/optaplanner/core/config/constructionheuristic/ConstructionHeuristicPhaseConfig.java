@@ -65,6 +65,8 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias("constructionHeuristic")
 public class ConstructionHeuristicPhaseConfig extends PhaseConfig<ConstructionHeuristicPhaseConfig> {
 
+    public static final String XML_ELEMENT_NAME = "constructionHeuristic";
+
     // Warning: all fields are null (and not defaulted) because they can be inherited
     // and also because the input config file should match the output config file
 

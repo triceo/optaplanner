@@ -257,12 +257,13 @@ public class SolverConfig extends AbstractConfig<SolverConfig> {
     private TerminationConfig terminationConfig;
 
     @XmlElements({
-            @XmlElement(name = "constructionHeuristic", type = ConstructionHeuristicPhaseConfig.class),
-            @XmlElement(name = "customPhase", type = CustomPhaseConfig.class),
-            @XmlElement(name = "exhaustiveSearch", type = ExhaustiveSearchPhaseConfig.class),
-            @XmlElement(name = "localSearch", type = LocalSearchPhaseConfig.class),
-            @XmlElement(name = "noChangePhase", type = NoChangePhaseConfig.class),
-            @XmlElement(name = "partitionedSearch", type = PartitionedSearchPhaseConfig.class)
+            @XmlElement(name = ConstructionHeuristicPhaseConfig.XML_ELEMENT_NAME,
+                    type = ConstructionHeuristicPhaseConfig.class),
+            @XmlElement(name = CustomPhaseConfig.XML_ELEMENT_NAME, type = CustomPhaseConfig.class),
+            @XmlElement(name = ExhaustiveSearchPhaseConfig.XML_ELEMENT_NAME, type = ExhaustiveSearchPhaseConfig.class),
+            @XmlElement(name = LocalSearchPhaseConfig.XML_ELEMENT_NAME, type = LocalSearchPhaseConfig.class),
+            @XmlElement(name = NoChangePhaseConfig.XML_ELEMENT_NAME, type = NoChangePhaseConfig.class),
+            @XmlElement(name = PartitionedSearchPhaseConfig.XML_ELEMENT_NAME, type = PartitionedSearchPhaseConfig.class)
     })
     @XStreamImplicit()
     protected List<PhaseConfig> phaseConfigList = null;

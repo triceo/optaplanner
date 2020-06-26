@@ -67,6 +67,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("exhaustiveSearch")
 public class ExhaustiveSearchPhaseConfig extends PhaseConfig<ExhaustiveSearchPhaseConfig> {
 
+    public static final String XML_ELEMENT_NAME = "exhaustiveSearch";
+
     // Warning: all fields are null (and not defaulted) because they can be inherited
     // and also because the input config file should match the output config file
 
