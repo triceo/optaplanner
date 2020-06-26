@@ -48,7 +48,6 @@ import org.optaplanner.core.config.localsearch.decider.forager.LocalSearchPickEa
 import org.optaplanner.core.config.phase.PhaseConfig;
 import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.util.ConfigUtils;
-import org.optaplanner.core.config.util.MoveSelectorElementNames;
 import org.optaplanner.core.impl.heuristic.HeuristicConfigPolicy;
 import org.optaplanner.core.impl.heuristic.selector.move.MoveSelector;
 import org.optaplanner.core.impl.localsearch.DefaultLocalSearchPhase;
@@ -73,23 +72,23 @@ public class LocalSearchPhaseConfig extends PhaseConfig<LocalSearchPhaseConfig> 
     protected LocalSearchType localSearchType = null;
 
     @XmlElements({
-            @XmlElement(name = MoveSelectorElementNames.CARTESIAN_PRODUCT_MOVE_SELECTOR,
+            @XmlElement(name = CartesianProductMoveSelectorConfig.XML_ELEMENT_NAME,
                     type = CartesianProductMoveSelectorConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.CHANGE_MOVE_SELECTOR, type = ChangeMoveSelectorConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.K_OPT_MOVE_SELECTOR, type = KOptMoveSelectorConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.MOVE_ITERATOR_FACTORY, type = MoveIteratorFactoryConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.MOVE_LIST_FACTORY, type = MoveListFactoryConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.PILLAR_CHANGE_MOVE_SELECTOR,
+            @XmlElement(name = ChangeMoveSelectorConfig.XML_ELEMENT_NAME, type = ChangeMoveSelectorConfig.class),
+            @XmlElement(name = KOptMoveSelectorConfig.XML_ELEMENT_NAME, type = KOptMoveSelectorConfig.class),
+            @XmlElement(name = MoveIteratorFactoryConfig.XML_ELEMENT_NAME, type = MoveIteratorFactoryConfig.class),
+            @XmlElement(name = MoveListFactoryConfig.XML_ELEMENT_NAME, type = MoveListFactoryConfig.class),
+            @XmlElement(name = PillarChangeMoveSelectorConfig.XML_ELEMENT_NAME,
                     type = PillarChangeMoveSelectorConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.PILLAR_SWAP_MOVE_SELECTOR, type = PillarSwapMoveSelectorConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.SUB_CHAIN_CHANGE_MOVE_SELECTOR,
+            @XmlElement(name = PillarSwapMoveSelectorConfig.XML_ELEMENT_NAME, type = PillarSwapMoveSelectorConfig.class),
+            @XmlElement(name = SubChainChangeMoveSelectorConfig.XML_ELEMENT_NAME,
                     type = SubChainChangeMoveSelectorConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.SUB_CHAIN_SWAP_MOVE_SELECTOR,
+            @XmlElement(name = SubChainSwapMoveSelectorConfig.XML_ELEMENT_NAME,
                     type = SubChainSwapMoveSelectorConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.SWAP_MOVE_SELECTOR, type = SwapMoveSelectorConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.TAIL_CHAIN_SWAP_MOVE_SELECTOR,
+            @XmlElement(name = SwapMoveSelectorConfig.XML_ELEMENT_NAME, type = SwapMoveSelectorConfig.class),
+            @XmlElement(name = TailChainSwapMoveSelectorConfig.XML_ELEMENT_NAME,
                     type = TailChainSwapMoveSelectorConfig.class),
-            @XmlElement(name = MoveSelectorElementNames.UNION_MOVE_SELECTOR, type = UnionMoveSelectorConfig.class)
+            @XmlElement(name = UnionMoveSelectorConfig.XML_ELEMENT_NAME, type = UnionMoveSelectorConfig.class)
     })
     // TODO This is a List due to XStream limitations. With JAXB it could be just a MoveSelectorConfig instead.
     @XStreamImplicit()

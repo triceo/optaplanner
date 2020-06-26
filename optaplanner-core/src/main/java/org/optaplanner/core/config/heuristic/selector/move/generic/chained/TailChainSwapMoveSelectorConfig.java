@@ -38,6 +38,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("tailChainSwapMoveSelector")
 public class TailChainSwapMoveSelectorConfig extends MoveSelectorConfig<TailChainSwapMoveSelectorConfig> {
 
+    public static final String XML_ELEMENT_NAME = "tailChainSwapMoveSelector";
+
     @XmlElement(name = "entitySelector")
     @XStreamAlias("entitySelector")
     private EntitySelectorConfig entitySelectorConfig = null;

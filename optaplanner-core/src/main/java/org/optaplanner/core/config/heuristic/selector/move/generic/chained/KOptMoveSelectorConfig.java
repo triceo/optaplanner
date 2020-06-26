@@ -42,6 +42,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("kOptMoveSelector")
 public class KOptMoveSelectorConfig extends MoveSelectorConfig<KOptMoveSelectorConfig> {
 
+    public static final String XML_ELEMENT_NAME = "kOptMoveSelector";
+
     public static final int K = 3;
 
     @XmlElement(name = "entitySelector")

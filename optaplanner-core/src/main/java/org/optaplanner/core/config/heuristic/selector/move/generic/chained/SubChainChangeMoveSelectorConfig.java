@@ -40,6 +40,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("subChainChangeMoveSelector")
 public class SubChainChangeMoveSelectorConfig extends MoveSelectorConfig<SubChainChangeMoveSelectorConfig> {
 
+    public static final String XML_ELEMENT_NAME = "subChainChangeMoveSelector";
+
     private Class<?> entityClass = null;
     @XmlElement(name = "subChainSelector")
     @XStreamAlias("subChainSelector")

@@ -36,6 +36,8 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 @XStreamAlias("moveIteratorFactory")
 public class MoveIteratorFactoryConfig extends MoveSelectorConfig<MoveIteratorFactoryConfig> {
 
+    public static final String XML_ELEMENT_NAME = "moveIteratorFactory";
+
     protected Class<? extends MoveIteratorFactory> moveIteratorFactoryClass = null;
 
     @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)

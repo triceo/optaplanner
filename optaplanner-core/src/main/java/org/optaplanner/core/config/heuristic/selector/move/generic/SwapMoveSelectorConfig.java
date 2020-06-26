@@ -44,6 +44,8 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias("swapMoveSelector")
 public class SwapMoveSelectorConfig extends MoveSelectorConfig<SwapMoveSelectorConfig> {
 
+    public static final String XML_ELEMENT_NAME = "swapMoveSelector";
+
     @XmlElement(name = "entitySelector")
     @XStreamAlias("entitySelector")
     private EntitySelectorConfig entitySelectorConfig = null;

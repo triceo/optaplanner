@@ -36,6 +36,8 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 @XStreamAlias("moveListFactory")
 public class MoveListFactoryConfig extends MoveSelectorConfig<MoveListFactoryConfig> {
 
+    public static final String XML_ELEMENT_NAME = "moveListFactory";
+
     protected Class<? extends MoveListFactory> moveListFactoryClass = null;
 
     @XmlJavaTypeAdapter(JaxbCustomPropertiesAdapter.class)

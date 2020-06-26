@@ -36,6 +36,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("subChainSwapMoveSelector")
 public class SubChainSwapMoveSelectorConfig extends MoveSelectorConfig<SubChainSwapMoveSelectorConfig> {
 
+    public static final String XML_ELEMENT_NAME = "subChainSwapMoveSelector";
+
     private Class<?> entityClass = null;
     @XmlElement(name = "subChainSelector")
     @XStreamAlias("subChainSelector")

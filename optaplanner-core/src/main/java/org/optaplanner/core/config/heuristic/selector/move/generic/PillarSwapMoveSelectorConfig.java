@@ -39,6 +39,8 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias("pillarSwapMoveSelector")
 public class PillarSwapMoveSelectorConfig extends AbstractPillarMoveSelectorConfig<PillarSwapMoveSelectorConfig> {
 
+    public static final String XML_ELEMENT_NAME = "pillarSwapMoveSelector";
+
     @XmlElement(name = "secondaryPillarSelector")
     @XStreamAlias("secondaryPillarSelector")
     private PillarSelectorConfig secondaryPillarSelectorConfig = null;
