@@ -16,8 +16,6 @@
 
 package org.optaplanner.core.impl.score;
 
-import java.util.Collections;
-
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.ScoreExplanation;
@@ -42,7 +40,10 @@ public class DefaultScoreManager<Solution_> implements ScoreManager<Solution_> {
 
     @Override
     public Score updateScore(Solution_ solution) {
-        return explainScore(solution).getScore();
+        try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector()) {
+            scoreDirector.setWorkingSolution(solution);
+            return scoreDirector.calculateScore();
+        }
     }
 
     @Override
@@ -54,11 +55,13 @@ public class DefaultScoreManager<Solution_> implements ScoreManager<Solution_> {
     public ScoreExplanation<Solution_> explainScore(Solution_ solution) {
         try (InnerScoreDirector<Solution_> scoreDirector = scoreDirectorFactory.buildScoreDirector(true, true)) {
             boolean constraintMatchEnabled = scoreDirector.isConstraintMatchEnabled();
+            if (!constraintMatchEnabled) {
+                throw new IllegalStateException("When constraintMatchEnabled (" + constraintMatchEnabled
+                        + ") is disabled, this method should not be called.");
+            }
             scoreDirector.setWorkingSolution(solution);
-            return new DefaultScoreExplanation(solution, scoreDirector.calculateScore(),
-                    constraintMatchEnabled ? scoreDirector.explainScore() : "",
-                    constraintMatchEnabled ? scoreDirector.getConstraintMatchTotalMap() : Collections.emptyMap(),
-                    constraintMatchEnabled ? scoreDirector.getIndictmentMap() : Collections.emptyMap());
+            return new DefaultScoreExplanation(solution, scoreDirector.calculateScore(), scoreDirector.explainScore(),
+                    scoreDirector.getConstraintMatchTotalMap(), scoreDirector.getIndictmentMap());
         }
     }
 }
