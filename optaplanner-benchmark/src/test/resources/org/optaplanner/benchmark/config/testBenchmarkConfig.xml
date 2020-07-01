@@ -11,10 +11,6 @@
   </inheritedSolverBenchmark>
   <solverBenchmark>
     <name>Entity Tabu Search</name>
-    <problemBenchmarks>
-      <xStreamAnnotatedClass>org.optaplanner.core.impl.testdata.domain.TestdataSolution</xStreamAnnotatedClass>
-      <inputSolutionFile>nonexisting-dataset.xml</inputSolutionFile>
-    </problemBenchmarks>
     <solver>
       <solutionClass>org.optaplanner.core.impl.testdata.domain.TestdataSolution</solutionClass>
       <entityClass>org.optaplanner.core.impl.testdata.domain.TestdataEntity</entityClass>
@@ -34,14 +30,14 @@
         <forager/>
       </localSearch>
     </solver>
+    <problemBenchmarks>
+      <xStreamAnnotatedClass>org.optaplanner.core.impl.testdata.domain.TestdataSolution</xStreamAnnotatedClass>
+      <inputSolutionFile>nonExistingDataset.xml</inputSolutionFile>
+    </problemBenchmarks>
     <subSingleCount>2</subSingleCount>
   </solverBenchmark>
   <solverBenchmark>
     <name>Late Acceptance</name>
-    <problemBenchmarks>
-      <xStreamAnnotatedClass>org.optaplanner.core.impl.testdata.domain.TestdataSolution</xStreamAnnotatedClass>
-      <inputSolutionFile>nonexisting-dataset.xml</inputSolutionFile>
-    </problemBenchmarks>
     <solver>
       <solutionClass>org.optaplanner.core.impl.testdata.domain.TestdataSolution</solutionClass>
       <entityClass>org.optaplanner.core.impl.testdata.domain.TestdataEntity</entityClass>
@@ -60,6 +56,10 @@
         </forager>
       </localSearch>
     </solver>
+    <problemBenchmarks>
+      <xStreamAnnotatedClass>org.optaplanner.core.impl.testdata.domain.TestdataSolution</xStreamAnnotatedClass>
+      <inputSolutionFile>nonExistingDataset.xml</inputSolutionFile>
+    </problemBenchmarks>
     <subSingleCount>2</subSingleCount>
   </solverBenchmark>
 </plannerBenchmark>

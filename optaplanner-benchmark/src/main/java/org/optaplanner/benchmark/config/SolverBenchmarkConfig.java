@@ -34,13 +34,13 @@ public class SolverBenchmarkConfig<Solution_> extends AbstractConfig<SolverBench
 
     private String name = null;
 
-    @XmlElement(name = "problemBenchmarks")
-    @XStreamAlias("problemBenchmarks")
-    private ProblemBenchmarksConfig problemBenchmarksConfig = null;
-
     @XmlElement(name = "solver")
     @XStreamAlias("solver")
     private SolverConfig solverConfig = null;
+
+    @XmlElement(name = "problemBenchmarks")
+    @XStreamAlias("problemBenchmarks")
+    private ProblemBenchmarksConfig problemBenchmarksConfig = null;
 
     private Integer subSingleCount = null;
 
