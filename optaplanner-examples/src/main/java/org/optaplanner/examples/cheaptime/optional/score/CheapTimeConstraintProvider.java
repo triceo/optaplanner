@@ -43,14 +43,14 @@ public class CheapTimeConstraintProvider implements ConstraintProvider {
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[] {
-                startTimeLimitsFrom(constraintFactory),
-                startTimeLimitsTo(constraintFactory),
-                maximumCapacity(constraintFactory),
-                activeMachinePowerCost(constraintFactory),
+                //startTimeLimitsFrom(constraintFactory),
+                //startTimeLimitsTo(constraintFactory),
+                //maximumCapacity(constraintFactory),
+                //activeMachinePowerCost(constraintFactory),
                 activeMachineSpinUpAndDownCost(constraintFactory),
                 idleCosts(constraintFactory),
-                taskPowerCost(constraintFactory),
-                startEarly(constraintFactory)
+                //taskPowerCost(constraintFactory),
+                //startEarly(constraintFactory)
         };
     }
 
@@ -108,7 +108,7 @@ public class CheapTimeConstraintProvider implements ConstraintProvider {
         return constraintFactory.from(TaskAssignment.class)
                 .groupBy(TaskAssignment::getMachine,
                         consecutiveIntervals(TaskAssignment::getStartPeriod, TaskAssignment::getEndPeriod, (a, b) -> b - a))
-                .flattenLast(ConsecutiveIntervalInfo::getBreaks) // add break
+                .flattenLast(ConsecutiveIntervalInfo::getBreaks)
                 .join(Period.class,
                         greaterThan((machine, brk) -> brk.getPreviousIntervalClusterEnd(), Period::getPeriod),
                         lessThan((machine, brk) -> brk.getNextIntervalClusterStart(), Period::getPeriod))

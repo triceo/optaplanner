@@ -55,29 +55,6 @@ end
 // Hard constraints
 // ############################################################################
 
-// Start time limits: each task must start between its earliest start and latest start limit.
-rule "Task starts too early"
-    when
-        $taskAssignment : TaskAssignment($task : task, $startPeriod : startPeriod < $task.startPeriodRangeFrom)
-    then
-        scoreHolder.addHardConstraintMatch(kcontext, $startPeriod - $task.getStartPeriodRangeFrom());
-end
-
-rule "Task starts too late"
-    when
-        $taskAssignment : TaskAssignment($task : task, $startPeriod : startPeriod >= $task.startPeriodRangeTo)
-    then
-        scoreHolder.addHardConstraintMatch(kcontext, $task.getStartPeriodRangeTo() - $startPeriod);
-end
-
-// Maximum capacity: the maximum capacity for each resource for each machine must not be exceeded.
-rule "Maximum resource capacity" // resourceInShortTotal is calculated in MachinePeriodPart constructor
-    when
-        MachinePeriodPart($resourceInShortTotal : resourceInShortTotal < 0)
-    then
-        scoreHolder.addHardConstraintMatch(kcontext, $resourceInShortTotal);
-end
-
 // Startup and shutdown: each machine must be active in the periods during which it has assigned tasks.
 //   Between tasks it is allowed to be idle to avoid startup and shutdown costs.
 
@@ -116,15 +93,6 @@ rule "calculateIdleCost"
         insertLogical(new IdleCost($machine, $period, idleCost));
 end
 
-rule "Active machine power cost"
-    when
-        MachinePeriodPart($machine : machine, $period : period, active == true)
-        Period(period == $period, $price: powerPriceMicros)
-    then
-        scoreHolder.addMediumConstraintMatch(kcontext,
-            - CheapTimeCostCalculator.multiplyTwoMicros($machine.getPowerConsumptionMicros(), $price));
-end
-
 rule "Machine idle costs"
     when
         MachinePeriodPart($machine : machine, $period : period, active == true)
@@ -140,30 +108,8 @@ end
 
 rule "Active machine spin up and down cost"
     when
-        MachinePeriodPart($machine : machine, $period : period, active == true)
-        not MachinePeriodPart(machine == $machine, period < $period, active == true);
+        $machine: Machine()
+        exists TaskAssignment(machine == $machine)
     then
-        scoreHolder.addMediumConstraintMatch(kcontext, - $machine.getSpinUpDownCostMicros());
-end
-
-// Task power cost: Each task consumes power too, which infers a power cost (depending on the power price during its time).
-rule "Task power cost"
-    when
-        Period($period: period, $price: powerPriceMicros)
-        TaskAssignment(startPeriod <= $period, endPeriod > $period, $task : task)
-    then
-        scoreHolder.addMediumConstraintMatch(kcontext,
-            - CheapTimeCostCalculator.multiplyTwoMicros($task.getPowerConsumptionMicros(), $price));
-end
-
-// ############################################################################
-// Soft constraints
-// ############################################################################
-
-// Start early: prefer starting a task sooner rather than later.
-rule "Prefer early task start"
-    when
-        TaskAssignment($startPeriod : startPeriod != null)
-    then
-        scoreHolder.addSoftConstraintMatch(kcontext, - $startPeriod);
+        scoreHolder.addMediumConstraintMatch(kcontext, - $machine.getSpinUpDownCostMicros() * 2);
 end
